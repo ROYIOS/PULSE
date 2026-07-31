@@ -1,14 +1,15 @@
 "use client";
 import { useState } from "react";
-import { Calendar, FileText, ListChecks, Receipt, ChevronRight } from "lucide-react";
+import { Calendar, FileText, ListChecks, Receipt, ClipboardX, ChevronRight } from "lucide-react";
 import { EMPLEADOS, descargarReciboNomina } from "@/lib/pulseData";
 
 interface Props {
   onVacaciones: () => void;
   onRetardo: () => void;
+  onPermiso: () => void;
 }
 
-export default function QuickActions({ onVacaciones, onRetardo }: Props) {
+export default function QuickActions({ onVacaciones, onRetardo, onPermiso }: Props) {
   const [hover, setHover] = useState<number | null>(null);
 
   function handleRecibo() {
@@ -19,6 +20,7 @@ export default function QuickActions({ onVacaciones, onRetardo }: Props) {
   const actions = [
     { icon: Calendar,  label: "Solicitar vacaciones", sub: "12 días disponibles",    color: "#0F9DA6", bg: "rgba(15,157,166,0.10)", fn: onVacaciones },
     { icon: FileText,  label: "Generar formato retardo", sub: "Jue 22 mayo pendiente", color: "#C0392B", bg: "rgba(192,57,43,0.10)",  fn: onRetardo },
+    { icon: ClipboardX,label: "Solicitar permiso/falta", sub: "Requiere aprobación de RH", color: "#C08A2E", bg: "rgba(192,138,46,0.10)", fn: onPermiso },
     { icon: Receipt,   label: "Descargar mi recibo de nómina", sub: "Quincena actual", color: "#2D4A7A", bg: "rgba(45,74,122,0.10)",  fn: handleRecibo },
     { icon: ListChecks,label: "Ver mis solicitudes",  sub: "1 en revisión",          color: "#2E7D5B", bg: "rgba(46,125,91,0.10)",  fn: () => {} },
   ];

@@ -148,15 +148,20 @@ export function saveIncidencias(data: Incidencia[]) {
 
 /** M2: crea automáticamente una incidencia de tipo Retardo si no existe ya una para hoy. */
 export function crearIncidenciaRetardo(empleado: string, fechaISO: string) {
+  return crearIncidencia(empleado, "Retardo", fechaISO);
+}
+
+/** M5: crea una incidencia de cualquier tipo (permiso, falta, retardo...) evitando duplicados el mismo día. */
+export function crearIncidencia(empleado: string, tipo: string, fechaISO: string) {
   const actuales = loadIncidencias();
   const yaExiste = actuales.some(
-    i => i.empleado === empleado && i.tipo === "Retardo" && i.fecha === fechaISO
+    i => i.empleado === empleado && i.tipo === tipo && i.fecha === fechaISO
   );
   if (yaExiste) return false;
 
   const nextId = actuales.length ? Math.max(...actuales.map(i => i.id)) + 1 : 1;
   const nueva: Incidencia = {
-    id: nextId, empleado, tipo: "Retardo", fecha: fechaISO, status: "pendiente",
+    id: nextId, empleado, tipo, fecha: fechaISO, status: "pendiente",
   };
   saveIncidencias([nueva, ...actuales]);
   return true;

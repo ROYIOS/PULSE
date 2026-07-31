@@ -1,9 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { EMPLEADOS, VAC_DEFAULT } from "@/lib/pulseData";
 
-const AREAS = ["Logística", "Ventas", "Finanzas", "CxC", "RH", "Planta A", "Planta B"];
+const AREAS = ["Logística", "Ventas", "Finanzas", "CxC", "RH", "Planta A", "Planta B", "Producción"];
 
-const EVENTS: Record<string, { dia: number; nombre: string; tipo: "vacaciones" | "retardo" | "turno"; color: string }[]> = {
+type EventoDia = { dia: number; nombre: string; tipo: "vacaciones" | "retardo" | "turno"; color: string };
+
+const EVENTS_BASE: Record<string, EventoDia[]> = {
   "Logística": [
     { dia: 19, nombre: "M. García",   tipo: "vacaciones", color: "#0F9DA6" },
     { dia: 20, nombre: "M. García",   tipo: "vacaciones", color: "#0F9DA6" },
@@ -20,6 +23,41 @@ const EVENTS: Record<string, { dia: number; nombre: string; tipo: "vacaciones" |
   ],
 };
 
+/** M6: agrega al calendario las vacaciones ya aprobadas (localStorage), ubicadas en el área real del empleado. */
+function useEventsConVacacionesReales() {
+  const [events, setEvents] = useState(EVENTS_BASE);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("pulse_vacaciones");
+      const vacaciones: typeof VAC_DEFAULT = raw ? JSON.parse(raw) : VAC_DEFAULT;
+      const merged: Record<string, EventoDia[]> = JSON.parse(JSON.stringify(EVENTS_BASE));
+
+      vacaciones
+        .filter(v => v.status === "aprobada")
+        .forEach(v => {
+          const emp = EMPLEADOS.find(e => e.nombre === v.empleado);
+          const area = emp?.area || "RH";
+          if (!merged[area]) merged[area] = [];
+          const d1 = new Date(v.inicio + "T00:00:00");
+          const d2 = new Date(v.fin + "T00:00:00");
+          for (let d = new Date(d1); d <= d2; d.setDate(d.getDate() + 1)) {
+            merged[area].push({
+              dia: d.getDate(), nombre: v.empleado.split(" ")[0] + " " + (v.empleado.split(" ")[1]?.[0] || "") + ".",
+              tipo: "vacaciones", color: "#0F9DA6",
+            });
+          }
+        });
+
+      setEvents(merged);
+    } catch(_) {
+      setEvents(EVENTS_BASE);
+    }
+  }, []);
+
+  return events;
+}
+
 const DAYS   = ["L","M","X","J","V","S","D"];
 const FIRST  = 4; // Mayo 2026
 const TOTAL  = 31;
@@ -28,6 +66,7 @@ export default function CalendarioArea() {
   const [areaSeleccionada, setAreaSeleccionada] = useState("Logística");
   const [hoverDay, setHoverDay] = useState<number | null>(null);
 
+  const EVENTS = useEventsConVacacionesReales();
   const events = EVENTS[areaSeleccionada] || [];
   const eventMap: Record<number, typeof events[0][]> = {};
   events.forEach(e => {

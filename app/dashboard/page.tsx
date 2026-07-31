@@ -13,6 +13,7 @@ import QuincenaBoard from "@/components/dashboard/QuincenaBoard";
 import CalendarioArea from "@/components/dashboard/CalendarioArea";
 import ModalVacaciones from "@/components/dashboard/ModalVacaciones";
 import ModalRetardo from "@/components/dashboard/ModalRetardo";
+import ModalPermiso from "@/components/dashboard/ModalPermiso";
 import PDFPreview from "@/components/dashboard/PDFPreview";
 import Toast from "@/components/dashboard/Toast";
 import Notificaciones from "@/components/dashboard/Notificaciones";
@@ -21,6 +22,7 @@ import { Bell, Plus, Calendar } from "lucide-react";
 export default function DashboardPage() {
  const [modalVac,   setModalVac]   = useState(false);
  const [modalRet,   setModalRet]   = useState(false);
+ const [modalPermiso, setModalPermiso] = useState(false);
  const [pdfPreview, setPdfPreview] = useState(false);
  const [pdfTipo,    setPdfTipo]    = useState<"retardo"|"vacaciones">("retardo");
  const [toast,      setToast]      = useState("");
@@ -75,6 +77,11 @@ export default function DashboardPage() {
    setModalVac(false);
    setPdfTipo("vacaciones");
    setPdfPreview(true);
+ }
+
+ function handlePermisoSubmit() {
+   setModalPermiso(false);
+   showToast("✅ Solicitud de permiso/falta enviada a RRHH");
  }
 
  function handlePDFConfirm() {
@@ -268,6 +275,7 @@ export default function DashboardPage() {
              <QuickActions
                onVacaciones={()=>setModalVac(true)}
                onRetardo={()=>setModalRet(true)}
+               onPermiso={()=>setModalPermiso(true)}
              />
              <MiniCalendar/>
            </div>
@@ -285,6 +293,11 @@ export default function DashboardPage() {
        open={modalRet}
        onClose={()=>setModalRet(false)}
        onSubmit={handleRetardoSubmit}
+     />
+     <ModalPermiso
+       open={modalPermiso}
+       onClose={()=>setModalPermiso(false)}
+       onSubmit={handlePermisoSubmit}
      />
      <PDFPreview
        open={pdfPreview}
