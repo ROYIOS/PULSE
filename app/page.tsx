@@ -150,9 +150,10 @@ export default function LoginPage() {
             <span
               style={{
                 fontSize: "18px",
-                fontWeight: 300,
-                letterSpacing: "10px",
+                fontWeight: 600,
+                letterSpacing: "8px",
                 color: "#FFFFFF",
+                fontFamily: "'Sora', sans-serif",
               }}
             >
               PULSE
