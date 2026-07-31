@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { BarChart2, Users, Clock, Calendar, Eye, EyeOff } from "lucide-react";
 import AsistenciaGrid from "@/components/dashboard/AsistenciaGrid";
+import ProgressRing from "@/components/dashboard/ProgressRing";
 
 type Rol = "gerente" | "rrhh" | "nomina";
 type Status = "pendiente" | "aprobada" | "rechazada";
@@ -194,6 +195,21 @@ export default function GerenciaPage() {
           </p>
         </div>
 
+        {/* PANORAMA */}
+        <div className="glass-static" style={{
+          borderRadius:"18px", padding:"20px 24px", marginBottom:"18px",
+          display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:"16px",
+        }}>
+          <div>
+            <div style={{fontFamily:"'Sora', sans-serif", fontWeight:700, fontSize:"15px", color:"#1E2A4A"}}>Panorama general</div>
+            <div style={{fontSize:"11.5px", color:"#6B83A8", marginTop:"2px"}}>Toda la plantilla · quincena actual</div>
+          </div>
+          <div style={{display:"flex", gap:"22px"}}>
+            <ProgressRing value={92} label="Cumplimiento" color="#0F9DA6"/>
+            <ProgressRing value={Math.min(100, Math.round((pendInc+pendVac)/10*100))} label="Pendientes" color="#C0392B"/>
+          </div>
+        </div>
+
         {/* KPIs */}
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"14px",marginBottom:"24px"}}>
           {[
@@ -202,9 +218,8 @@ export default function GerenciaPage() {
             {label:"Vacaciones pend.",  value:`${pendVac}`,color:"#F5A623",icon:Calendar},
             {label:"H.O. quincena",     value:"24h",       color:"#2E7D5B",icon:BarChart2},
           ].map(k=>(
-            <div key={k.label} style={{
-              background:"#FFFFFF",borderRadius:"12px",padding:"16px",
-              border:"1.5px solid #DDE1EA",boxShadow:"0 1px 4px rgba(30,42,74,.05)",
+            <div key={k.label} className="glass" style={{
+              borderRadius:"12px",padding:"16px",
               display:"flex",alignItems:"center",gap:"12px",
             }}>
               <div style={{width:38,height:38,borderRadius:"10px",background:`${k.color}18`,
