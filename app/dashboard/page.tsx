@@ -227,16 +227,23 @@ export default function DashboardPage() {
          {/* PANORAMA */}
          <div className="glass-static" style={{
            borderRadius:"18px", padding:"20px 24px", marginBottom:"18px",
-           display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:"16px",
          }}>
-           <div>
-             <div style={{fontFamily:"'Sora', sans-serif", fontWeight:700, fontSize:"15px", color:"#1E2A4A"}}>Panorama</div>
-             <div style={{fontSize:"11.5px", color:"#6B83A8", marginTop:"2px"}}>Tu resumen del mes</div>
+           <div style={{
+             display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:"16px",
+             marginBottom:"18px",
+           }}>
+             <div>
+               <div style={{fontFamily:"'Sora', sans-serif", fontWeight:700, fontSize:"15px", color:"#1E2A4A"}}>Panorama</div>
+               <div style={{fontSize:"11.5px", color:"#6B83A8", marginTop:"2px"}}>Tu resumen del mes</div>
+             </div>
+             <div style={{display:"flex", gap:"20px"}}>
+               <ProgressRing value={97} label="Asistencia" color="#0F9DA6"/>
+               <ProgressRing value={92} label="Puntualidad" color="#2D4A7A"/>
+               <ProgressRing value={60} label="Vacaciones" color="#C08A2E"/>
+             </div>
            </div>
-           <div style={{display:"flex", gap:"20px"}}>
-             <ProgressRing value={97} label="Asistencia" color="#0F9DA6"/>
-             <ProgressRing value={92} label="Puntualidad" color="#2D4A7A"/>
-             <ProgressRing value={60} label="Vacaciones" color="#C08A2E"/>
+           <div style={{ paddingTop:"16px", borderTop:"1px solid #EAEDF2" }}>
+             <QuincenaBoard/>
            </div>
          </div>
 
@@ -249,11 +256,6 @@ export default function DashboardPage() {
            <StatCard label="Retardos este mes"   value="2"   sub="máx permitido: 3"      color="#C0392B" progress={66}/>
            <StatCard label="Asistencia mensual"  value="97%" sub="18 de 19 días hábiles" color="#2E7D5B" progress={97}/>
            <StatCard label="Solicitudes activas" value="1"   sub="en revisión por RRHH"  color="#0F9DA6" progress={50}/>
-         </div>
-
-         {/* QUINCENA */}
-         <div style={{marginBottom:"24px"}}>
-           <QuincenaBoard/>
          </div>
 
          {/* DOS COLUMNAS */}
