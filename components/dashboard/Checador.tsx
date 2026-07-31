@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { LogIn, LogOut } from "lucide-react";
+import { crearIncidenciaRetardo } from "@/lib/pulseData";
 
 const KEY = "pulse_checador";
 const TOLERANCIA = "09:10"; // hora de entrada 09:00, con 10 min de tolerancia
@@ -37,6 +38,7 @@ function saveAll(regs: Registro[]) {
 export default function Checador() {
   const [hoy, setHoy] = useState<Registro>({ date: todayStr() });
   const [clock, setClock] = useState(nowHM());
+  const [incidenciaCreada, setIncidenciaCreada] = useState(false);
 
   useEffect(() => {
     const all = loadAll();
@@ -55,6 +57,11 @@ export default function Checador() {
     if (tipo === "entrada") {
       record.entrada = hora;
       record.status = hora <= TOLERANCIA ? "temprano" : "tarde";
+      // M2: si llega tarde, se genera sola una incidencia para revisión de RH
+      if (record.status === "tarde") {
+        const creada = crearIncidenciaRetardo("Jorge Ramírez", todayStr());
+        if (creada) setIncidenciaCreada(true);
+      }
     } else {
       record.salida = hora;
     }
@@ -88,6 +95,14 @@ export default function Checador() {
             </span>
             {" "}· entrada {hoy.entrada}
             {yaSalio && <> · salida {hoy.salida}</>}
+          </div>
+        )}
+        {incidenciaCreada && (
+          <div style={{
+            fontSize: "11px", color: "#C0392B", marginTop: "6px",
+            display: "flex", alignItems: "center", gap: "5px",
+          }}>
+            ⚠️ Se generó una incidencia de retardo automáticamente para revisión de RH.
           </div>
         )}
       </div>

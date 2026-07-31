@@ -1,55 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
-import { BarChart2, Users, Clock, Calendar, Eye, EyeOff } from "lucide-react";
+import { BarChart2, Users, Clock, Calendar, Eye, EyeOff, Download } from "lucide-react";
 import AsistenciaGrid from "@/components/dashboard/AsistenciaGrid";
 import ProgressRing from "@/components/dashboard/ProgressRing";
+import {
+  Status, Incidencia, Vacacion, Empleado,
+  INC_DEFAULT, VAC_DEFAULT, EMPLEADOS, TOTAL_HORAS, calcNomina, descargarReciboNomina,
+} from "@/lib/pulseData";
 
 type Rol = "gerente" | "rrhh" | "nomina";
-type Status = "pendiente" | "aprobada" | "rechazada";
-
-interface Incidencia {
-  id:number; empleado:string; tipo:string; fecha:string; status:Status;
-}
-interface Vacacion {
-  id:number; empleado:string; inicio:string; fin:string; dias:number; status:Status;
-}
-interface Empleado {
-  id:number; nombre:string; area:string;
-  horasTrabajadas:number; horasExtra:number; sueldo:number; retardos:number;
-}
-
-const INC_DEFAULT: Incidencia[] = [
-  {id:1,empleado:"Ana García",    tipo:"Retardo",            fecha:"2025-05-20",status:"pendiente"},
-  {id:2,empleado:"Carlos Méndez", tipo:"Falta justificada",  fecha:"2025-05-19",status:"pendiente"},
-  {id:3,empleado:"Laura Torres",  tipo:"Retardo",            fecha:"2025-05-21",status:"pendiente"},
-  {id:4,empleado:"Pedro Ramírez", tipo:"Falta injustificada",fecha:"2025-05-18",status:"aprobada"},
-  {id:5,empleado:"Sofía López",   tipo:"Retardo",            fecha:"2025-05-22",status:"pendiente"},
-];
-
-const VAC_DEFAULT: Vacacion[] = [
-  {id:1,empleado:"Ana García",   inicio:"2025-06-02",fin:"2025-06-13",dias:10,status:"pendiente"},
-  {id:2,empleado:"Raúl Sánchez", inicio:"2025-06-09",fin:"2025-06-13",dias:5, status:"pendiente"},
-  {id:3,empleado:"Elena Vargas", inicio:"2025-06-16",fin:"2025-06-20",dias:5, status:"aprobada"},
-];
-
-const EMPLEADOS: Empleado[] = [
-  {id:1,nombre:"Ana García",    area:"Ventas",    horasTrabajadas:72,horasExtra:8, sueldo:18000,retardos:2},
-  {id:2,nombre:"Carlos Méndez", area:"Logística", horasTrabajadas:68,horasExtra:0, sueldo:16500,retardos:1},
-  {id:3,nombre:"Laura Torres",  area:"Finanzas",  horasTrabajadas:80,horasExtra:12,sueldo:22000,retardos:3},
-  {id:4,nombre:"Pedro Ramírez", area:"Planta A",  horasTrabajadas:64,horasExtra:0, sueldo:15000,retardos:0},
-  {id:5,nombre:"Sofía López",   area:"RH",        horasTrabajadas:76,horasExtra:4, sueldo:19500,retardos:4},
-  {id:6,nombre:"Raúl Sánchez",  area:"CxC",       horasTrabajadas:70,horasExtra:0, sueldo:17000,retardos:1},
-];
-
-const TOTAL_HORAS = 96;
-
-function calcNomina(e: Empleado) {
-  const sdHora      = (e.sueldo/30)/8;
-  const descRetardo = e.retardos * sdHora * .5;
-  const pagoExtra   = e.horasExtra * sdHora * 1.5;
-  return { descRetardo, pagoExtra, neto: e.sueldo - descRetardo + pagoExtra };
-}
 
 function Badge({ s }: { s: string }) {
   const map: Record<string,{bg:string;color:string}> = {
@@ -382,7 +342,7 @@ export default function GerenciaPage() {
               <table style={{width:"100%",borderCollapse:"collapse",fontSize:"11px"}}>
                 <thead>
                   <tr style={{borderBottom:"2px solid #EAEDF2",background:"#FAFCFF"}}>
-                    {["Empleado","Área","Sueldo base","Desc. retardos","H.O.","Neto"].map(h=>(
+                    {["Empleado","Área","Sueldo base","Desc. retardos","H.O.","Neto",""].map(h=>(
                       <th key={h} style={{padding:"10px 18px",textAlign:"left",color:"#6B83A8",
                         fontWeight:600,fontSize:"9px",textTransform:"uppercase",letterSpacing:".6px"}}>{h}</th>
                     ))}
@@ -404,6 +364,20 @@ export default function GerenciaPage() {
                           {showMontos&&e.horasExtra>0?`+$${Math.round(n.pagoExtra).toLocaleString("es-MX")}`:"—"}
                         </td>
                         <td style={{padding:"11px 18px",fontWeight:700,color:"#1E2A4A"}}>{fmt(n.neto)}</td>
+                        <td style={{padding:"11px 18px"}}>
+                          <button
+                            onClick={()=>descargarReciboNomina(e)}
+                            title="Descargar recibo"
+                            style={{
+                              display:"flex",alignItems:"center",gap:"5px",
+                              padding:"5px 10px",borderRadius:"8px",border:"1px solid #DDE1EA",
+                              background:"transparent",color:"#0F9DA6",fontSize:"10.5px",
+                              fontWeight:600,cursor:"pointer",fontFamily:"inherit",
+                            }}
+                          >
+                            <Download size={11}/> Recibo
+                          </button>
+                        </td>
                       </tr>
                     );
                   })}
