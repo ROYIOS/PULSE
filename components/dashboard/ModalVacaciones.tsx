@@ -56,7 +56,7 @@ export default function ModalVacaciones({ open, onClose, onSubmit }: Props) {
 
   return (
     <div onClick={onClose} style={{
-      position:"fixed",inset:0,background:"rgba(10,22,40,0.5)",
+      position:"fixed",inset:0,background:"rgba(30,42,74,0.5)",
       display:"flex",alignItems:"center",justifyContent:"center",
       zIndex:999,backdropFilter:"blur(4px)",
     }}>
@@ -126,7 +126,7 @@ export default function ModalVacaciones({ open, onClose, onSubmit }: Props) {
               background:"#0F9DA6",color:"#1E2A4A",fontSize:"13px",fontWeight:700,
               cursor:"pointer",fontFamily:"inherit",display:"flex",
               alignItems:"center",gap:"7px",
-              boxShadow:"0 4px 14px rgba(0,180,216,0.28)"}}>
+              boxShadow:"0 4px 14px rgba(15,157,166,0.28)"}}>
               {loading ? <><Loader2 size={14} className="animate-spin"/> Enviando...</> : "Enviar solicitud"}
             </button>
           </div>

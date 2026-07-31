@@ -60,7 +60,7 @@ export default function CalendarioArea() {
               padding: "5px 12px", borderRadius: "20px", fontSize: "11px",
               fontWeight: 500, cursor: "pointer", fontFamily: "inherit",
               border: areaSeleccionada === a ? "1.5px solid #0F9DA6" : "1.5px solid #DDE1EA",
-              background: areaSeleccionada === a ? "rgba(0,180,216,0.10)" : "transparent",
+              background: areaSeleccionada === a ? "rgba(15,157,166,0.10)" : "transparent",
               color: areaSeleccionada === a ? "#0F9DA6" : "#6B83A8",
               transition: "all .2s",
             }}>{a}</button>
@@ -96,8 +96,8 @@ export default function CalendarioArea() {
                   borderRadius: "8px", padding: "6px 4px",
                   minHeight: "44px", cursor: dayEvents.length > 0 ? "pointer" : "default",
                   background: isToday ? "#0F9DA6"
-                    : hasVac   ? "rgba(0,180,216,0.08)"
-                    : hasRet   ? "rgba(216,90,48,0.07)"
+                    : hasVac   ? "rgba(15,157,166,0.08)"
+                    : hasRet   ? "rgba(192,57,43,0.07)"
                     : hasTurno ? "rgba(26,58,107,0.07)"
                     : isHover  ? "#FFFFFF"
                     : "transparent",

@@ -52,8 +52,8 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
     .firma{border-top:1.5px solid #DDE1EA;padding-top:8px;
       text-align:center;font-size:10px;text-transform:uppercase;
       letter-spacing:1px;color:#6B83A8}
-    .status{margin-top:24px;padding:10px 16px;border:1px solid rgba(216,90,48,.3);
-      border-radius:8px;background:rgba(216,90,48,.05);
+    .status{margin-top:24px;padding:10px 16px;border:1px solid rgba(192,57,43,.3);
+      border-radius:8px;background:rgba(192,57,43,.05);
       font-size:12px;color:#C0392B;display:flex;align-items:center;gap:8px}
     @media print{body{padding:20px}}
   </style>
@@ -128,7 +128,7 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
 
   return (
     <div onClick={onClose} style={{
-      position:"fixed",inset:0,background:"rgba(10,22,40,0.6)",
+      position:"fixed",inset:0,background:"rgba(30,42,74,0.6)",
       display:"flex",alignItems:"center",justifyContent:"center",
       zIndex:1000,backdropFilter:"blur(6px)",
     }}>
@@ -153,7 +153,7 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
         {/* Preview */}
         <div style={{padding:"24px",background:"#FFFFFF"}}>
           <div style={{background:"#FFFFFF",borderRadius:"12px",
-            boxShadow:"0 4px 20px rgba(10,22,40,0.08)",overflow:"hidden"}}>
+            boxShadow:"0 4px 20px rgba(30,42,74,0.08)",overflow:"hidden"}}>
 
             {/* Doc header */}
             <div style={{background:"#1E2A4A",padding:"18px 24px",
@@ -205,7 +205,7 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
 
             {/* Status */}
             <div style={{margin:"0 24px 20px",padding:"8px 12px",borderRadius:"8px",
-              background:"rgba(216,90,48,0.06)",border:"1px solid rgba(216,90,48,0.2)",
+              background:"rgba(192,57,43,0.06)",border:"1px solid rgba(192,57,43,0.2)",
               display:"flex",alignItems:"center",gap:"8px"}}>
               <div style={{width:6,height:6,borderRadius:"50%",background:"#C0392B",flexShrink:0}}/>
               <span style={{fontSize:"11px",color:"#C0392B"}}>
@@ -237,7 +237,7 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
             background:"#0F9DA6",color:"#1E2A4A",fontSize:"13px",fontWeight:700,
             cursor:sending?"not-allowed":"pointer",fontFamily:"inherit",
             opacity:sending?0.7:1,display:"flex",alignItems:"center",gap:"6px",
-            boxShadow:"0 4px 14px rgba(0,180,216,0.28)"}}>
+            boxShadow:"0 4px 14px rgba(15,157,166,0.28)"}}>
             {sending?"Enviando...":<><Send size={13}/> Confirmar y enviar</>}
           </button>
         </div>

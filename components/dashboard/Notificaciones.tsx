@@ -33,7 +33,7 @@ export default function Notificaciones({ onUpdate }: { onUpdate?: () => void }) 
     <div style={{
       background:"#FFFFFF",borderRadius:"12px",
       border:"1.5px solid #DDE1EA",padding:"40px 22px",
-      boxShadow:"0 1px 4px rgba(10,22,40,.05)",
+      boxShadow:"0 1px 4px rgba(30,42,74,.05)",
       display:"flex",flexDirection:"column",alignItems:"center",gap:"12px",
     }}>
       <Bell size={28} color="#DDE1EA"/>

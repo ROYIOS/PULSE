@@ -60,7 +60,7 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
         <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
           <div style={{
             width:8, height:8, borderRadius:"50%",
-            background:"#0F9DA6", boxShadow:"0 0 10px rgba(0,180,216,0.7)",
+            background:"#0F9DA6", boxShadow:"0 0 10px rgba(15,157,166,0.7)",
           }}/>
           <span style={{fontSize:"17px", fontWeight:600, letterSpacing:"6px", color:"#FFFFFF", fontFamily:"'Sora', sans-serif"}}>
             PULSE
@@ -90,7 +90,7 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
                 display:"flex", alignItems:"center", gap:"10px",
                 padding:"10px 14px", borderRadius:"10px", marginBottom:"2px",
                 cursor:"pointer", transition:"all .2s",
-                background: active?"rgba(0,180,216,0.12)":hov?"rgba(255,255,255,0.04)":"transparent",
+                background: active?"rgba(15,157,166,0.12)":hov?"rgba(255,255,255,0.04)":"transparent",
                 color: active?"#0F9DA6":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
               }}
             >
@@ -98,7 +98,7 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
               <span style={{fontSize:"13.5px", fontWeight:active?500:400}}>{item.label}</span>
               {active && (
                 <div style={{marginLeft:"auto", width:5, height:5, borderRadius:"50%",
-                  background:"#0F9DA6", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
+                  background:"#0F9DA6", boxShadow:"0 0 6px rgba(15,157,166,0.8)"}}/>
               )}
             </div>
           );
@@ -121,7 +121,7 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
                 display:"flex", alignItems:"center", gap:"10px",
                 padding:"10px 14px", borderRadius:"10px", marginBottom:"2px",
                 cursor:"pointer", transition:"all .2s",
-                background: active?"rgba(0,180,216,0.12)":hov?"rgba(255,255,255,0.04)":"transparent",
+                background: active?"rgba(15,157,166,0.12)":hov?"rgba(255,255,255,0.04)":"transparent",
                 color: active?"#0F9DA6":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
               }}
             >
@@ -129,7 +129,7 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
               <span style={{fontSize:"13.5px", fontWeight:active?500:400}}>{item.label}</span>
               {active && (
                 <div style={{marginLeft:"auto", width:5, height:5, borderRadius:"50%",
-                  background:"#0F9DA6", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
+                  background:"#0F9DA6", boxShadow:"0 0 6px rgba(15,157,166,0.8)"}}/>
               )}
             </div>
           );
@@ -153,7 +153,7 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
         <div
           onClick={handleLogout}
           onMouseEnter={e=>{
-            (e.currentTarget as HTMLElement).style.background="rgba(216,90,48,0.10)";
+            (e.currentTarget as HTMLElement).style.background="rgba(192,57,43,0.10)";
             (e.currentTarget as HTMLElement).style.color="#C0392B";
           }}
           onMouseLeave={e=>{

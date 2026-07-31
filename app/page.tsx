@@ -84,7 +84,7 @@ export default function LoginPage() {
             height: "600px",
             borderRadius: "50%",
             background:
-              "radial-gradient(circle, rgba(0,180,216,0.20) 0%, transparent 60%)",
+              "radial-gradient(circle, rgba(15,157,166,0.20) 0%, transparent 60%)",
             transform: "translate(-50%, -50%)",
             left: glowX,
             top: glowY,
@@ -126,10 +126,10 @@ export default function LoginPage() {
               borderRadius: "40px",
               border: `1px solid ${
                 hoverLogo
-                  ? "rgba(0,180,216,0.4)"
+                  ? "rgba(15,157,166,0.4)"
                   : "rgba(255,255,255,0.06)"
               }`,
-              background: hoverLogo ? "rgba(0,180,216,0.08)" : "transparent",
+              background: hoverLogo ? "rgba(15,157,166,0.08)" : "transparent",
               backdropFilter: hoverLogo ? "blur(12px)" : "none",
               transition: "all .4s cubic-bezier(0.34,1.56,0.64,1)",
             }}
@@ -141,8 +141,8 @@ export default function LoginPage() {
                 borderRadius: "50%",
                 background: "#0F9DA6",
                 boxShadow: hoverLogo
-                  ? "0 0 16px rgba(0,180,216,1)"
-                  : "0 0 8px rgba(0,180,216,0.6)",
+                  ? "0 0 16px rgba(15,157,166,1)"
+                  : "0 0 8px rgba(15,157,166,0.6)",
                 transition: "box-shadow .3s",
               }}
             />
@@ -181,7 +181,7 @@ export default function LoginPage() {
               width: "28px",
               height: "2px",
               background: "#0F9DA6",
-              boxShadow: "0 0 8px rgba(0,180,216,0.6)",
+              boxShadow: "0 0 8px rgba(15,157,166,0.6)",
               marginBottom: "28px",
             }}
           />
@@ -204,7 +204,7 @@ export default function LoginPage() {
               style={{
                 color: "#0F9DA6",
                 fontWeight: 500,
-                textShadow: "0 0 30px rgba(0,180,216,0.4)",
+                textShadow: "0 0 30px rgba(15,157,166,0.4)",
               }}
             >
               Tu control.
@@ -394,8 +394,8 @@ export default function LoginPage() {
                 opacity: loading ? 0.7 : 1,
                 boxShadow:
                   hoverBtn && !loading
-                    ? "0 8px 28px rgba(0,180,216,0.50)"
-                    : "0 4px 14px rgba(0,180,216,0.28)",
+                    ? "0 8px 28px rgba(15,157,166,0.50)"
+                    : "0 4px 14px rgba(15,157,166,0.28)",
                 transform:
                   hoverBtn && !loading
                     ? "translateY(-2px) scale(1.01)"

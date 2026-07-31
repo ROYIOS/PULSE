@@ -81,7 +81,7 @@ export default function QuincenaBoard() {
           </span>
           <span style={{
             fontSize:"9px", padding:"2px 9px", borderRadius:"20px",
-            background:"rgba(0,180,216,0.10)", color:"#0F9DA6", fontWeight:600,
+            background:"rgba(15,157,166,0.10)", color:"#0F9DA6", fontWeight:600,
           }}>1–15 Mayo</span>
         </div>
         <p style={{fontSize:"10px", color:"#6B83A8", marginTop:"2px"}}>
@@ -134,7 +134,7 @@ export default function QuincenaBoard() {
 
       {/* Mensaje */}
       <div style={{margin:"0 18px 8px", padding:"7px 11px", borderRadius:"9px",
-        background:"rgba(0,180,216,0.06)", border:"1px solid rgba(0,180,216,0.14)",
+        background:"rgba(15,157,166,0.06)", border:"1px solid rgba(15,157,166,0.14)",
         display:"flex", alignItems:"center", gap:"7px"}}>
         <span style={{fontSize:"13px"}}>
           {mode==="wave"?"🫡":mode==="work"?"💪":mode==="otaku"?"✨":"⚡"}
@@ -149,7 +149,7 @@ export default function QuincenaBoard() {
             padding:"3px 9px", borderRadius:"20px", fontSize:"9px",
             fontWeight:500, cursor:"pointer", fontFamily:"inherit",
             border:mode===m.key?"1.5px solid #0F9DA6":"1.5px solid #DDE1EA",
-            background:mode===m.key?"rgba(0,180,216,0.10)":"transparent",
+            background:mode===m.key?"rgba(15,157,166,0.10)":"transparent",
             color:mode===m.key?"#0F9DA6":"#6B83A8", transition:"all .2s",
           }}>{m.label}</button>
         ))}

@@ -52,8 +52,8 @@ function calcNomina(e: Empleado) {
 
 function Badge({ s }: { s: string }) {
   const map: Record<string,{bg:string;color:string}> = {
-    pendiente:{bg:"rgba(216,90,48,.10)",  color:"#C0392B"},
-    aprobada: {bg:"rgba(15,110,86,.10)",  color:"#2E7D5B"},
+    pendiente:{bg:"rgba(192,57,43,.10)",  color:"#C0392B"},
+    aprobada: {bg:"rgba(46,125,91,.10)",  color:"#2E7D5B"},
     rechazada:{bg:"rgba(200,50,50,.10)",  color:"#C83232"},
   };
   const st = map[s]||{bg:"#f4f4f4",color:"#666"};
@@ -70,7 +70,7 @@ function ActionBtns({ onAprobar, onRechazar }: { onAprobar:()=>void; onRechazar:
     <div style={{display:"flex",gap:"6px"}}>
       <button onClick={onAprobar} style={{
         padding:"5px 14px",borderRadius:"20px",border:"none",
-        background:"rgba(15,110,86,.12)",color:"#2E7D5B",
+        background:"rgba(46,125,91,.12)",color:"#2E7D5B",
         fontSize:"11px",fontWeight:600,cursor:"pointer",fontFamily:"inherit",
         transition:"all .15s",
       }}>✓ Aprobar</button>
@@ -204,7 +204,7 @@ export default function GerenciaPage() {
           ].map(k=>(
             <div key={k.label} style={{
               background:"#FFFFFF",borderRadius:"12px",padding:"16px",
-              border:"1.5px solid #DDE1EA",boxShadow:"0 1px 4px rgba(10,22,40,.05)",
+              border:"1.5px solid #DDE1EA",boxShadow:"0 1px 4px rgba(30,42,74,.05)",
               display:"flex",alignItems:"center",gap:"12px",
             }}>
               <div style={{width:38,height:38,borderRadius:"10px",background:`${k.color}18`,
@@ -227,7 +227,7 @@ export default function GerenciaPage() {
               padding:"6px 16px",borderRadius:"20px",fontSize:"11px",fontWeight:500,
               cursor:"pointer",fontFamily:"inherit",transition:"all .2s",
               border:tab===t.key?"1.5px solid #0F9DA6":"1.5px solid #DDE1EA",
-              background:tab===t.key?"rgba(0,180,216,.10)":"#FFFFFF",
+              background:tab===t.key?"rgba(15,157,166,.10)":"#FFFFFF",
               color:tab===t.key?"#0F9DA6":"#6B83A8",
             }}>{t.label}</button>
           ))}
@@ -358,7 +358,7 @@ export default function GerenciaPage() {
                 {showMontos?<><EyeOff size={12}/> Ocultar</>:<><Eye size={12}/> Mostrar montos</>}
               </button>
             </div>
-            <div style={{padding:"10px 22px",background:"rgba(0,180,216,.04)",borderBottom:"1px solid #EAEDF2"}}>
+            <div style={{padding:"10px 22px",background:"rgba(15,157,166,.04)",borderBottom:"1px solid #EAEDF2"}}>
               <p style={{fontSize:"11px",color:"#5C6579",margin:0}}>
                 💡 Sueldo ÷ 30 ÷ 8 × horas · Descuento retardo ½h · H.O. al 1.5×
               </p>
@@ -418,7 +418,7 @@ export default function GerenciaPage() {
           background:"#1E2A4A",color:"#FFFFFF",
           padding:"13px 20px",borderRadius:"12px",fontSize:"13px",
           display:"flex",alignItems:"center",gap:"10px",
-          boxShadow:"0 8px 30px rgba(10,22,40,.25)",
+          boxShadow:"0 8px 30px rgba(30,42,74,.25)",
           borderLeft:"3px solid #0F9DA6",zIndex:9999,
           animation:"slideIn .3s ease",
         }}>

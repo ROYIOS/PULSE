@@ -11,9 +11,9 @@ export default function QuickActions({ onVacaciones, onRetardo }: Props) {
   const [hover, setHover] = useState<number | null>(null);
 
   const actions = [
-    { icon: Calendar,  label: "Solicitar vacaciones", sub: "12 días disponibles",    color: "#0F9DA6", bg: "rgba(0,180,216,0.10)", fn: onVacaciones },
-    { icon: FileText,  label: "Generar formato retardo", sub: "Jue 22 mayo pendiente", color: "#C0392B", bg: "rgba(216,90,48,0.10)",  fn: onRetardo },
-    { icon: ListChecks,label: "Ver mis solicitudes",  sub: "1 en revisión",          color: "#2E7D5B", bg: "rgba(15,110,86,0.10)",  fn: () => {} },
+    { icon: Calendar,  label: "Solicitar vacaciones", sub: "12 días disponibles",    color: "#0F9DA6", bg: "rgba(15,157,166,0.10)", fn: onVacaciones },
+    { icon: FileText,  label: "Generar formato retardo", sub: "Jue 22 mayo pendiente", color: "#C0392B", bg: "rgba(192,57,43,0.10)",  fn: onRetardo },
+    { icon: ListChecks,label: "Ver mis solicitudes",  sub: "1 en revisión",          color: "#2E7D5B", bg: "rgba(46,125,91,0.10)",  fn: () => {} },
   ];
 
   return (

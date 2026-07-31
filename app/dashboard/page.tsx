@@ -161,16 +161,16 @@ export default function DashboardPage() {
                border:"none",background:"#0F9DA6",
                color:"#1E2A4A",fontSize:"13px",fontWeight:700,
                cursor:"pointer",fontFamily:"inherit",
-               boxShadow:"0 4px 14px rgba(0,180,216,0.28)",
+               boxShadow:"0 4px 14px rgba(15,157,166,0.28)",
                transition:"all .2s",
              }}
              onMouseEnter={e=>{
                (e.currentTarget as HTMLElement).style.transform="translateY(-1px)";
-               (e.currentTarget as HTMLElement).style.boxShadow="0 8px 20px rgba(0,180,216,0.38)";
+               (e.currentTarget as HTMLElement).style.boxShadow="0 8px 20px rgba(15,157,166,0.38)";
              }}
              onMouseLeave={e=>{
                (e.currentTarget as HTMLElement).style.transform="translateY(0)";
-               (e.currentTarget as HTMLElement).style.boxShadow="0 4px 14px rgba(0,180,216,0.28)";
+               (e.currentTarget as HTMLElement).style.boxShadow="0 4px 14px rgba(15,157,166,0.28)";
              }}
            >
              <Calendar size={14}/> Solicitar Vacaciones
@@ -204,7 +204,7 @@ export default function DashboardPage() {
                  position:"absolute",top:"48px",right:0,
                  width:"360px",zIndex:200,
                  borderRadius:"12px",overflow:"hidden",
-                 boxShadow:"0 16px 40px rgba(10,22,40,.15)",
+                 boxShadow:"0 16px 40px rgba(30,42,74,.15)",
                  border:"1.5px solid #DDE1EA",
                  animation:"fadeDown .2s ease",
                }}>

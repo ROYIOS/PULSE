@@ -48,7 +48,7 @@ export default function MiniCalendar() {
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: "12px", cursor: "pointer", position: "relative",
                 transition: "all .15s",
-                background: isToday ? "#0F9DA6" : isVac ? "rgba(0,180,216,0.10)" : isHover ? "#FFFFFF" : "transparent",
+                background: isToday ? "#0F9DA6" : isVac ? "rgba(15,157,166,0.10)" : isHover ? "#FFFFFF" : "transparent",
                 color: isToday ? "#1E2A4A" : isVac ? "#0F9DA6" : "#5C6579",
                 fontWeight: isToday ? 700 : 400,
                 transform: isHover && !isToday ? "scale(1.15)" : "scale(1)",
