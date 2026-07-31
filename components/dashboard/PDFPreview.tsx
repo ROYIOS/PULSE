@@ -33,28 +33,28 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
   <title>${titulo} - PULSE</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:'Segoe UI',Arial,sans-serif;color:#1C2B39;background:#fff;padding:40px}
-    .header{background:#1C2B39;color:#fff;padding:24px 32px;border-radius:12px;
+    body{font-family:'Segoe UI',Arial,sans-serif;color:#1E2A4A;background:#fff;padding:40px}
+    .header{background:#1E2A4A;color:#fff;padding:24px 32px;border-radius:12px;
       display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
     .logo{font-size:22px;font-weight:300;letter-spacing:8px}
-    .logo span{color:#C9A227}
-    .folio{text-align:right;font-size:12px;color:#5A7896}
-    .folio strong{color:#C9A227;font-size:16px;display:block}
-    h1{font-size:20px;font-weight:700;color:#1C2B39;padding-bottom:12px;
-      border-bottom:3px solid #C9A227;margin-bottom:24px}
+    .logo span{color:#C08A2E}
+    .folio{text-align:right;font-size:12px;color:#6B83A8}
+    .folio strong{color:#C08A2E;font-size:16px;display:block}
+    h1{font-size:20px;font-weight:700;color:#1E2A4A;padding-bottom:12px;
+      border-bottom:3px solid #C08A2E;margin-bottom:24px}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
     .field label{font-size:10px;text-transform:uppercase;letter-spacing:1px;
-      color:#5A7896;font-weight:600;display:block;margin-bottom:4px}
-    .field p{font-size:14px;color:#1C2B39;font-weight:500;
-      border-bottom:1px solid #D7D9D2;padding-bottom:8px}
+      color:#6B83A8;font-weight:600;display:block;margin-bottom:4px}
+    .field p{font-size:14px;color:#1E2A4A;font-weight:500;
+      border-bottom:1px solid #DDE1EA;padding-bottom:8px}
     .motivo{margin-bottom:32px}
     .firmas{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:40px}
-    .firma{border-top:1.5px solid #D7D9D2;padding-top:8px;
+    .firma{border-top:1.5px solid #DDE1EA;padding-top:8px;
       text-align:center;font-size:10px;text-transform:uppercase;
-      letter-spacing:1px;color:#5A7896}
+      letter-spacing:1px;color:#6B83A8}
     .status{margin-top:24px;padding:10px 16px;border:1px solid rgba(216,90,48,.3);
       border-radius:8px;background:rgba(216,90,48,.05);
-      font-size:12px;color:#B23A2E;display:flex;align-items:center;gap:8px}
+      font-size:12px;color:#C0392B;display:flex;align-items:center;gap:8px}
     @media print{body{padding:20px}}
   </style>
 </head>
@@ -62,7 +62,7 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
   <div class="header">
     <div>
       <div class="logo">P<span>U</span>LSE</div>
-      <div style="font-size:10px;color:#3B4B5C;margin-top:4px;letter-spacing:2px">
+      <div style="font-size:10px;color:#5C6579;margin-top:4px;letter-spacing:2px">
         PEOPLE & WORKFORCE MANAGEMENT
       </div>
     </div>
@@ -96,7 +96,7 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
   <div class="motivo">
     <div class="field">
       <label>Motivo / Descripción</label>
-      <p style="border:none;padding:12px;background:#F1F2ED;border-radius:8px;line-height:1.6">
+      <p style="border:none;padding:12px;background:#FFFFFF;border-radius:8px;line-height:1.6">
         ${datos.motivo}
       </p>
     </div>
@@ -133,50 +133,50 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
       zIndex:1000,backdropFilter:"blur(6px)",
     }}>
       <div onClick={e=>e.stopPropagation()} style={{
-        width:"100%",maxWidth:"540px",background:"#FFFFFF",
-        borderRadius:"20px",overflow:"hidden",
-        boxShadow:"0 32px 80px rgba(10,22,40,0.25)",
+        width:"100%",maxWidth:"540px",background:"rgba(255,255,255,0.94)",backdropFilter:"blur(20px) saturate(160%)",WebkitBackdropFilter:"blur(20px) saturate(160%)",
+        borderRadius:"20px",overflow:"hidden",border:"1px solid rgba(255,255,255,0.9)",
+        boxShadow:"0 32px 80px rgba(28,43,74,0.25)",
       }}>
         {/* Header */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
-          padding:"22px 28px",background:"#1C2B39"}}>
+          padding:"22px 28px",background:"#1E2A4A"}}>
           <span style={{fontSize:"15px",fontWeight:600,color:"#FFFFFF"}}>
             Vista previa — {tipo==="retardo"?"Formato de Retardo":"Solicitud de Vacaciones"}
           </span>
           <button onClick={onClose} style={{width:28,height:28,borderRadius:"7px",
             border:"none",background:"rgba(255,255,255,0.08)",cursor:"pointer",
-            display:"flex",alignItems:"center",justifyContent:"center",color:"#5A7896"}}>
+            display:"flex",alignItems:"center",justifyContent:"center",color:"#6B83A8"}}>
             <X size={14}/>
           </button>
         </div>
 
         {/* Preview */}
-        <div style={{padding:"24px",background:"#F1F2ED"}}>
+        <div style={{padding:"24px",background:"#FFFFFF"}}>
           <div style={{background:"#FFFFFF",borderRadius:"12px",
             boxShadow:"0 4px 20px rgba(10,22,40,0.08)",overflow:"hidden"}}>
 
             {/* Doc header */}
-            <div style={{background:"#1C2B39",padding:"18px 24px",
+            <div style={{background:"#1E2A4A",padding:"18px 24px",
               display:"flex",justifyContent:"space-between",alignItems:"center"}}>
               <div>
                 <div style={{display:"flex",alignItems:"center",gap:"8px"}}>
-                  <div style={{width:6,height:6,borderRadius:"50%",background:"#C9A227"}}/>
+                  <div style={{width:6,height:6,borderRadius:"50%",background:"#C08A2E"}}/>
                   <span style={{fontSize:"16px",fontWeight:300,letterSpacing:"6px",color:"#FFFFFF"}}>PULSE</span>
                 </div>
-                <p style={{fontSize:"9px",color:"#3B4B5C",letterSpacing:"2px",
+                <p style={{fontSize:"9px",color:"#5C6579",letterSpacing:"2px",
                   textTransform:"uppercase",marginTop:"3px",marginLeft:"14px"}}>
                   People & Workforce Management
                 </p>
               </div>
               <div style={{textAlign:"right"}}>
-                <p style={{fontSize:"9px",color:"#3B4B5C",margin:0}}>Folio</p>
-                <p style={{fontSize:"14px",color:"#C9A227",fontWeight:700,margin:0}}>{folio}</p>
+                <p style={{fontSize:"9px",color:"#5C6579",margin:0}}>Folio</p>
+                <p style={{fontSize:"14px",color:"#C08A2E",fontWeight:700,margin:0}}>{folio}</p>
               </div>
             </div>
 
             {/* Title */}
-            <div style={{padding:"18px 24px 0",borderBottom:"2px solid #C9A227"}}>
-              <h3 style={{fontSize:"15px",fontWeight:700,color:"#1C2B39",margin:"0 0 14px"}}>
+            <div style={{padding:"18px 24px 0",borderBottom:"2px solid #C08A2E"}}>
+              <h3 style={{fontSize:"15px",fontWeight:700,color:"#1E2A4A",margin:"0 0 14px"}}>
                 {tipo==="retardo"?"FORMATO DE RETARDO":"SOLICITUD DE VACACIONES"}
               </h3>
             </div>
@@ -190,16 +190,16 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
                 {label:tipo==="retardo"?"Fecha":"Período", value:datos.fecha},
                 {label:tipo==="retardo"?"Hora llegada":"Días", value:tipo==="retardo"?datos.hora||"—":datos.dias||"—"},
               ].map(f=>(
-                <div key={f.label} style={{borderBottom:"1px solid #F1F2ED",paddingBottom:"10px"}}>
-                  <p style={{fontSize:"9px",color:"#5A7896",textTransform:"uppercase",
+                <div key={f.label} style={{borderBottom:"1px solid #EAEDF2",paddingBottom:"10px"}}>
+                  <p style={{fontSize:"9px",color:"#6B83A8",textTransform:"uppercase",
                     letterSpacing:"1px",margin:"0 0 3px"}}>{f.label}</p>
-                  <p style={{fontSize:"13px",color:"#1C2B39",fontWeight:500,margin:0}}>{f.value}</p>
+                  <p style={{fontSize:"13px",color:"#1E2A4A",fontWeight:500,margin:0}}>{f.value}</p>
                 </div>
               ))}
-              <div style={{gridColumn:"1/-1",borderBottom:"1px solid #F1F2ED",paddingBottom:"10px"}}>
-                <p style={{fontSize:"9px",color:"#5A7896",textTransform:"uppercase",
+              <div style={{gridColumn:"1/-1",borderBottom:"1px solid #EAEDF2",paddingBottom:"10px"}}>
+                <p style={{fontSize:"9px",color:"#6B83A8",textTransform:"uppercase",
                   letterSpacing:"1px",margin:"0 0 3px"}}>Motivo</p>
-                <p style={{fontSize:"13px",color:"#1C2B39",margin:0,lineHeight:1.5}}>{datos.motivo}</p>
+                <p style={{fontSize:"13px",color:"#1E2A4A",margin:0,lineHeight:1.5}}>{datos.motivo}</p>
               </div>
             </div>
 
@@ -207,8 +207,8 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
             <div style={{margin:"0 24px 20px",padding:"8px 12px",borderRadius:"8px",
               background:"rgba(216,90,48,0.06)",border:"1px solid rgba(216,90,48,0.2)",
               display:"flex",alignItems:"center",gap:"8px"}}>
-              <div style={{width:6,height:6,borderRadius:"50%",background:"#B23A2E",flexShrink:0}}/>
-              <span style={{fontSize:"11px",color:"#B23A2E"}}>
+              <div style={{width:6,height:6,borderRadius:"50%",background:"#C0392B",flexShrink:0}}/>
+              <span style={{fontSize:"11px",color:"#C0392B"}}>
                 Pendiente de aprobación — se enviará a tu líder directo
               </span>
             </div>
@@ -217,24 +217,24 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
 
         {/* Actions */}
         <div style={{display:"flex",gap:"10px",justifyContent:"flex-end",
-          padding:"18px 28px",borderTop:"1px solid #D7D9D2"}}>
+          padding:"18px 28px",borderTop:"1px solid #DDE1EA"}}>
           <button onClick={onClose} style={{
-            padding:"11px 18px",borderRadius:"10px",border:"1.5px solid #D7D9D2",
-            background:"transparent",color:"#3B4B5C",fontSize:"13px",
+            padding:"11px 18px",borderRadius:"10px",border:"1.5px solid #DDE1EA",
+            background:"transparent",color:"#5C6579",fontSize:"13px",
             fontWeight:500,cursor:"pointer",fontFamily:"inherit",
             display:"flex",alignItems:"center",gap:"6px"}}>
             <X size={13}/> Cancelar
           </button>
           <button onClick={handleDownload} style={{
-            padding:"11px 18px",borderRadius:"10px",border:"1.5px solid #D7D9D2",
-            background:"transparent",color:"#3B4B5C",fontSize:"13px",
+            padding:"11px 18px",borderRadius:"10px",border:"1.5px solid #DDE1EA",
+            background:"transparent",color:"#5C6579",fontSize:"13px",
             fontWeight:500,cursor:"pointer",fontFamily:"inherit",
             display:"flex",alignItems:"center",gap:"6px"}}>
             <Download size={13}/> Descargar PDF
           </button>
           <button onClick={handleConfirm} disabled={sending} style={{
             padding:"11px 22px",borderRadius:"10px",border:"none",
-            background:"#C9A227",color:"#1C2B39",fontSize:"13px",fontWeight:700,
+            background:"#C08A2E",color:"#1E2A4A",fontSize:"13px",fontWeight:700,
             cursor:sending?"not-allowed":"pointer",fontFamily:"inherit",
             opacity:sending?0.7:1,display:"flex",alignItems:"center",gap:"6px",
             boxShadow:"0 4px 14px rgba(0,180,216,0.28)"}}>

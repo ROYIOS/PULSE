@@ -10,36 +10,36 @@ const data = [
 ];
 
 const badge: Record<string, { bg: string; color: string }> = {
-  ok:   { bg: "#E1F5EE", color: "#2F6B4F" },
+  ok:   { bg: "#E1F5EE", color: "#2E7D5B" },
   late: { bg: "#FAEEDA", color: "#854F0B" },
   absent: { bg: "#FCEBEB", color: "#A32D2D" },
 };
 
 export default function IncidenciasTable() {
   return (
-    <div style={{ background: "#FFFFFF", borderRadius: "14px", border: "1.5px solid #D7D9D2", overflow: "hidden", boxShadow: "0 1px 4px rgba(10,22,40,0.06)" }}>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 22px", borderBottom: "1px solid #D7D9D2" }}>
-        <span style={{ fontSize: "14px", fontWeight: 600, color: "#1C2B39" }}>Incidencias recientes</span>
-        <span style={{ fontSize: "12px", color: "#C9A227", cursor: "pointer", fontWeight: 500 }}>Ver todo →</span>
+    <div style={{ background: "rgba(255,255,255,0.72)", backdropFilter: "blur(16px) saturate(160%)", WebkitBackdropFilter: "blur(16px) saturate(160%)", borderRadius: "14px", border: "1px solid rgba(255,255,255,0.9)", overflow: "hidden", boxShadow: "0 1px 4px rgba(28,43,74,0.06)" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 22px", borderBottom: "1px solid #DDE1EA" }}>
+        <span style={{ fontSize: "14px", fontWeight: 600, color: "#1E2A4A" }}>Incidencias recientes</span>
+        <span style={{ fontSize: "12px", color: "#C08A2E", cursor: "pointer", fontWeight: 500 }}>Ver todo →</span>
       </div>
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
-          <tr style={{ background: "#F1F2ED" }}>
+          <tr style={{ background: "#FFFFFF" }}>
             {["Fecha", "Entrada", "Salida", "Hrs", "Estado"].map(h => (
-              <th key={h} style={{ padding: "10px 22px", textAlign: "left", fontSize: "10px", textTransform: "uppercase", letterSpacing: "1px", color: "#5A7896", fontWeight: 600, borderBottom: "1px solid #D7D9D2" }}>{h}</th>
+              <th key={h} style={{ padding: "10px 22px", textAlign: "left", fontSize: "10px", textTransform: "uppercase", letterSpacing: "1px", color: "#6B83A8", fontWeight: 600, borderBottom: "1px solid #DDE1EA" }}>{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {data.map((row, i) => (
-            <tr key={i} style={{ borderBottom: i < data.length - 1 ? "1px solid #F1F2ED" : "none", transition: "background .15s" }}
+            <tr key={i} style={{ borderBottom: i < data.length - 1 ? "1px solid #EAEDF2" : "none", transition: "background .15s" }}
               onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = "#F8FBFF"}
               onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = "transparent"}
             >
-              <td style={{ padding: "14px 22px", fontSize: "13px", color: "#1C2B39", fontWeight: 500 }}>{row.fecha}</td>
-              <td style={{ padding: "14px 22px", fontSize: "13px", color: "#3B4B5C" }}>{row.entrada}</td>
-              <td style={{ padding: "14px 22px", fontSize: "13px", color: "#3B4B5C" }}>{row.salida}</td>
-              <td style={{ padding: "14px 22px", fontSize: "13px", color: "#3B4B5C" }}>{row.hrs}</td>
+              <td style={{ padding: "14px 22px", fontSize: "13px", color: "#1E2A4A", fontWeight: 500 }}>{row.fecha}</td>
+              <td style={{ padding: "14px 22px", fontSize: "13px", color: "#5C6579" }}>{row.entrada}</td>
+              <td style={{ padding: "14px 22px", fontSize: "13px", color: "#5C6579" }}>{row.salida}</td>
+              <td style={{ padding: "14px 22px", fontSize: "13px", color: "#5C6579" }}>{row.hrs}</td>
               <td style={{ padding: "14px 22px" }}>
                 <span style={{
                   display: "inline-flex", alignItems: "center", gap: "5px",

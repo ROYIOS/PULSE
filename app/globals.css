@@ -2,19 +2,19 @@
 
 @layer base {
   :root {
-    --paper:    #F1F2ED;
-    --paper-d:  #E7E9E1;
-    --ink:      #1C2B39;
-    --ink-soft: #3B4B5C;
-    --steel:    #34506B;
-    --steel-l:  #5A7896;
-    --sello:    #B23A2E;
-    --sello-l:  #E8D3CF;
-    --aprobado: #2F6B4F;
-    --aprobado-l: #D6E6DC;
-    --folder:   #C9A227;
-    --folder-l: #F3E7C1;
-    --line:     #D7D9D2;
+    --paper:    #FFFFFF;
+    --paper-d:  #EEF2F8;
+    --ink:      #1E2A4A;
+    --ink-soft: #5C6579;
+    --steel:    #2D4A7A;
+    --steel-l:  #6B83A8;
+    --sello:    #C0392B;
+    --sello-l:  #F5DEDC;
+    --aprobado: #2E7D5B;
+    --aprobado-l: #DCEEE5;
+    --folder:   #C08A2E;
+    --folder-l: #F5E6CC;
+    --line:     #DDE1EA;
     --card:     #FFFFFF;
 
     --radius-sm: 6px;
@@ -24,15 +24,18 @@
     --shadow-md: 0 4px 14px rgba(28,43,57,.08);
     --shadow-lg: 0 10px 32px rgba(28,43,57,.12);
 
-    --font-display: 'Space Grotesk', sans-serif;
+    --font-display: 'Manrope', sans-serif;
     --font-sans: 'Inter', sans-serif;
-    --font-mono: 'IBM Plex Mono', monospace;
+    --font-mono: 'Manrope', sans-serif;
   }
 
   html { -webkit-font-smoothing: antialiased; }
 
   body {
-    background: var(--paper);
+    background:
+      radial-gradient(900px 500px at 8% -8%, rgba(45,74,122,0.05) 0%, rgba(45,74,122,0) 60%),
+      radial-gradient(800px 600px at 105% 8%, rgba(192,138,46,0.05) 0%, rgba(192,138,46,0) 55%),
+      #FFFFFF;
     color: var(--ink);
     font-family: var(--font-sans), sans-serif;
   }
@@ -60,6 +63,34 @@
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
+  }
+
+  /* Liquid Glass: tarjetas translúcidas con blur, se elevan y brillan al pasar el mouse */
+  .glass {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: var(--shadow-sm);
+    transition: transform .3s cubic-bezier(0.34,1.56,0.64,1),
+                box-shadow .3s ease,
+                border-color .3s ease,
+                background .3s ease;
+  }
+  .glass:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(28,43,74,0.14);
+    border-color: rgba(45,74,122,0.25);
+    background: rgba(255,255,255,0.85);
+  }
+
+  /* Variante para paneles grandes: mismo vidrio, sin elevarse al pasar el mouse */
+  .glass-static {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    border: 1px solid rgba(255,255,255,0.9);
+    box-shadow: var(--shadow-sm);
   }
   .animate-fade-up {
     animation: fadeUp .4s ease both;

@@ -7,15 +7,15 @@ export default function Toast({ message }: Props) {
   return (
     <div style={{
       position: "fixed", bottom: "28px", right: "28px",
-      background: "#1C2B39", color: "#FFFFFF",
+      background: "#1E2A4A", color: "#FFFFFF",
       padding: "14px 20px", borderRadius: "12px",
       fontSize: "13.5px", display: "flex", alignItems: "center", gap: "10px",
       boxShadow: "0 8px 30px rgba(10,22,40,0.25)",
       animation: "slideInRight .4s cubic-bezier(0.34,1.56,0.64,1)",
       zIndex: 9999, maxWidth: "360px",
-      borderLeft: "3px solid #C9A227",
+      borderLeft: "3px solid #C08A2E",
     }}>
-      <span style={{ color: "#C9A227", fontSize: "16px" }}>✓</span>
+      <span style={{ color: "#C08A2E", fontSize: "16px" }}>✓</span>
       {message}
       <style>{`
         @keyframes slideInRight {

@@ -54,7 +54,7 @@ export default function LoginPage() {
       <div
         style={{
           width: "52%",
-          background: "#1C2B39",
+          background: "#1E2A4A",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -139,7 +139,7 @@ export default function LoginPage() {
                 width: 9,
                 height: 9,
                 borderRadius: "50%",
-                background: "#C9A227",
+                background: "#C08A2E",
                 boxShadow: hoverLogo
                   ? "0 0 16px rgba(0,180,216,1)"
                   : "0 0 8px rgba(0,180,216,0.6)",
@@ -162,7 +162,7 @@ export default function LoginPage() {
           <p
             style={{
               fontSize: "10px",
-              color: "#3B4B5C",
+              color: "#5C6579",
               letterSpacing: "2px",
               textTransform: "uppercase",
               marginTop: "8px",
@@ -179,7 +179,7 @@ export default function LoginPage() {
             style={{
               width: "28px",
               height: "2px",
-              background: "#C9A227",
+              background: "#C08A2E",
               boxShadow: "0 0 8px rgba(0,180,216,0.6)",
               marginBottom: "28px",
             }}
@@ -201,7 +201,7 @@ export default function LoginPage() {
             <br />
             <span
               style={{
-                color: "#C9A227",
+                color: "#C08A2E",
                 fontWeight: 500,
                 textShadow: "0 0 30px rgba(0,180,216,0.4)",
               }}
@@ -212,7 +212,7 @@ export default function LoginPage() {
 
           <p
             style={{
-              color: "#3B4B5C",
+              color: "#5C6579",
               fontSize: "13.5px",
               marginTop: "24px",
               lineHeight: 1.75,
@@ -237,7 +237,7 @@ export default function LoginPage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          background: "#F1F2ED",
+          background: "#FFFFFF",
           padding: "48px",
           position: "relative",
           overflow: "hidden",
@@ -254,7 +254,7 @@ export default function LoginPage() {
             style={{
               fontSize: "26px",
               fontWeight: 600,
-              color: "#1C2B39",
+              color: "#1E2A4A",
               margin: 0,
             }}
           >
@@ -263,7 +263,7 @@ export default function LoginPage() {
 
           <p
             style={{
-              color: "#5A7896",
+              color: "#6B83A8",
               fontSize: "14px",
               marginTop: "6px",
               marginBottom: "36px",
@@ -282,7 +282,7 @@ export default function LoginPage() {
                   display: "block",
                   fontSize: "11px",
                   fontWeight: 600,
-                  color: "#3B4B5C",
+                  color: "#5C6579",
                   textTransform: "uppercase",
                   letterSpacing: "1px",
                   marginBottom: "8px",
@@ -301,9 +301,9 @@ export default function LoginPage() {
                   width: "100%",
                   padding: "13px 16px",
                   borderRadius: "12px",
-                  border: "1.5px solid #D7D9D2",
+                  border: "1.5px solid #DDE1EA",
                   background: "#FFFFFF",
-                  color: "#1C2B39",
+                  color: "#1E2A4A",
                   fontSize: "14px",
                   outline: "none",
                   boxSizing: "border-box",
@@ -318,7 +318,7 @@ export default function LoginPage() {
                   display: "block",
                   fontSize: "11px",
                   fontWeight: 600,
-                  color: "#3B4B5C",
+                  color: "#5C6579",
                   textTransform: "uppercase",
                   letterSpacing: "1px",
                   marginBottom: "8px",
@@ -338,9 +338,9 @@ export default function LoginPage() {
                     width: "100%",
                     padding: "13px 44px 13px 16px",
                     borderRadius: "12px",
-                    border: "1.5px solid #D7D9D2",
+                    border: "1.5px solid #DDE1EA",
                     background: "#FFFFFF",
-                    color: "#1C2B39",
+                    color: "#1E2A4A",
                     fontSize: "14px",
                     outline: "none",
                     boxSizing: "border-box",
@@ -359,7 +359,7 @@ export default function LoginPage() {
                     background: "none",
                     border: "none",
                     cursor: "pointer",
-                    color: "#5A7896",
+                    color: "#6B83A8",
                     display: "flex",
                     padding: 0,
                   }}
@@ -379,8 +379,8 @@ export default function LoginPage() {
                 padding: "15px",
                 borderRadius: "12px",
                 border: "none",
-                background: "#C9A227",
-                color: "#1C2B39",
+                background: "#C08A2E",
+                color: "#1E2A4A",
                 fontSize: "14px",
                 fontWeight: 700,
                 cursor: loading ? "not-allowed" : "pointer",
@@ -423,9 +423,9 @@ export default function LoginPage() {
                 width: "100%",
                 padding: "14px",
                 borderRadius: "12px",
-                border: "1.5px solid #D7D9D2",
+                border: "1.5px solid #DDE1EA",
                 background: hoverGerencia ? "#FFFFFF" : "transparent",
-                color: hoverGerencia ? "#C9A227" : "#3B4B5C",
+                color: hoverGerencia ? "#C08A2E" : "#5C6579",
                 fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
@@ -446,7 +446,7 @@ export default function LoginPage() {
             style={{
               marginTop: "40px",
               paddingTop: "24px",
-              borderTop: "1px solid #D7D9D2",
+              borderTop: "1px solid #DDE1EA",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -458,12 +458,12 @@ export default function LoginPage() {
                 width: 5,
                 height: 5,
                 borderRadius: "50%",
-                background: "#C9A227",
+                background: "#C08A2E",
                 opacity: 0.5,
               }}
             />
 
-            <p style={{ fontSize: "11px", color: "#5A7896", margin: 0 }}>
+            <p style={{ fontSize: "11px", color: "#6B83A8", margin: 0 }}>
               PULSE · v1.0 · 2026
             </p>
 
@@ -472,7 +472,7 @@ export default function LoginPage() {
                 width: 5,
                 height: 5,
                 borderRadius: "50%",
-                background: "#C9A227",
+                background: "#C08A2E",
                 opacity: 0.5,
               }}
             />

@@ -51,7 +51,7 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
     <aside style={{
       position:"fixed", top:0, left:0,
       width:"240px", height:"100vh",
-      background:"#1C2B39",
+      background:"#1E2A4A",
       display:"flex", flexDirection:"column",
       zIndex:100, overflowY:"auto",
     }}>
@@ -60,9 +60,9 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
         <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
           <div style={{
             width:8, height:8, borderRadius:"50%",
-            background:"#C9A227", boxShadow:"0 0 10px rgba(0,180,216,0.7)",
+            background:"#C08A2E", boxShadow:"0 0 10px rgba(0,180,216,0.7)",
           }}/>
-          <span style={{fontSize:"17px", fontWeight:600, letterSpacing:"6px", color:"#FFFFFF", fontFamily:"'Space Grotesk', sans-serif"}}>
+          <span style={{fontSize:"17px", fontWeight:600, letterSpacing:"6px", color:"#FFFFFF", fontFamily:"'Manrope', sans-serif"}}>
             PULSE
           </span>
         </div>
@@ -91,14 +91,14 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
                 padding:"10px 14px", borderRadius:"10px", marginBottom:"2px",
                 cursor:"pointer", transition:"all .2s",
                 background: active?"rgba(0,180,216,0.12)":hov?"rgba(255,255,255,0.04)":"transparent",
-                color: active?"#C9A227":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
+                color: active?"#C08A2E":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
               }}
             >
               <item.icon size={15}/>
               <span style={{fontSize:"13.5px", fontWeight:active?500:400}}>{item.label}</span>
               {active && (
                 <div style={{marginLeft:"auto", width:5, height:5, borderRadius:"50%",
-                  background:"#C9A227", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
+                  background:"#C08A2E", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
               )}
             </div>
           );
@@ -122,14 +122,14 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
                 padding:"10px 14px", borderRadius:"10px", marginBottom:"2px",
                 cursor:"pointer", transition:"all .2s",
                 background: active?"rgba(0,180,216,0.12)":hov?"rgba(255,255,255,0.04)":"transparent",
-                color: active?"#C9A227":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
+                color: active?"#C08A2E":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
               }}
             >
               <item.icon size={15}/>
               <span style={{fontSize:"13.5px", fontWeight:active?500:400}}>{item.label}</span>
               {active && (
                 <div style={{marginLeft:"auto", width:5, height:5, borderRadius:"50%",
-                  background:"#C9A227", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
+                  background:"#C08A2E", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
               )}
             </div>
           );
@@ -141,29 +141,29 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
         <div style={{display:"flex", alignItems:"center", gap:"10px", marginBottom:"12px"}}>
           <div style={{
             width:36, height:36, borderRadius:"10px",
-            background:"linear-gradient(135deg, #C9A227, #34506B)",
+            background:"linear-gradient(135deg, #C08A2E, #2D4A7A)",
             display:"flex", alignItems:"center", justifyContent:"center",
             fontSize:"13px", fontWeight:600, color:"#FFFFFF", flexShrink:0,
           }}>JR</div>
           <div>
             <p style={{fontSize:"13px", color:"#FFFFFF", fontWeight:500, margin:0}}>Jorge Ramírez</p>
-            <p style={{fontSize:"11px", color:"#3B4B5C", margin:0, marginTop:"1px"}}>Producción · Turno A</p>
+            <p style={{fontSize:"11px", color:"#5C6579", margin:0, marginTop:"1px"}}>Producción · Turno A</p>
           </div>
         </div>
         <div
           onClick={handleLogout}
           onMouseEnter={e=>{
             (e.currentTarget as HTMLElement).style.background="rgba(216,90,48,0.10)";
-            (e.currentTarget as HTMLElement).style.color="#B23A2E";
+            (e.currentTarget as HTMLElement).style.color="#C0392B";
           }}
           onMouseLeave={e=>{
             (e.currentTarget as HTMLElement).style.background="transparent";
-            (e.currentTarget as HTMLElement).style.color="#3B4B5C";
+            (e.currentTarget as HTMLElement).style.color="#5C6579";
           }}
           style={{
             display:"flex", alignItems:"center", gap:"8px",
             padding:"8px 12px", borderRadius:"8px", cursor:"pointer",
-            color:"#3B4B5C", fontSize:"12px", transition:"all .2s",
+            color:"#5C6579", fontSize:"12px", transition:"all .2s",
           }}
         >
           <LogOut size={13}/> Cerrar sesión

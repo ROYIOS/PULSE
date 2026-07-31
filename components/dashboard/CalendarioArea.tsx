@@ -5,18 +5,18 @@ const AREAS = ["Logística", "Ventas", "Finanzas", "CxC", "RH", "Planta A", "Pla
 
 const EVENTS: Record<string, { dia: number; nombre: string; tipo: "vacaciones" | "retardo" | "turno"; color: string }[]> = {
   "Logística": [
-    { dia: 19, nombre: "M. García",   tipo: "vacaciones", color: "#C9A227" },
-    { dia: 20, nombre: "M. García",   tipo: "vacaciones", color: "#C9A227" },
-    { dia: 21, nombre: "M. García",   tipo: "vacaciones", color: "#C9A227" },
+    { dia: 19, nombre: "M. García",   tipo: "vacaciones", color: "#C08A2E" },
+    { dia: 20, nombre: "M. García",   tipo: "vacaciones", color: "#C08A2E" },
+    { dia: 21, nombre: "M. García",   tipo: "vacaciones", color: "#C08A2E" },
   ],
   "Ventas": [
-    { dia: 22, nombre: "C. López",    tipo: "vacaciones", color: "#2F6B4F" },
-    { dia: 23, nombre: "C. López",    tipo: "vacaciones", color: "#2F6B4F" },
-    { dia: 8,  nombre: "A. Martínez", tipo: "retardo",    color: "#B23A2E" },
+    { dia: 22, nombre: "C. López",    tipo: "vacaciones", color: "#2E7D5B" },
+    { dia: 23, nombre: "C. López",    tipo: "vacaciones", color: "#2E7D5B" },
+    { dia: 8,  nombre: "A. Martínez", tipo: "retardo",    color: "#C0392B" },
   ],
   "Planta A": [
-    { dia: 19, nombre: "Turno A",     tipo: "turno",      color: "#34506B" },
-    { dia: 20, nombre: "Turno A",     tipo: "turno",      color: "#34506B" },
+    { dia: 19, nombre: "Turno A",     tipo: "turno",      color: "#2D4A7A" },
+    { dia: 20, nombre: "Turno A",     tipo: "turno",      color: "#2D4A7A" },
   ],
 };
 
@@ -42,15 +42,15 @@ export default function CalendarioArea() {
 
   return (
     <div style={{
-      background: "#FFFFFF", borderRadius: "14px",
-      border: "1.5px solid #D7D9D2",
-      boxShadow: "0 1px 4px rgba(10,22,40,0.06)", overflow: "hidden",
+      background: "rgba(255,255,255,0.72)", backdropFilter: "blur(16px) saturate(160%)", WebkitBackdropFilter: "blur(16px) saturate(160%)", borderRadius: "14px",
+      border: "1px solid rgba(255,255,255,0.9)",
+      boxShadow: "0 1px 4px rgba(28,43,74,0.06)", overflow: "hidden",
     }}>
       {/* Header */}
-      <div style={{ padding: "18px 22px", borderBottom: "1px solid #D7D9D2" }}>
+      <div style={{ padding: "18px 22px", borderBottom: "1px solid #DDE1EA" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
-          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1C2B39" }}>Calendario por Área</span>
-          <span style={{ fontSize: "11px", color: "#5A7896" }}>Mayo 2026</span>
+          <span style={{ fontSize: "14px", fontWeight: 600, color: "#1E2A4A" }}>Calendario por Área</span>
+          <span style={{ fontSize: "11px", color: "#6B83A8" }}>Mayo 2026</span>
         </div>
 
         {/* Selector de área */}
@@ -59,9 +59,9 @@ export default function CalendarioArea() {
             <button key={a} onClick={() => setAreaSeleccionada(a)} style={{
               padding: "5px 12px", borderRadius: "20px", fontSize: "11px",
               fontWeight: 500, cursor: "pointer", fontFamily: "inherit",
-              border: areaSeleccionada === a ? "1.5px solid #C9A227" : "1.5px solid #D7D9D2",
+              border: areaSeleccionada === a ? "1.5px solid #C08A2E" : "1.5px solid #DDE1EA",
               background: areaSeleccionada === a ? "rgba(0,180,216,0.10)" : "transparent",
-              color: areaSeleccionada === a ? "#C9A227" : "#5A7896",
+              color: areaSeleccionada === a ? "#C08A2E" : "#6B83A8",
               transition: "all .2s",
             }}>{a}</button>
           ))}
@@ -73,7 +73,7 @@ export default function CalendarioArea() {
         {/* Headers días */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", marginBottom: "4px" }}>
           {DAYS.map(d => (
-            <div key={d} style={{ textAlign: "center", fontSize: "10px", color: "#5A7896", fontWeight: 600, textTransform: "uppercase", padding: "4px 0" }}>{d}</div>
+            <div key={d} style={{ textAlign: "center", fontSize: "10px", color: "#6B83A8", fontWeight: 600, textTransform: "uppercase", padding: "4px 0" }}>{d}</div>
           ))}
         </div>
 
@@ -95,11 +95,11 @@ export default function CalendarioArea() {
                 style={{
                   borderRadius: "8px", padding: "6px 4px",
                   minHeight: "44px", cursor: dayEvents.length > 0 ? "pointer" : "default",
-                  background: isToday ? "#C9A227"
+                  background: isToday ? "#C08A2E"
                     : hasVac   ? "rgba(0,180,216,0.08)"
                     : hasRet   ? "rgba(216,90,48,0.07)"
                     : hasTurno ? "rgba(26,58,107,0.07)"
-                    : isHover  ? "#F1F2ED"
+                    : isHover  ? "#FFFFFF"
                     : "transparent",
                   border: isToday ? "none" : "1px solid transparent",
                   transition: "all .15s",
@@ -108,7 +108,7 @@ export default function CalendarioArea() {
               >
                 <div style={{
                   fontSize: "11px", fontWeight: isToday ? 700 : 400,
-                  color: isToday ? "#1C2B39" : "#3B4B5C",
+                  color: isToday ? "#1E2A4A" : "#5C6579",
                   textAlign: "center", marginBottom: "2px",
                 }}>{day}</div>
 
@@ -132,16 +132,16 @@ export default function CalendarioArea() {
       {/* Leyenda */}
       <div style={{
         display: "flex", gap: "16px", padding: "12px 22px",
-        borderTop: "1px solid #F1F2ED", flexWrap: "wrap",
+        borderTop: "1px solid #EAEDF2", flexWrap: "wrap",
       }}>
         {[
-          { color: "#C9A227", label: "Vacaciones" },
-          { color: "#B23A2E", label: "Retardo" },
-          { color: "#34506B", label: "Turno especial" },
+          { color: "#C08A2E", label: "Vacaciones" },
+          { color: "#C0392B", label: "Retardo" },
+          { color: "#2D4A7A", label: "Turno especial" },
         ].map(({ color, label }) => (
           <div key={label} style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <div style={{ width: 8, height: 8, borderRadius: "2px", background: color }}/>
-            <span style={{ fontSize: "10px", color: "#5A7896" }}>{label}</span>
+            <span style={{ fontSize: "10px", color: "#6B83A8" }}>{label}</span>
           </div>
         ))}
       </div>

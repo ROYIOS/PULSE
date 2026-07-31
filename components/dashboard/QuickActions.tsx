@@ -11,15 +11,15 @@ export default function QuickActions({ onVacaciones, onRetardo }: Props) {
   const [hover, setHover] = useState<number | null>(null);
 
   const actions = [
-    { icon: Calendar,  label: "Solicitar vacaciones", sub: "12 días disponibles",    color: "#C9A227", bg: "rgba(0,180,216,0.10)", fn: onVacaciones },
-    { icon: FileText,  label: "Generar formato retardo", sub: "Jue 22 mayo pendiente", color: "#B23A2E", bg: "rgba(216,90,48,0.10)",  fn: onRetardo },
-    { icon: ListChecks,label: "Ver mis solicitudes",  sub: "1 en revisión",          color: "#2F6B4F", bg: "rgba(15,110,86,0.10)",  fn: () => {} },
+    { icon: Calendar,  label: "Solicitar vacaciones", sub: "12 días disponibles",    color: "#C08A2E", bg: "rgba(0,180,216,0.10)", fn: onVacaciones },
+    { icon: FileText,  label: "Generar formato retardo", sub: "Jue 22 mayo pendiente", color: "#C0392B", bg: "rgba(216,90,48,0.10)",  fn: onRetardo },
+    { icon: ListChecks,label: "Ver mis solicitudes",  sub: "1 en revisión",          color: "#2E7D5B", bg: "rgba(15,110,86,0.10)",  fn: () => {} },
   ];
 
   return (
-    <div style={{ background: "#FFFFFF", borderRadius: "14px", border: "1.5px solid #D7D9D2", overflow: "hidden", boxShadow: "0 1px 4px rgba(10,22,40,0.06)" }}>
-      <div style={{ padding: "18px 22px", borderBottom: "1px solid #D7D9D2" }}>
-        <span style={{ fontSize: "14px", fontWeight: 600, color: "#1C2B39" }}>Acciones rápidas</span>
+    <div style={{ background: "rgba(255,255,255,0.72)", backdropFilter: "blur(16px) saturate(160%)", WebkitBackdropFilter: "blur(16px) saturate(160%)", borderRadius: "14px", border: "1px solid rgba(255,255,255,0.9)", overflow: "hidden", boxShadow: "0 1px 4px rgba(28,43,74,0.06)" }}>
+      <div style={{ padding: "18px 22px", borderBottom: "1px solid #DDE1EA" }}>
+        <span style={{ fontSize: "14px", fontWeight: 600, color: "#1E2A4A" }}>Acciones rápidas</span>
       </div>
       {actions.map(({ icon: Icon, label, sub, color, bg, fn }, i) => (
         <div
@@ -31,7 +31,7 @@ export default function QuickActions({ onVacaciones, onRetardo }: Props) {
             display: "flex", alignItems: "center", gap: "14px",
             padding: "14px 22px", cursor: "pointer",
             background: hover === i ? "#F8FBFF" : "transparent",
-            borderBottom: i < actions.length - 1 ? "1px solid #F1F2ED" : "none",
+            borderBottom: i < actions.length - 1 ? "1px solid #EAEDF2" : "none",
             transition: "background .15s",
           }}
         >
@@ -45,10 +45,10 @@ export default function QuickActions({ onVacaciones, onRetardo }: Props) {
             <Icon size={17} color={color}/>
           </div>
           <div style={{ flex: 1 }}>
-            <p style={{ fontSize: "13.5px", fontWeight: 500, color: "#1C2B39", margin: 0 }}>{label}</p>
-            <p style={{ fontSize: "11.5px", color: "#5A7896", margin: 0, marginTop: "2px" }}>{sub}</p>
+            <p style={{ fontSize: "13.5px", fontWeight: 500, color: "#1E2A4A", margin: 0 }}>{label}</p>
+            <p style={{ fontSize: "11.5px", color: "#6B83A8", margin: 0, marginTop: "2px" }}>{sub}</p>
           </div>
-          <ChevronRight size={14} color="#5A7896" style={{ transition: "transform .2s", transform: hover === i ? "translateX(3px)" : "translateX(0)" }}/>
+          <ChevronRight size={14} color="#6B83A8" style={{ transition: "transform .2s", transform: hover === i ? "translateX(3px)" : "translateX(0)" }}/>
         </div>
       ))}
     </div>
