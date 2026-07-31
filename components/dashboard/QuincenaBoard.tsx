@@ -53,7 +53,7 @@ export default function QuincenaBoard() {
       {/* Header */}
       <div style={{padding:"11px 18px 8px", borderBottom:"1px solid #EAEDF2"}}>
         <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
-          <span style={{fontSize:"12px", fontWeight:600, color:"#1E2A4A"}}>
+          <span style={{fontSize:"13px", fontWeight:700, color:"#1E2A4A", fontFamily:"'Sora', sans-serif"}}>
             Quincena en progreso
           </span>
           <span style={{
@@ -89,7 +89,7 @@ export default function QuincenaBoard() {
           overflow:"hidden", position:"relative"}}>
           <div style={{
             height:"100%", borderRadius:"9px",
-            background:"linear-gradient(90deg,#0F9DA6,#2E7D5B)",
+            background:"linear-gradient(90deg,#17B3C2,#0F9DA6)",
             width:`${animated*100}%`,
             transition:"width 1.8s cubic-bezier(0.34,1.56,0.64,1)",
           }}/>
