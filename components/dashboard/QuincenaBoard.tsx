@@ -81,7 +81,7 @@ export default function QuincenaBoard() {
           </span>
           <span style={{
             fontSize:"9px", padding:"2px 9px", borderRadius:"20px",
-            background:"rgba(0,180,216,0.10)", color:"#C08A2E", fontWeight:600,
+            background:"rgba(0,180,216,0.10)", color:"#0F9DA6", fontWeight:600,
           }}>1–15 Mayo</span>
         </div>
         <p style={{fontSize:"10px", color:"#6B83A8", marginTop:"2px"}}>
@@ -92,7 +92,7 @@ export default function QuincenaBoard() {
       {/* Stats */}
       <div style={{display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"6px", padding:"8px 18px 0"}}>
         {[
-          {label:"Trabajadas",   value:`${TRABAJADAS}h`,    color:"#C08A2E"},
+          {label:"Trabajadas",   value:`${TRABAJADAS}h`,    color:"#0F9DA6"},
           {label:"Restantes",    value:`${horasRestantes}h`, color:"#C0392B"},
           {label:"Días hábiles", value:`${diasRestantes}`,   color:"#2E7D5B"},
         ].map(s=>(
@@ -112,7 +112,7 @@ export default function QuincenaBoard() {
           overflow:"hidden", position:"relative"}}>
           <div style={{
             height:"100%", borderRadius:"9px",
-            background:"linear-gradient(90deg,#C08A2E,#2E7D5B)",
+            background:"linear-gradient(90deg,#0F9DA6,#2E7D5B)",
             width:`${animated*100}%`,
             transition:"width 1.8s cubic-bezier(0.34,1.56,0.64,1)",
           }}/>
@@ -148,9 +148,9 @@ export default function QuincenaBoard() {
           <button key={m.key} onClick={()=>setMode(m.key)} style={{
             padding:"3px 9px", borderRadius:"20px", fontSize:"9px",
             fontWeight:500, cursor:"pointer", fontFamily:"inherit",
-            border:mode===m.key?"1.5px solid #C08A2E":"1.5px solid #DDE1EA",
+            border:mode===m.key?"1.5px solid #0F9DA6":"1.5px solid #DDE1EA",
             background:mode===m.key?"rgba(0,180,216,0.10)":"transparent",
-            color:mode===m.key?"#C08A2E":"#6B83A8", transition:"all .2s",
+            color:mode===m.key?"#0F9DA6":"#6B83A8", transition:"all .2s",
           }}>{m.label}</button>
         ))}
       </div>

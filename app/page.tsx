@@ -139,7 +139,7 @@ export default function LoginPage() {
                 width: 9,
                 height: 9,
                 borderRadius: "50%",
-                background: "#C08A2E",
+                background: "#0F9DA6",
                 boxShadow: hoverLogo
                   ? "0 0 16px rgba(0,180,216,1)"
                   : "0 0 8px rgba(0,180,216,0.6)",
@@ -179,7 +179,7 @@ export default function LoginPage() {
             style={{
               width: "28px",
               height: "2px",
-              background: "#C08A2E",
+              background: "#0F9DA6",
               boxShadow: "0 0 8px rgba(0,180,216,0.6)",
               marginBottom: "28px",
             }}
@@ -201,7 +201,7 @@ export default function LoginPage() {
             <br />
             <span
               style={{
-                color: "#C08A2E",
+                color: "#0F9DA6",
                 fontWeight: 500,
                 textShadow: "0 0 30px rgba(0,180,216,0.4)",
               }}
@@ -379,7 +379,7 @@ export default function LoginPage() {
                 padding: "15px",
                 borderRadius: "12px",
                 border: "none",
-                background: "#C08A2E",
+                background: "#0F9DA6",
                 color: "#1E2A4A",
                 fontSize: "14px",
                 fontWeight: 700,
@@ -425,7 +425,7 @@ export default function LoginPage() {
                 borderRadius: "12px",
                 border: "1.5px solid #DDE1EA",
                 background: hoverGerencia ? "#FFFFFF" : "transparent",
-                color: hoverGerencia ? "#C08A2E" : "#5C6579",
+                color: hoverGerencia ? "#0F9DA6" : "#5C6579",
                 fontSize: "14px",
                 fontWeight: 600,
                 cursor: "pointer",
@@ -458,7 +458,7 @@ export default function LoginPage() {
                 width: 5,
                 height: 5,
                 borderRadius: "50%",
-                background: "#C08A2E",
+                background: "#0F9DA6",
                 opacity: 0.5,
               }}
             />
@@ -472,7 +472,7 @@ export default function LoginPage() {
                 width: 5,
                 height: 5,
                 borderRadius: "50%",
-                background: "#C08A2E",
+                background: "#0F9DA6",
                 opacity: 0.5,
               }}
             />

@@ -19,8 +19,8 @@ const config: Config = {
         "sello-l":  "#F5DEDC",
         aprobado:   "#2E7D5B",
         "aprobado-l": "#DCEEE5",
-        folder:     "#C08A2E",
-        "folder-l": "#F5E6CC",
+        folder:     "#0F9DA6",
+        "folder-l": "#D6F0F2",
         line:       "#DDE1EA",
       },
       fontFamily: {

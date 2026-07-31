@@ -119,7 +119,7 @@ export default function ModalRetardo({ open, onClose, onSubmit }: Props) {
             </button>
             <button type="submit" disabled={loading} style={{
               padding:"11px 22px",borderRadius:"10px",border:"none",
-              background:"#C08A2E",color:"#1E2A4A",fontSize:"13px",fontWeight:700,
+              background:"#0F9DA6",color:"#1E2A4A",fontSize:"13px",fontWeight:700,
               cursor:"pointer",fontFamily:"inherit",display:"flex",
               alignItems:"center",gap:"7px",
               boxShadow:"0 4px 14px rgba(0,180,216,0.28)"}}>

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import { BarChart2, Users, Clock, Calendar, Eye, EyeOff } from "lucide-react";
+import AsistenciaGrid from "@/components/dashboard/AsistenciaGrid";
 
 type Rol = "gerente" | "rrhh" | "nomina";
 type Status = "pendiente" | "aprobada" | "rechazada";
@@ -185,7 +186,7 @@ export default function GerenciaPage() {
         {/* HEADER */}
         <div style={{marginBottom:"28px"}}>
           <div style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"5px"}}>
-            <BarChart2 size={20} color="#C08A2E"/>
+            <BarChart2 size={20} color="#0F9DA6"/>
             <h1 style={{fontSize:"22px",fontWeight:600,color:"#1E2A4A",margin:0}}>Panel de Gerencia</h1>
           </div>
           <p style={{fontSize:"13px",color:"#6B83A8",margin:0}}>
@@ -196,7 +197,7 @@ export default function GerenciaPage() {
         {/* KPIs */}
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"14px",marginBottom:"24px"}}>
           {[
-            {label:"Empleados activos",value:"6",          color:"#C08A2E",icon:Users},
+            {label:"Empleados activos",value:"6",          color:"#0F9DA6",icon:Users},
             {label:"Incidencias pend.", value:`${pendInc}`,color:"#C0392B",icon:Clock},
             {label:"Vacaciones pend.",  value:`${pendVac}`,color:"#F5A623",icon:Calendar},
             {label:"H.O. quincena",     value:"24h",       color:"#2E7D5B",icon:BarChart2},
@@ -225,9 +226,9 @@ export default function GerenciaPage() {
             <button key={t.key} onClick={()=>setTab(t.key as typeof tab)} style={{
               padding:"6px 16px",borderRadius:"20px",fontSize:"11px",fontWeight:500,
               cursor:"pointer",fontFamily:"inherit",transition:"all .2s",
-              border:tab===t.key?"1.5px solid #C08A2E":"1.5px solid #DDE1EA",
+              border:tab===t.key?"1.5px solid #0F9DA6":"1.5px solid #DDE1EA",
               background:tab===t.key?"rgba(0,180,216,.10)":"#FFFFFF",
-              color:tab===t.key?"#C08A2E":"#6B83A8",
+              color:tab===t.key?"#0F9DA6":"#6B83A8",
             }}>{t.label}</button>
           ))}
         </div>
@@ -321,14 +322,22 @@ export default function GerenciaPage() {
                         </p>
                       </div>
                       <div style={{textAlign:"right"}}>
-                        <p style={{fontSize:"14px",fontWeight:700,color:"#C08A2E",margin:0}}>{e.horasTrabajadas}h</p>
+                        <p style={{fontSize:"14px",fontWeight:700,color:"#0F9DA6",margin:0}}>{e.horasTrabajadas}h</p>
                         {e.horasExtra>0 && <p style={{fontSize:"11px",color:"#2E7D5B",margin:0}}>+{e.horasExtra}h extra</p>}
                       </div>
                     </div>
                     <div style={{height:"6px",borderRadius:"3px",background:"#FFFFFF",overflow:"hidden"}}>
                       <div style={{height:"100%",borderRadius:"3px",
-                        background:pct>=100?"#2E7D5B":pct>=70?"#C08A2E":"#C0392B",
+                        background:pct>=100?"#2E7D5B":pct>=70?"#0F9DA6":"#C0392B",
                         width:`${pct}%`,transition:"width 1s ease"}}/>
+                    </div>
+                    <div style={{marginTop:"6px"}}>
+                      <AsistenciaGrid
+                        title="Asistencia · últimas 3 semanas"
+                        weeks={[0,1,2].map(w =>
+                          [0,1,2,3,4].map(d => (e.id*7 + w*5 + d) % (e.retardos+3) !== 0)
+                        )}
+                      />
                     </div>
                   </div>
                 );
@@ -410,10 +419,10 @@ export default function GerenciaPage() {
           padding:"13px 20px",borderRadius:"12px",fontSize:"13px",
           display:"flex",alignItems:"center",gap:"10px",
           boxShadow:"0 8px 30px rgba(10,22,40,.25)",
-          borderLeft:"3px solid #C08A2E",zIndex:9999,
+          borderLeft:"3px solid #0F9DA6",zIndex:9999,
           animation:"slideIn .3s ease",
         }}>
-          <span style={{color:"#C08A2E",fontSize:"16px"}}>✓</span>
+          <span style={{color:"#0F9DA6",fontSize:"16px"}}>✓</span>
           {toast}
         </div>
       )}

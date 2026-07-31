@@ -30,7 +30,7 @@ export default function StatCard({ label, value, sub, color, progress }: Props) 
       <p style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "1px", color: "#6B83A8", fontWeight: 600, marginBottom: "10px" }}>
         {label}
       </p>
-      <p style={{ fontSize: "36px", fontWeight: 600, color, lineHeight: 1, margin: 0, fontFamily: "'Manrope', sans-serif" }}>
+      <p style={{ fontSize: "36px", fontWeight: 600, color, lineHeight: 1, margin: 0, fontFamily: "'Sora', sans-serif" }}>
         {value}
       </p>
       <p style={{ fontSize: "12px", color: "#6B83A8", marginTop: "6px" }}>{sub}</p>

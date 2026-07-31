@@ -20,7 +20,7 @@ export default function IncidenciasTable() {
     <div style={{ background: "rgba(255,255,255,0.72)", backdropFilter: "blur(16px) saturate(160%)", WebkitBackdropFilter: "blur(16px) saturate(160%)", borderRadius: "14px", border: "1px solid rgba(255,255,255,0.9)", overflow: "hidden", boxShadow: "0 1px 4px rgba(28,43,74,0.06)" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 22px", borderBottom: "1px solid #DDE1EA" }}>
         <span style={{ fontSize: "14px", fontWeight: 600, color: "#1E2A4A" }}>Incidencias recientes</span>
-        <span style={{ fontSize: "12px", color: "#C08A2E", cursor: "pointer", fontWeight: 500 }}>Ver todo →</span>
+        <span style={{ fontSize: "12px", color: "#0F9DA6", cursor: "pointer", fontWeight: 500 }}>Ver todo →</span>
       </div>
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>

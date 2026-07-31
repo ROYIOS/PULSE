@@ -60,9 +60,9 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
         <div style={{display:"flex", alignItems:"center", gap:"10px"}}>
           <div style={{
             width:8, height:8, borderRadius:"50%",
-            background:"#C08A2E", boxShadow:"0 0 10px rgba(0,180,216,0.7)",
+            background:"#0F9DA6", boxShadow:"0 0 10px rgba(0,180,216,0.7)",
           }}/>
-          <span style={{fontSize:"17px", fontWeight:600, letterSpacing:"6px", color:"#FFFFFF", fontFamily:"'Manrope', sans-serif"}}>
+          <span style={{fontSize:"17px", fontWeight:600, letterSpacing:"6px", color:"#FFFFFF", fontFamily:"'Sora', sans-serif"}}>
             PULSE
           </span>
         </div>
@@ -91,14 +91,14 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
                 padding:"10px 14px", borderRadius:"10px", marginBottom:"2px",
                 cursor:"pointer", transition:"all .2s",
                 background: active?"rgba(0,180,216,0.12)":hov?"rgba(255,255,255,0.04)":"transparent",
-                color: active?"#C08A2E":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
+                color: active?"#0F9DA6":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
               }}
             >
               <item.icon size={15}/>
               <span style={{fontSize:"13.5px", fontWeight:active?500:400}}>{item.label}</span>
               {active && (
                 <div style={{marginLeft:"auto", width:5, height:5, borderRadius:"50%",
-                  background:"#C08A2E", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
+                  background:"#0F9DA6", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
               )}
             </div>
           );
@@ -122,14 +122,14 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
                 padding:"10px 14px", borderRadius:"10px", marginBottom:"2px",
                 cursor:"pointer", transition:"all .2s",
                 background: active?"rgba(0,180,216,0.12)":hov?"rgba(255,255,255,0.04)":"transparent",
-                color: active?"#C08A2E":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
+                color: active?"#0F9DA6":hov?"rgba(255,255,255,0.8)":"rgba(255,255,255,0.4)",
               }}
             >
               <item.icon size={15}/>
               <span style={{fontSize:"13.5px", fontWeight:active?500:400}}>{item.label}</span>
               {active && (
                 <div style={{marginLeft:"auto", width:5, height:5, borderRadius:"50%",
-                  background:"#C08A2E", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
+                  background:"#0F9DA6", boxShadow:"0 0 6px rgba(0,180,216,0.8)"}}/>
               )}
             </div>
           );
@@ -141,7 +141,7 @@ export default function Sidebar({ activePage, setActivePage, onVacaciones, onRet
         <div style={{display:"flex", alignItems:"center", gap:"10px", marginBottom:"12px"}}>
           <div style={{
             width:36, height:36, borderRadius:"10px",
-            background:"linear-gradient(135deg, #C08A2E, #2D4A7A)",
+            background:"linear-gradient(135deg, #0F9DA6, #2D4A7A)",
             display:"flex", alignItems:"center", justifyContent:"center",
             fontSize:"13px", fontWeight:600, color:"#FFFFFF", flexShrink:0,
           }}>JR</div>

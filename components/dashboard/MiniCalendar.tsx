@@ -48,8 +48,8 @@ export default function MiniCalendar() {
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: "12px", cursor: "pointer", position: "relative",
                 transition: "all .15s",
-                background: isToday ? "#C08A2E" : isVac ? "rgba(0,180,216,0.10)" : isHover ? "#FFFFFF" : "transparent",
-                color: isToday ? "#1E2A4A" : isVac ? "#C08A2E" : "#5C6579",
+                background: isToday ? "#0F9DA6" : isVac ? "rgba(0,180,216,0.10)" : isHover ? "#FFFFFF" : "transparent",
+                color: isToday ? "#1E2A4A" : isVac ? "#0F9DA6" : "#5C6579",
                 fontWeight: isToday ? 700 : 400,
                 transform: isHover && !isToday ? "scale(1.15)" : "scale(1)",
               }}
@@ -70,7 +70,7 @@ export default function MiniCalendar() {
       {/* Legend */}
       <div style={{ display: "flex", gap: "16px", padding: "0 18px 14px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#C08A2E" }}/>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#0F9DA6" }}/>
           <span style={{ fontSize: "10px", color: "#6B83A8" }}>Vacaciones</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>

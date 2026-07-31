@@ -5,9 +5,9 @@ const AREAS = ["Logística", "Ventas", "Finanzas", "CxC", "RH", "Planta A", "Pla
 
 const EVENTS: Record<string, { dia: number; nombre: string; tipo: "vacaciones" | "retardo" | "turno"; color: string }[]> = {
   "Logística": [
-    { dia: 19, nombre: "M. García",   tipo: "vacaciones", color: "#C08A2E" },
-    { dia: 20, nombre: "M. García",   tipo: "vacaciones", color: "#C08A2E" },
-    { dia: 21, nombre: "M. García",   tipo: "vacaciones", color: "#C08A2E" },
+    { dia: 19, nombre: "M. García",   tipo: "vacaciones", color: "#0F9DA6" },
+    { dia: 20, nombre: "M. García",   tipo: "vacaciones", color: "#0F9DA6" },
+    { dia: 21, nombre: "M. García",   tipo: "vacaciones", color: "#0F9DA6" },
   ],
   "Ventas": [
     { dia: 22, nombre: "C. López",    tipo: "vacaciones", color: "#2E7D5B" },
@@ -59,9 +59,9 @@ export default function CalendarioArea() {
             <button key={a} onClick={() => setAreaSeleccionada(a)} style={{
               padding: "5px 12px", borderRadius: "20px", fontSize: "11px",
               fontWeight: 500, cursor: "pointer", fontFamily: "inherit",
-              border: areaSeleccionada === a ? "1.5px solid #C08A2E" : "1.5px solid #DDE1EA",
+              border: areaSeleccionada === a ? "1.5px solid #0F9DA6" : "1.5px solid #DDE1EA",
               background: areaSeleccionada === a ? "rgba(0,180,216,0.10)" : "transparent",
-              color: areaSeleccionada === a ? "#C08A2E" : "#6B83A8",
+              color: areaSeleccionada === a ? "#0F9DA6" : "#6B83A8",
               transition: "all .2s",
             }}>{a}</button>
           ))}
@@ -95,7 +95,7 @@ export default function CalendarioArea() {
                 style={{
                   borderRadius: "8px", padding: "6px 4px",
                   minHeight: "44px", cursor: dayEvents.length > 0 ? "pointer" : "default",
-                  background: isToday ? "#C08A2E"
+                  background: isToday ? "#0F9DA6"
                     : hasVac   ? "rgba(0,180,216,0.08)"
                     : hasRet   ? "rgba(216,90,48,0.07)"
                     : hasTurno ? "rgba(26,58,107,0.07)"
@@ -135,7 +135,7 @@ export default function CalendarioArea() {
         borderTop: "1px solid #EAEDF2", flexWrap: "wrap",
       }}>
         {[
-          { color: "#C08A2E", label: "Vacaciones" },
+          { color: "#0F9DA6", label: "Vacaciones" },
           { color: "#C0392B", label: "Retardo" },
           { color: "#2D4A7A", label: "Turno especial" },
         ].map(({ color, label }) => (

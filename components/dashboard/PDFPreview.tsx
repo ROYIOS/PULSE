@@ -37,11 +37,11 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
     .header{background:#1E2A4A;color:#fff;padding:24px 32px;border-radius:12px;
       display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
     .logo{font-size:22px;font-weight:300;letter-spacing:8px}
-    .logo span{color:#C08A2E}
+    .logo span{color:#0F9DA6}
     .folio{text-align:right;font-size:12px;color:#6B83A8}
-    .folio strong{color:#C08A2E;font-size:16px;display:block}
+    .folio strong{color:#0F9DA6;font-size:16px;display:block}
     h1{font-size:20px;font-weight:700;color:#1E2A4A;padding-bottom:12px;
-      border-bottom:3px solid #C08A2E;margin-bottom:24px}
+      border-bottom:3px solid #0F9DA6;margin-bottom:24px}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
     .field label{font-size:10px;text-transform:uppercase;letter-spacing:1px;
       color:#6B83A8;font-weight:600;display:block;margin-bottom:4px}
@@ -160,7 +160,7 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
               display:"flex",justifyContent:"space-between",alignItems:"center"}}>
               <div>
                 <div style={{display:"flex",alignItems:"center",gap:"8px"}}>
-                  <div style={{width:6,height:6,borderRadius:"50%",background:"#C08A2E"}}/>
+                  <div style={{width:6,height:6,borderRadius:"50%",background:"#0F9DA6"}}/>
                   <span style={{fontSize:"16px",fontWeight:300,letterSpacing:"6px",color:"#FFFFFF"}}>PULSE</span>
                 </div>
                 <p style={{fontSize:"9px",color:"#5C6579",letterSpacing:"2px",
@@ -170,12 +170,12 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
               </div>
               <div style={{textAlign:"right"}}>
                 <p style={{fontSize:"9px",color:"#5C6579",margin:0}}>Folio</p>
-                <p style={{fontSize:"14px",color:"#C08A2E",fontWeight:700,margin:0}}>{folio}</p>
+                <p style={{fontSize:"14px",color:"#0F9DA6",fontWeight:700,margin:0}}>{folio}</p>
               </div>
             </div>
 
             {/* Title */}
-            <div style={{padding:"18px 24px 0",borderBottom:"2px solid #C08A2E"}}>
+            <div style={{padding:"18px 24px 0",borderBottom:"2px solid #0F9DA6"}}>
               <h3 style={{fontSize:"15px",fontWeight:700,color:"#1E2A4A",margin:"0 0 14px"}}>
                 {tipo==="retardo"?"FORMATO DE RETARDO":"SOLICITUD DE VACACIONES"}
               </h3>
@@ -234,7 +234,7 @@ export default function PDFPreview({ open, onClose, onConfirm, tipo, datos }: Pr
           </button>
           <button onClick={handleConfirm} disabled={sending} style={{
             padding:"11px 22px",borderRadius:"10px",border:"none",
-            background:"#C08A2E",color:"#1E2A4A",fontSize:"13px",fontWeight:700,
+            background:"#0F9DA6",color:"#1E2A4A",fontSize:"13px",fontWeight:700,
             cursor:sending?"not-allowed":"pointer",fontFamily:"inherit",
             opacity:sending?0.7:1,display:"flex",alignItems:"center",gap:"6px",
             boxShadow:"0 4px 14px rgba(0,180,216,0.28)"}}>

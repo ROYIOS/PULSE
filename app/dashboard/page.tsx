@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import StatCard from "@/components/dashboard/StatCard";
+import ProgressRing from "@/components/dashboard/ProgressRing";
 import IncidenciasTable from "@/components/dashboard/IncidenciasTable";
 import QuickActions from "@/components/dashboard/QuickActions";
 import MiniCalendar from "@/components/dashboard/MiniCalendar";
@@ -140,8 +141,8 @@ export default function DashboardPage() {
                cursor:"pointer",fontFamily:"inherit",transition:"all .2s",
              }}
              onMouseEnter={e=>{
-               (e.currentTarget as HTMLElement).style.borderColor="#C08A2E";
-               (e.currentTarget as HTMLElement).style.color="#C08A2E";
+               (e.currentTarget as HTMLElement).style.borderColor="#0F9DA6";
+               (e.currentTarget as HTMLElement).style.color="#0F9DA6";
              }}
              onMouseLeave={e=>{
                (e.currentTarget as HTMLElement).style.borderColor="#DDE1EA";
@@ -157,7 +158,7 @@ export default function DashboardPage() {
              style={{
                display:"flex",alignItems:"center",gap:"6px",
                padding:"10px 18px",borderRadius:"10px",
-               border:"none",background:"#C08A2E",
+               border:"none",background:"#0F9DA6",
                color:"#1E2A4A",fontSize:"13px",fontWeight:700,
                cursor:"pointer",fontFamily:"inherit",
                boxShadow:"0 4px 14px rgba(0,180,216,0.28)",
@@ -181,13 +182,13 @@ export default function DashboardPage() {
                onClick={()=>setShowNotifs(p=>!p)}
                style={{
                  width:"40px",height:"40px",borderRadius:"10px",
-                 border:`1.5px solid ${showNotifs?"#C08A2E":"#DDE1EA"}`,
+                 border:`1.5px solid ${showNotifs?"#0F9DA6":"#DDE1EA"}`,
                  background:"#FFFFFF",display:"flex",
                  alignItems:"center",justifyContent:"center",
                  cursor:"pointer",position:"relative",transition:"all .2s",
                }}
              >
-               <Bell size={16} color={showNotifs?"#C08A2E":"#5C6579"}/>
+               <Bell size={16} color={showNotifs?"#0F9DA6":"#5C6579"}/>
                {notifCount>0 && (
                  <div style={{
                    position:"absolute",top:"6px",right:"6px",
@@ -214,15 +215,30 @@ export default function DashboardPage() {
          </div>
        </div>
 
+       {/* PANORAMA */}
+       <div className="glass-static" style={{
+         borderRadius:"18px", padding:"20px 24px", marginBottom:"18px",
+         display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:"16px",
+       }}>
+         <div>
+           <div style={{fontFamily:"'Sora', sans-serif", fontWeight:700, fontSize:"15px", color:"#1E2A4A"}}>Panorama</div>
+           <div style={{fontSize:"11.5px", color:"#6B83A8", marginTop:"2px"}}>Tu resumen del mes</div>
+         </div>
+         <div style={{display:"flex", gap:"22px"}}>
+           <ProgressRing value={97} label="Asistencia" color="#0F9DA6"/>
+           <ProgressRing value={60} label="Vacaciones" color="#2D4A7A"/>
+         </div>
+       </div>
+
        {/* STATS */}
        <div style={{
          display:"grid",gridTemplateColumns:"repeat(4,1fr)",
          gap:"16px",marginBottom:"24px",
        }}>
-         <StatCard label="Días de vacaciones" value="12"  sub="disponibles de 20"     color="#C08A2E" progress={60}/>
+         <StatCard label="Días de vacaciones" value="12"  sub="disponibles de 20"     color="#0F9DA6" progress={60}/>
          <StatCard label="Retardos este mes"   value="2"   sub="máx permitido: 3"      color="#C0392B" progress={66}/>
          <StatCard label="Asistencia mensual"  value="97%" sub="18 de 19 días hábiles" color="#2E7D5B" progress={97}/>
-         <StatCard label="Solicitudes activas" value="1"   sub="en revisión por RRHH"  color="#C08A2E" progress={50}/>
+         <StatCard label="Solicitudes activas" value="1"   sub="en revisión por RRHH"  color="#0F9DA6" progress={50}/>
        </div>
 
        {/* QUINCENA */}

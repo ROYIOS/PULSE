@@ -46,7 +46,7 @@ export function TitoSVG({
       <defs>
         <radialGradient id={`v${id}`} cx="36%" cy="28%">
           <stop offset="0%"   stopColor="#EAF9FF" stopOpacity=".97"/>
-          <stop offset="48%"  stopColor="#C08A2E" stopOpacity=".62"/>
+          <stop offset="48%"  stopColor="#0F9DA6" stopOpacity=".62"/>
           <stop offset="100%" stopColor="#083A5A" stopOpacity=".92"/>
         </radialGradient>
         <radialGradient id={`s${id}`} cx="24%" cy="18%">
@@ -69,22 +69,22 @@ export function TitoSVG({
         {/* FOOT THRUSTERS — only when flying */}
         {fly && (<>
           <ellipse cx={30} cy={97+jf*8}  rx={3}   ry={5+jf*9}
-            fill="#C08A2E" opacity={.85} filter={`url(#gl${id})`}/>
+            fill="#0F9DA6" opacity={.85} filter={`url(#gl${id})`}/>
           <ellipse cx={50} cy={97+jf*8}  rx={3}   ry={5+jf*9}
-            fill="#C08A2E" opacity={.85} filter={`url(#gl${id})`}/>
+            fill="#0F9DA6" opacity={.85} filter={`url(#gl${id})`}/>
           <ellipse cx={30} cy={100+jf*8} rx={1.8} ry={3+jf*5}
-            fill="#F5E6CC" opacity={.95}/>
+            fill="#D6F0F2" opacity={.95}/>
           <ellipse cx={50} cy={100+jf*8} rx={1.8} ry={3+jf*5}
-            fill="#F5E6CC" opacity={.95}/>
-          <ellipse cx={22} cy={72+jf*3}  rx={2} ry={3+jf*2} fill="#C08A2E" opacity={.5}/>
-          <ellipse cx={58} cy={72+jf*3}  rx={2} ry={3+jf*2} fill="#C08A2E" opacity={.5}/>
+            fill="#D6F0F2" opacity={.95}/>
+          <ellipse cx={22} cy={72+jf*3}  rx={2} ry={3+jf*2} fill="#0F9DA6" opacity={.5}/>
+          <ellipse cx={58} cy={72+jf*3}  rx={2} ry={3+jf*2} fill="#0F9DA6" opacity={.5}/>
         </>)}
 
         {/* TAKEOFF DUST */}
         {phase==="takeoff" && (
           <g opacity={Math.max(0,1-jf*2)}>
-            <ellipse cx={30} cy={102} rx={9+jf*14} ry={3} fill="#F5E6CC" opacity={.3}/>
-            <ellipse cx={50} cy={102} rx={9+jf*14} ry={3} fill="#F5E6CC" opacity={.3}/>
+            <ellipse cx={30} cy={102} rx={9+jf*14} ry={3} fill="#D6F0F2" opacity={.3}/>
+            <ellipse cx={50} cy={102} rx={9+jf*14} ry={3} fill="#D6F0F2" opacity={.3}/>
           </g>
         )}
 
@@ -108,8 +108,8 @@ export function TitoSVG({
 
         {/* JETPACK */}
         <rect x={27} y={58} width={26} height={16} rx={5} fill="#1E2A4A"/>
-        <rect x={30} y={61} width={8}  height={4}  rx={2} fill="#C08A2E" opacity={fly?.85:.6}/>
-        <rect x={42} y={61} width={8}  height={4}  rx={2} fill="#C08A2E" opacity={fly?.55:.28}/>
+        <rect x={30} y={61} width={8}  height={4}  rx={2} fill="#0F9DA6" opacity={fly?.85:.6}/>
+        <rect x={42} y={61} width={8}  height={4}  rx={2} fill="#0F9DA6" opacity={fly?.55:.28}/>
         <rect x={28} y={71} width={7}  height={5}  rx={2.5} fill="#2D4A7A"/>
         <rect x={45} y={71} width={7}  height={5}  rx={2.5} fill="#2D4A7A"/>
 
@@ -120,17 +120,17 @@ export function TitoSVG({
           <rect x={26} y={47} width={28} height={18} rx={7} fill="white" opacity={.22}/>
           <text x={40} y={54} fontSize={4.5} textAnchor="middle"
             fill="#1E2A4A" fontWeight={700} opacity={.4}>PULSE</text>
-          <circle cx={29} cy={63} r={2.2} fill="#C08A2E" opacity={.9}/>
+          <circle cx={29} cy={63} r={2.2} fill="#0F9DA6" opacity={.9}/>
           <circle cx={36} cy={65} r={1.8} fill="#C0392B" opacity={.75}/>
           <circle cx={44} cy={65} r={1.8} fill="#2E7D5B" opacity={.75}/>
-          <circle cx={51} cy={63} r={2.2} fill="#C08A2E" opacity={.9}/>
+          <circle cx={51} cy={63} r={2.2} fill="#0F9DA6" opacity={.9}/>
           <ellipse cx={28} cy={45} rx={9} ry={5} fill="white" opacity={.13}/>
 
           {/* LAPTOP — work mood */}
           {mood==="work" && (<>
             <rect x={26} y={70} width={28} height={4}  rx={1.5} fill="#1E2A4A"/>
             <rect x={27} y={54} width={26} height={18} rx={3}   fill="#1E2A4A"/>
-            <rect x={28} y={55} width={24} height={14} rx={2}   fill="#C08A2E" opacity={.85}/>
+            <rect x={28} y={55} width={24} height={14} rx={2}   fill="#0F9DA6" opacity={.85}/>
             <rect x={31} y={58} width={14} height={1.5} rx={1}  fill="white" opacity={.7}/>
             <rect x={31} y={62} width={10} height={1.5} rx={1}  fill="white" opacity={.5}/>
           </>)}
@@ -170,34 +170,34 @@ export function TitoSVG({
         <rect x={20} y={42} width={40} height={8} rx={4}
           fill="#B8CCD8" stroke="#8AAABB" strokeWidth={.5}/>
         <ellipse cx={40} cy={24} rx={15} ry={17}
-          fill={`url(#v${id})`} stroke="#C08A2E" strokeWidth={1}/>
+          fill={`url(#v${id})`} stroke="#0F9DA6" strokeWidth={1}/>
         <ellipse cx={34} cy={14} rx={6}  ry={3.5} fill="white" opacity={.2}/>
 
         {/* EYES */}
         {mood==="curious"||lk ? (<>
           <ellipse cx={33} cy={22} rx={5}   ry={6}   fill="rgba(10,26,40,.65)"/>
-          <ellipse cx={33} cy={22} rx={3.5} ry={4.5} fill="#C08A2E"/>
-          <ellipse cx={33} cy={22} rx={2.2} ry={3}   fill="#F5E6CC"/>
+          <ellipse cx={33} cy={22} rx={3.5} ry={4.5} fill="#0F9DA6"/>
+          <ellipse cx={33} cy={22} rx={2.2} ry={3}   fill="#D6F0F2"/>
           <circle  cx={34} cy={19} r={1.3}  fill="white"/>
           <ellipse cx={47} cy={21} rx={7}   ry={7.5} fill="rgba(10,26,40,.65)"/>
-          <ellipse cx={47} cy={21} rx={5.5} ry={5.5} fill="#C08A2E"/>
-          <ellipse cx={47} cy={21} rx={3.5} ry={3.5} fill="#F5E6CC"/>
+          <ellipse cx={47} cy={21} rx={5.5} ry={5.5} fill="#0F9DA6"/>
+          <ellipse cx={47} cy={21} rx={3.5} ry={3.5} fill="#D6F0F2"/>
           <circle  cx={48} cy={18} r={1.8}  fill="white"/>
         </>) : mood==="sitting"||(mood as string)==="wave" ? (<>
           <ellipse cx={33} cy={23} rx={5.5} ry={4}   fill="rgba(10,26,40,.65)"/>
-          <ellipse cx={33} cy={23} rx={4}   ry={3}   fill="#C08A2E"/>
-          <ellipse cx={33} cy={23} rx={2.5} ry={2}   fill="#F5E6CC"/>
+          <ellipse cx={33} cy={23} rx={4}   ry={3}   fill="#0F9DA6"/>
+          <ellipse cx={33} cy={23} rx={2.5} ry={2}   fill="#D6F0F2"/>
           <ellipse cx={47} cy={23} rx={5.5} ry={4}   fill="rgba(10,26,40,.65)"/>
-          <ellipse cx={47} cy={23} rx={4}   ry={3}   fill="#C08A2E"/>
-          <ellipse cx={47} cy={23} rx={2.5} ry={2}   fill="#F5E6CC"/>
+          <ellipse cx={47} cy={23} rx={4}   ry={3}   fill="#0F9DA6"/>
+          <ellipse cx={47} cy={23} rx={2.5} ry={2}   fill="#D6F0F2"/>
         </>) : (<>
           <ellipse cx={33} cy={22} rx={5.5} ry={6}   fill="rgba(10,26,40,.65)"/>
-          <ellipse cx={33} cy={22} rx={4}   ry={4.5} fill="#C08A2E"/>
-          <ellipse cx={33} cy={22} rx={2.5} ry={3}   fill="#F5E6CC"/>
+          <ellipse cx={33} cy={22} rx={4}   ry={4.5} fill="#0F9DA6"/>
+          <ellipse cx={33} cy={22} rx={2.5} ry={3}   fill="#D6F0F2"/>
           <circle  cx={34} cy={19} r={1.4}  fill="white"/>
           <ellipse cx={47} cy={22} rx={5.5} ry={6}   fill="rgba(10,26,40,.65)"/>
-          <ellipse cx={47} cy={22} rx={4}   ry={4.5} fill="#C08A2E"/>
-          <ellipse cx={47} cy={22} rx={2.5} ry={3}   fill="#F5E6CC"/>
+          <ellipse cx={47} cy={22} rx={4}   ry={4.5} fill="#0F9DA6"/>
+          <ellipse cx={47} cy={22} rx={2.5} ry={3}   fill="#D6F0F2"/>
           <circle  cx={48} cy={19} r={1.4}  fill="white"/>
         </>)}
 
@@ -210,9 +210,9 @@ export function TitoSVG({
 
         {/* ANTENNA */}
         <rect x={38} y={0} width={3} height={10} rx={1.5} fill="#2D4A7A"/>
-        <circle cx={39} cy={-1} r={4} fill="#C08A2E" opacity={.9}
+        <circle cx={39} cy={-1} r={4} fill="#0F9DA6" opacity={.9}
           style={{animation:"tAnt .8s ease-in-out infinite"} as React.CSSProperties}/>
-        <circle cx={39} cy={-1} r={2} fill="#F5E6CC"/>
+        <circle cx={39} cy={-1} r={2} fill="#D6F0F2"/>
       </g>
     </svg>
   );

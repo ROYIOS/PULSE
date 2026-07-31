@@ -12,8 +12,8 @@
     --sello-l:  #F5DEDC;
     --aprobado: #2E7D5B;
     --aprobado-l: #DCEEE5;
-    --folder:   #C08A2E;
-    --folder-l: #F5E6CC;
+    --folder:   #0F9DA6;
+    --folder-l: #D6F0F2;
     --line:     #DDE1EA;
     --card:     #FFFFFF;
 
@@ -24,9 +24,9 @@
     --shadow-md: 0 4px 14px rgba(28,43,57,.08);
     --shadow-lg: 0 10px 32px rgba(28,43,57,.12);
 
-    --font-display: 'Manrope', sans-serif;
+    --font-display: 'Sora', sans-serif;
     --font-sans: 'Inter', sans-serif;
-    --font-mono: 'Manrope', sans-serif;
+    --font-mono: 'Sora', sans-serif;
   }
 
   html { -webkit-font-smoothing: antialiased; }

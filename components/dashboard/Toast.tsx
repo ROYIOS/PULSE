@@ -13,9 +13,9 @@ export default function Toast({ message }: Props) {
       boxShadow: "0 8px 30px rgba(10,22,40,0.25)",
       animation: "slideInRight .4s cubic-bezier(0.34,1.56,0.64,1)",
       zIndex: 9999, maxWidth: "360px",
-      borderLeft: "3px solid #C08A2E",
+      borderLeft: "3px solid #0F9DA6",
     }}>
-      <span style={{ color: "#C08A2E", fontSize: "16px" }}>✓</span>
+      <span style={{ color: "#0F9DA6", fontSize: "16px" }}>✓</span>
       {message}
       <style>{`
         @keyframes slideInRight {
