@@ -43,8 +43,8 @@ export default function ModalRetardo({ open, onClose, onSubmit }: Props) {
 
   const inp: React.CSSProperties = {
     width:"100%",padding:"11px 14px",borderRadius:"10px",
-    border:"1.5px solid #D8E6F0",background:"#F4F8FB",
-    color:"#0A1628",fontSize:"13px",outline:"none",
+    border:"1.5px solid #D7D9D2",background:"#F1F2ED",
+    color:"#1C2B39",fontSize:"13px",outline:"none",
     boxSizing:"border-box",fontFamily:"inherit",
   };
 
@@ -60,14 +60,14 @@ export default function ModalRetardo({ open, onClose, onSubmit }: Props) {
         boxShadow:"0 24px 60px rgba(10,22,40,0.20)",
       }}>
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",
-          padding:"24px 28px 20px",borderBottom:"1px solid #D8E6F0"}}>
+          padding:"24px 28px 20px",borderBottom:"1px solid #D7D9D2"}}>
           <div>
-            <h2 style={{fontSize:"18px",fontWeight:600,color:"#0A1628",margin:0}}>Formato de Retardo</h2>
-            <p style={{fontSize:"12px",color:"#8BA3BF",marginTop:"3px"}}>{fecha}</p>
+            <h2 style={{fontSize:"18px",fontWeight:600,color:"#1C2B39",margin:0}}>Formato de Retardo</h2>
+            <p style={{fontSize:"12px",color:"#5A7896",marginTop:"3px"}}>{fecha}</p>
           </div>
           <button onClick={onClose} style={{width:30,height:30,borderRadius:"8px",border:"none",
-            background:"#F4F8FB",cursor:"pointer",display:"flex",alignItems:"center",
-            justifyContent:"center",color:"#8BA3BF"}}>
+            background:"#F1F2ED",cursor:"pointer",display:"flex",alignItems:"center",
+            justifyContent:"center",color:"#5A7896"}}>
             <X size={15}/>
           </button>
         </div>
@@ -76,13 +76,13 @@ export default function ModalRetardo({ open, onClose, onSubmit }: Props) {
           <div style={{padding:"24px 28px",display:"flex",flexDirection:"column",gap:"16px"}}>
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"14px"}}>
               <div>
-                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#4A6080",
+                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#3B4B5C",
                   textTransform:"uppercase",letterSpacing:"1px",marginBottom:"7px"}}>Fecha</label>
                 <input type="date" value={fecha} onChange={e=>setFecha(e.target.value)}
                   required style={inp}/>
               </div>
               <div>
-                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#4A6080",
+                <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#3B4B5C",
                   textTransform:"uppercase",letterSpacing:"1px",marginBottom:"7px"}}>Hora llegada</label>
                 <input type="time" value={hora} onChange={e=>setHora(e.target.value)}
                   required style={inp}/>
@@ -90,7 +90,7 @@ export default function ModalRetardo({ open, onClose, onSubmit }: Props) {
             </div>
 
             <div>
-              <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#4A6080",
+              <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#3B4B5C",
                 textTransform:"uppercase",letterSpacing:"1px",marginBottom:"7px"}}>Causa</label>
               <select value={causa} onChange={e=>setCausa(e.target.value)} style={inp}>
                 <option>Tráfico / accidente vial</option>
@@ -102,7 +102,7 @@ export default function ModalRetardo({ open, onClose, onSubmit }: Props) {
             </div>
 
             <div>
-              <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#4A6080",
+              <label style={{display:"block",fontSize:"11px",fontWeight:600,color:"#3B4B5C",
                 textTransform:"uppercase",letterSpacing:"1px",marginBottom:"7px"}}>Descripción</label>
               <textarea rows={3} value={desc} onChange={e=>setDesc(e.target.value)}
                 style={{...inp,resize:"vertical"}}/>
@@ -110,16 +110,16 @@ export default function ModalRetardo({ open, onClose, onSubmit }: Props) {
           </div>
 
           <div style={{display:"flex",gap:"10px",justifyContent:"flex-end",
-            padding:"20px 28px",borderTop:"1px solid #D8E6F0"}}>
+            padding:"20px 28px",borderTop:"1px solid #D7D9D2"}}>
             <button type="button" onClick={onClose} style={{
-              padding:"11px 20px",borderRadius:"10px",border:"1.5px solid #D8E6F0",
-              background:"transparent",color:"#4A6080",fontSize:"13px",
+              padding:"11px 20px",borderRadius:"10px",border:"1.5px solid #D7D9D2",
+              background:"transparent",color:"#3B4B5C",fontSize:"13px",
               fontWeight:500,cursor:"pointer",fontFamily:"inherit"}}>
               Cancelar
             </button>
             <button type="submit" disabled={loading} style={{
               padding:"11px 22px",borderRadius:"10px",border:"none",
-              background:"#00B4D8",color:"#0A1628",fontSize:"13px",fontWeight:700,
+              background:"#C9A227",color:"#1C2B39",fontSize:"13px",fontWeight:700,
               cursor:"pointer",fontFamily:"inherit",display:"flex",
               alignItems:"center",gap:"7px",
               boxShadow:"0 4px 14px rgba(0,180,216,0.28)"}}>

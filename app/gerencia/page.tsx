@@ -51,8 +51,8 @@ function calcNomina(e: Empleado) {
 
 function Badge({ s }: { s: string }) {
   const map: Record<string,{bg:string;color:string}> = {
-    pendiente:{bg:"rgba(216,90,48,.10)",  color:"#D85A30"},
-    aprobada: {bg:"rgba(15,110,86,.10)",  color:"#0F6E56"},
+    pendiente:{bg:"rgba(216,90,48,.10)",  color:"#B23A2E"},
+    aprobada: {bg:"rgba(15,110,86,.10)",  color:"#2F6B4F"},
     rechazada:{bg:"rgba(200,50,50,.10)",  color:"#C83232"},
   };
   const st = map[s]||{bg:"#f4f4f4",color:"#666"};
@@ -69,7 +69,7 @@ function ActionBtns({ onAprobar, onRechazar }: { onAprobar:()=>void; onRechazar:
     <div style={{display:"flex",gap:"6px"}}>
       <button onClick={onAprobar} style={{
         padding:"5px 14px",borderRadius:"20px",border:"none",
-        background:"rgba(15,110,86,.12)",color:"#0F6E56",
+        background:"rgba(15,110,86,.12)",color:"#2F6B4F",
         fontSize:"11px",fontWeight:600,cursor:"pointer",fontFamily:"inherit",
         transition:"all .15s",
       }}>✓ Aprobar</button>
@@ -161,13 +161,22 @@ export default function GerenciaPage() {
 
   const row: React.CSSProperties = {
     display:"flex",alignItems:"center",justifyContent:"space-between",
-    padding:"14px 0",borderBottom:"1px solid #F4F8FB",
-    gap:"12px",flexWrap:"wrap",
+    padding:"14px 0",borderBottom:"1px solid #F1F2ED",
+    gap:"12px",flexWrap:"wrap",position:"relative",overflow:"hidden",
   };
 
+  function Sello({ status }: { status: Status }) {
+    if (status === "pendiente") return null;
+    return (
+      <span className={`sello ${status === "aprobada" ? "sello-aprobado" : "sello-rechazado"}`}>
+        {status === "aprobada" ? "Aprobado" : "Rechazado"}
+      </span>
+    );
+  }
+
   return (
-    <div style={{display:"flex",minHeight:"100vh",background:"#F4F8FB",
-      fontFamily:"'Plus Jakarta Sans', sans-serif"}}>
+    <div style={{display:"flex",minHeight:"100vh",background:"#F1F2ED",
+      fontFamily:"'Inter', sans-serif"}}>
 
       <Sidebar activePage="gerencia"/>
 
@@ -176,10 +185,10 @@ export default function GerenciaPage() {
         {/* HEADER */}
         <div style={{marginBottom:"28px"}}>
           <div style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"5px"}}>
-            <BarChart2 size={20} color="#00B4D8"/>
-            <h1 style={{fontSize:"22px",fontWeight:600,color:"#0A1628",margin:0}}>Panel de Gerencia</h1>
+            <BarChart2 size={20} color="#C9A227"/>
+            <h1 style={{fontSize:"22px",fontWeight:600,color:"#1C2B39",margin:0}}>Panel de Gerencia</h1>
           </div>
-          <p style={{fontSize:"13px",color:"#8BA3BF",margin:0}}>
+          <p style={{fontSize:"13px",color:"#5A7896",margin:0}}>
             Aprobaciones · Horas trabajadas · Nómina automática
           </p>
         </div>
@@ -187,14 +196,14 @@ export default function GerenciaPage() {
         {/* KPIs */}
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"14px",marginBottom:"24px"}}>
           {[
-            {label:"Empleados activos",value:"6",          color:"#00B4D8",icon:Users},
-            {label:"Incidencias pend.", value:`${pendInc}`,color:"#D85A30",icon:Clock},
+            {label:"Empleados activos",value:"6",          color:"#C9A227",icon:Users},
+            {label:"Incidencias pend.", value:`${pendInc}`,color:"#B23A2E",icon:Clock},
             {label:"Vacaciones pend.",  value:`${pendVac}`,color:"#F5A623",icon:Calendar},
-            {label:"H.O. quincena",     value:"24h",       color:"#0F6E56",icon:BarChart2},
+            {label:"H.O. quincena",     value:"24h",       color:"#2F6B4F",icon:BarChart2},
           ].map(k=>(
             <div key={k.label} style={{
               background:"#FFFFFF",borderRadius:"12px",padding:"16px",
-              border:"1.5px solid #D8E6F0",boxShadow:"0 1px 4px rgba(10,22,40,.05)",
+              border:"1.5px solid #D7D9D2",boxShadow:"0 1px 4px rgba(10,22,40,.05)",
               display:"flex",alignItems:"center",gap:"12px",
             }}>
               <div style={{width:38,height:38,borderRadius:"10px",background:`${k.color}18`,
@@ -203,7 +212,7 @@ export default function GerenciaPage() {
               </div>
               <div>
                 <p style={{fontSize:"20px",fontWeight:700,color:k.color,margin:0,lineHeight:1}}>{k.value}</p>
-                <p style={{fontSize:"9px",color:"#8BA3BF",textTransform:"uppercase",
+                <p style={{fontSize:"9px",color:"#5A7896",textTransform:"uppercase",
                   letterSpacing:".7px",marginTop:"3px"}}>{k.label}</p>
               </div>
             </div>
@@ -216,24 +225,24 @@ export default function GerenciaPage() {
             <button key={t.key} onClick={()=>setTab(t.key as typeof tab)} style={{
               padding:"6px 16px",borderRadius:"20px",fontSize:"11px",fontWeight:500,
               cursor:"pointer",fontFamily:"inherit",transition:"all .2s",
-              border:tab===t.key?"1.5px solid #00B4D8":"1.5px solid #D8E6F0",
+              border:tab===t.key?"1.5px solid #C9A227":"1.5px solid #D7D9D2",
               background:tab===t.key?"rgba(0,180,216,.10)":"#FFFFFF",
-              color:tab===t.key?"#00B4D8":"#8BA3BF",
+              color:tab===t.key?"#C9A227":"#5A7896",
             }}>{t.label}</button>
           ))}
         </div>
 
         {/* PANEL */}
         <div style={{background:"#FFFFFF",borderRadius:"12px",
-          border:"1.5px solid #D8E6F0",boxShadow:"0 1px 4px rgba(10,22,40,.05)"}}>
+          border:"1.5px solid #D7D9D2",boxShadow:"0 1px 4px rgba(10,22,40,.05)"}}>
 
           {/* INCIDENCIAS */}
           {tab==="incidencias" && (<>
-            <div style={{padding:"16px 22px",borderBottom:"1px solid #F4F8FB",
+            <div style={{padding:"16px 22px",borderBottom:"1px solid #F1F2ED",
               display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-              <span style={{fontSize:"13px",fontWeight:600,color:"#0A1628"}}>Incidencias recientes</span>
+              <span style={{fontSize:"13px",fontWeight:600,color:"#1C2B39"}}>Incidencias recientes</span>
               {pendInc>0 && (
-                <span style={{fontSize:"11px",color:"#D85A30",fontWeight:500}}>
+                <span style={{fontSize:"11px",color:"#B23A2E",fontWeight:500}}>
                   {pendInc} pendiente{pendInc>1?"s":""} de revisión
                 </span>
               )}
@@ -241,9 +250,10 @@ export default function GerenciaPage() {
             <div style={{padding:"0 22px"}}>
               {incidencias.map(inc=>(
                 <div key={inc.id} style={row}>
+                  <Sello status={inc.status}/>
                   <div style={{flex:1,minWidth:"160px"}}>
-                    <p style={{fontSize:"13px",fontWeight:500,color:"#0A1628",margin:0}}>{inc.empleado}</p>
-                    <p style={{fontSize:"11px",color:"#8BA3BF",marginTop:"2px"}}>{inc.tipo} · {inc.fecha}</p>
+                    <p style={{fontSize:"13px",fontWeight:500,color:"#1C2B39",margin:0}}>{inc.empleado}</p>
+                    <p style={{fontSize:"11px",color:"#5A7896",marginTop:"2px"}}>{inc.tipo} · {inc.fecha}</p>
                   </div>
                   <div style={{display:"flex",alignItems:"center",gap:"10px",flexWrap:"wrap"}}>
                     <Badge s={inc.status}/>
@@ -261,11 +271,11 @@ export default function GerenciaPage() {
 
           {/* VACACIONES */}
           {tab==="vacaciones" && (<>
-            <div style={{padding:"16px 22px",borderBottom:"1px solid #F4F8FB",
+            <div style={{padding:"16px 22px",borderBottom:"1px solid #F1F2ED",
               display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-              <span style={{fontSize:"13px",fontWeight:600,color:"#0A1628"}}>Solicitudes de vacaciones</span>
+              <span style={{fontSize:"13px",fontWeight:600,color:"#1C2B39"}}>Solicitudes de vacaciones</span>
               {pendVac>0 && (
-                <span style={{fontSize:"11px",color:"#D85A30",fontWeight:500}}>
+                <span style={{fontSize:"11px",color:"#B23A2E",fontWeight:500}}>
                   {pendVac} pendiente{pendVac>1?"s":""} de aprobación
                 </span>
               )}
@@ -273,9 +283,10 @@ export default function GerenciaPage() {
             <div style={{padding:"0 22px"}}>
               {vacaciones.map(vac=>(
                 <div key={vac.id} style={row}>
+                  <Sello status={vac.status}/>
                   <div style={{flex:1,minWidth:"160px"}}>
-                    <p style={{fontSize:"13px",fontWeight:500,color:"#0A1628",margin:0}}>{vac.empleado}</p>
-                    <p style={{fontSize:"11px",color:"#8BA3BF",marginTop:"2px"}}>
+                    <p style={{fontSize:"13px",fontWeight:500,color:"#1C2B39",margin:0}}>{vac.empleado}</p>
+                    <p style={{fontSize:"11px",color:"#5A7896",marginTop:"2px"}}>
                       {vac.inicio} → {vac.fin} · {vac.dias} días
                     </p>
                   </div>
@@ -295,8 +306,8 @@ export default function GerenciaPage() {
 
           {/* HORAS */}
           {tab==="horas" && (<>
-            <div style={{padding:"16px 22px",borderBottom:"1px solid #F4F8FB"}}>
-              <span style={{fontSize:"13px",fontWeight:600,color:"#0A1628"}}>Horas trabajadas — quincena actual</span>
+            <div style={{padding:"16px 22px",borderBottom:"1px solid #F1F2ED"}}>
+              <span style={{fontSize:"13px",fontWeight:600,color:"#1C2B39"}}>Horas trabajadas — quincena actual</span>
             </div>
             <div style={{padding:"0 22px"}}>
               {EMPLEADOS.map(e=>{
@@ -305,19 +316,19 @@ export default function GerenciaPage() {
                   <div key={e.id} style={{...row,flexDirection:"column",alignItems:"stretch",gap:"8px"}}>
                     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                       <div>
-                        <p style={{fontSize:"13px",fontWeight:500,color:"#0A1628",margin:0}}>{e.nombre}</p>
-                        <p style={{fontSize:"11px",color:"#8BA3BF",marginTop:"2px"}}>
+                        <p style={{fontSize:"13px",fontWeight:500,color:"#1C2B39",margin:0}}>{e.nombre}</p>
+                        <p style={{fontSize:"11px",color:"#5A7896",marginTop:"2px"}}>
                           {e.area} · {e.retardos} retardo{e.retardos!==1?"s":""}
                         </p>
                       </div>
                       <div style={{textAlign:"right"}}>
-                        <p style={{fontSize:"14px",fontWeight:700,color:"#00B4D8",margin:0}}>{e.horasTrabajadas}h</p>
-                        {e.horasExtra>0 && <p style={{fontSize:"11px",color:"#0F6E56",margin:0}}>+{e.horasExtra}h extra</p>}
+                        <p style={{fontSize:"14px",fontWeight:700,color:"#C9A227",margin:0}}>{e.horasTrabajadas}h</p>
+                        {e.horasExtra>0 && <p style={{fontSize:"11px",color:"#2F6B4F",margin:0}}>+{e.horasExtra}h extra</p>}
                       </div>
                     </div>
-                    <div style={{height:"6px",borderRadius:"3px",background:"#F4F8FB",overflow:"hidden"}}>
+                    <div style={{height:"6px",borderRadius:"3px",background:"#F1F2ED",overflow:"hidden"}}>
                       <div style={{height:"100%",borderRadius:"3px",
-                        background:pct>=100?"#0F6E56":pct>=70?"#00B4D8":"#D85A30",
+                        background:pct>=100?"#2F6B4F":pct>=70?"#C9A227":"#B23A2E",
                         width:`${pct}%`,transition:"width 1s ease"}}/>
                     </div>
                   </div>
@@ -328,28 +339,28 @@ export default function GerenciaPage() {
 
           {/* NÓMINA */}
           {tab==="nomina" && puedeNomina && (<>
-            <div style={{padding:"16px 22px",borderBottom:"1px solid #F4F8FB",
+            <div style={{padding:"16px 22px",borderBottom:"1px solid #F1F2ED",
               display:"flex",alignItems:"center",justifyContent:"space-between"}}>
-              <span style={{fontSize:"13px",fontWeight:600,color:"#0A1628"}}>Cálculo de nómina — quincena actual</span>
+              <span style={{fontSize:"13px",fontWeight:600,color:"#1C2B39"}}>Cálculo de nómina — quincena actual</span>
               <button onClick={()=>setShowMontos(p=>!p)} style={{
                 display:"flex",alignItems:"center",gap:"6px",padding:"5px 12px",
-                borderRadius:"20px",border:"1.5px solid #D8E6F0",background:"transparent",
-                color:"#8BA3BF",fontSize:"11px",cursor:"pointer",fontFamily:"inherit",
+                borderRadius:"20px",border:"1.5px solid #D7D9D2",background:"transparent",
+                color:"#5A7896",fontSize:"11px",cursor:"pointer",fontFamily:"inherit",
               }}>
                 {showMontos?<><EyeOff size={12}/> Ocultar</>:<><Eye size={12}/> Mostrar montos</>}
               </button>
             </div>
-            <div style={{padding:"10px 22px",background:"rgba(0,180,216,.04)",borderBottom:"1px solid #F4F8FB"}}>
-              <p style={{fontSize:"11px",color:"#4A6080",margin:0}}>
+            <div style={{padding:"10px 22px",background:"rgba(0,180,216,.04)",borderBottom:"1px solid #F1F2ED"}}>
+              <p style={{fontSize:"11px",color:"#3B4B5C",margin:0}}>
                 💡 Sueldo ÷ 30 ÷ 8 × horas · Descuento retardo ½h · H.O. al 1.5×
               </p>
             </div>
             <div style={{overflowX:"auto"}}>
               <table style={{width:"100%",borderCollapse:"collapse",fontSize:"11px"}}>
                 <thead>
-                  <tr style={{borderBottom:"2px solid #F4F8FB",background:"#FAFCFF"}}>
+                  <tr style={{borderBottom:"2px solid #F1F2ED",background:"#FAFCFF"}}>
                     {["Empleado","Área","Sueldo base","Desc. retardos","H.O.","Neto"].map(h=>(
-                      <th key={h} style={{padding:"10px 18px",textAlign:"left",color:"#8BA3BF",
+                      <th key={h} style={{padding:"10px 18px",textAlign:"left",color:"#5A7896",
                         fontWeight:600,fontSize:"9px",textTransform:"uppercase",letterSpacing:".6px"}}>{h}</th>
                     ))}
                   </tr>
@@ -359,28 +370,28 @@ export default function GerenciaPage() {
                     const n=calcNomina(e);
                     const fmt=(v:number)=>showMontos?`$${Math.round(v).toLocaleString("es-MX")}`:"••••••";
                     return (
-                      <tr key={e.id} style={{borderBottom:"1px solid #F4F8FB"}}>
-                        <td style={{padding:"11px 18px",color:"#0A1628",fontWeight:500}}>{e.nombre}</td>
-                        <td style={{padding:"11px 18px",color:"#8BA3BF"}}>{e.area}</td>
-                        <td style={{padding:"11px 18px",color:"#0A1628"}}>{fmt(e.sueldo)}</td>
-                        <td style={{padding:"11px 18px",color:"#D85A30"}}>
+                      <tr key={e.id} style={{borderBottom:"1px solid #F1F2ED"}}>
+                        <td style={{padding:"11px 18px",color:"#1C2B39",fontWeight:500}}>{e.nombre}</td>
+                        <td style={{padding:"11px 18px",color:"#5A7896"}}>{e.area}</td>
+                        <td style={{padding:"11px 18px",color:"#1C2B39"}}>{fmt(e.sueldo)}</td>
+                        <td style={{padding:"11px 18px",color:"#B23A2E"}}>
                           {showMontos?`-$${Math.round(n.descRetardo).toLocaleString("es-MX")}`:"••••"}
                         </td>
-                        <td style={{padding:"11px 18px",color:"#0F6E56"}}>
+                        <td style={{padding:"11px 18px",color:"#2F6B4F"}}>
                           {showMontos&&e.horasExtra>0?`+$${Math.round(n.pagoExtra).toLocaleString("es-MX")}`:"—"}
                         </td>
-                        <td style={{padding:"11px 18px",fontWeight:700,color:"#0A1628"}}>{fmt(n.neto)}</td>
+                        <td style={{padding:"11px 18px",fontWeight:700,color:"#1C2B39"}}>{fmt(n.neto)}</td>
                       </tr>
                     );
                   })}
                 </tbody>
                 {showMontos && (
                   <tfoot>
-                    <tr style={{borderTop:"2px solid #D8E6F0",background:"#F4F8FB"}}>
-                      <td colSpan={5} style={{padding:"12px 18px",fontWeight:600,color:"#0A1628",fontSize:"12px"}}>
+                    <tr style={{borderTop:"2px solid #D7D9D2",background:"#F1F2ED"}}>
+                      <td colSpan={5} style={{padding:"12px 18px",fontWeight:600,color:"#1C2B39",fontSize:"12px"}}>
                         Total nómina quincena
                       </td>
-                      <td style={{padding:"12px 18px",fontWeight:700,color:"#0A1628",fontSize:"13px"}}>
+                      <td style={{padding:"12px 18px",fontWeight:700,color:"#1C2B39",fontSize:"13px"}}>
                         ${EMPLEADOS.reduce((s,e)=>s+Math.round(calcNomina(e).neto),0).toLocaleString("es-MX")}
                       </td>
                     </tr>
@@ -396,14 +407,14 @@ export default function GerenciaPage() {
       {toast && (
         <div style={{
           position:"fixed",bottom:"28px",right:"28px",
-          background:"#0A1628",color:"#FFFFFF",
+          background:"#1C2B39",color:"#FFFFFF",
           padding:"13px 20px",borderRadius:"12px",fontSize:"13px",
           display:"flex",alignItems:"center",gap:"10px",
           boxShadow:"0 8px 30px rgba(10,22,40,.25)",
-          borderLeft:"3px solid #00B4D8",zIndex:9999,
+          borderLeft:"3px solid #C9A227",zIndex:9999,
           animation:"slideIn .3s ease",
         }}>
-          <span style={{color:"#00B4D8",fontSize:"16px"}}>✓</span>
+          <span style={{color:"#C9A227",fontSize:"16px"}}>✓</span>
           {toast}
         </div>
       )}

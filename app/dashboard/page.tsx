@@ -96,8 +96,8 @@ export default function DashboardPage() {
 
  return (
    <div style={{
-     display:"flex", minHeight:"100vh", background:"#F4F8FB",
-     fontFamily:"'Plus Jakarta Sans', sans-serif",
+     display:"flex", minHeight:"100vh", background:"#F1F2ED",
+     fontFamily:"'Inter', sans-serif",
    }}>
      <Sidebar
        activePage={activePage}
@@ -117,10 +117,10 @@ export default function DashboardPage() {
          justifyContent:"space-between", marginBottom:"36px",
        }}>
          <div>
-           <h1 style={{fontSize:"24px",fontWeight:600,color:"#0A1628",margin:0}}>
+           <h1 style={{fontSize:"24px",fontWeight:600,color:"#1C2B39",margin:0}}>
              Mi Panel
            </h1>
-           <p style={{fontSize:"13px",color:"#8BA3BF",marginTop:"4px"}}>
+           <p style={{fontSize:"13px",color:"#5A7896",marginTop:"4px"}}>
              Bienvenido, Jorge —{" "}
              {new Date().toLocaleDateString("es-MX",{
                weekday:"long",year:"numeric",month:"long",day:"numeric",
@@ -135,17 +135,17 @@ export default function DashboardPage() {
              style={{
                display:"flex",alignItems:"center",gap:"6px",
                padding:"10px 18px",borderRadius:"10px",
-               border:"1.5px solid #D8E6F0",background:"#FFFFFF",
-               color:"#0A1628",fontSize:"13px",fontWeight:500,
+               border:"1.5px solid #D7D9D2",background:"#FFFFFF",
+               color:"#1C2B39",fontSize:"13px",fontWeight:500,
                cursor:"pointer",fontFamily:"inherit",transition:"all .2s",
              }}
              onMouseEnter={e=>{
-               (e.currentTarget as HTMLElement).style.borderColor="#00B4D8";
-               (e.currentTarget as HTMLElement).style.color="#00B4D8";
+               (e.currentTarget as HTMLElement).style.borderColor="#C9A227";
+               (e.currentTarget as HTMLElement).style.color="#C9A227";
              }}
              onMouseLeave={e=>{
-               (e.currentTarget as HTMLElement).style.borderColor="#D8E6F0";
-               (e.currentTarget as HTMLElement).style.color="#0A1628";
+               (e.currentTarget as HTMLElement).style.borderColor="#D7D9D2";
+               (e.currentTarget as HTMLElement).style.color="#1C2B39";
              }}
            >
              <Plus size={14}/> Formato Retardo
@@ -157,8 +157,8 @@ export default function DashboardPage() {
              style={{
                display:"flex",alignItems:"center",gap:"6px",
                padding:"10px 18px",borderRadius:"10px",
-               border:"none",background:"#00B4D8",
-               color:"#0A1628",fontSize:"13px",fontWeight:700,
+               border:"none",background:"#C9A227",
+               color:"#1C2B39",fontSize:"13px",fontWeight:700,
                cursor:"pointer",fontFamily:"inherit",
                boxShadow:"0 4px 14px rgba(0,180,216,0.28)",
                transition:"all .2s",
@@ -181,18 +181,18 @@ export default function DashboardPage() {
                onClick={()=>setShowNotifs(p=>!p)}
                style={{
                  width:"40px",height:"40px",borderRadius:"10px",
-                 border:`1.5px solid ${showNotifs?"#00B4D8":"#D8E6F0"}`,
+                 border:`1.5px solid ${showNotifs?"#C9A227":"#D7D9D2"}`,
                  background:"#FFFFFF",display:"flex",
                  alignItems:"center",justifyContent:"center",
                  cursor:"pointer",position:"relative",transition:"all .2s",
                }}
              >
-               <Bell size={16} color={showNotifs?"#00B4D8":"#4A6080"}/>
+               <Bell size={16} color={showNotifs?"#C9A227":"#3B4B5C"}/>
                {notifCount>0 && (
                  <div style={{
                    position:"absolute",top:"6px",right:"6px",
                    width:"8px",height:"8px",borderRadius:"50%",
-                   background:"#D85A30",border:"2px solid #F4F8FB",
+                   background:"#B23A2E",border:"2px solid #F1F2ED",
                  }}/>
                )}
              </div>
@@ -204,7 +204,7 @@ export default function DashboardPage() {
                  width:"360px",zIndex:200,
                  borderRadius:"12px",overflow:"hidden",
                  boxShadow:"0 16px 40px rgba(10,22,40,.15)",
-                 border:"1.5px solid #D8E6F0",
+                 border:"1.5px solid #D7D9D2",
                  animation:"fadeDown .2s ease",
                }}>
                  <Notificaciones onUpdate={refreshNotifCount}/>
@@ -219,10 +219,10 @@ export default function DashboardPage() {
          display:"grid",gridTemplateColumns:"repeat(4,1fr)",
          gap:"16px",marginBottom:"24px",
        }}>
-         <StatCard label="Días de vacaciones" value="12"  sub="disponibles de 20"     color="#00B4D8" progress={60}/>
-         <StatCard label="Retardos este mes"   value="2"   sub="máx permitido: 3"      color="#D85A30" progress={66}/>
-         <StatCard label="Asistencia mensual"  value="97%" sub="18 de 19 días hábiles" color="#0F6E56" progress={97}/>
-         <StatCard label="Solicitudes activas" value="1"   sub="en revisión por RRHH"  color="#00B4D8" progress={50}/>
+         <StatCard label="Días de vacaciones" value="12"  sub="disponibles de 20"     color="#C9A227" progress={60}/>
+         <StatCard label="Retardos este mes"   value="2"   sub="máx permitido: 3"      color="#B23A2E" progress={66}/>
+         <StatCard label="Asistencia mensual"  value="97%" sub="18 de 19 días hábiles" color="#2F6B4F" progress={97}/>
+         <StatCard label="Solicitudes activas" value="1"   sub="en revisión por RRHH"  color="#C9A227" progress={50}/>
        </div>
 
        {/* QUINCENA */}

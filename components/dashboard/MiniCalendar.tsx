@@ -17,15 +17,15 @@ export default function MiniCalendar() {
   ];
 
   return (
-    <div style={{ background: "#FFFFFF", borderRadius: "14px", border: "1.5px solid #D8E6F0", overflow: "hidden", boxShadow: "0 1px 4px rgba(10,22,40,0.06)" }}>
-      <div style={{ padding: "18px 22px 12px", borderBottom: "1px solid #F4F8FB" }}>
-        <span style={{ fontSize: "14px", fontWeight: 600, color: "#0A1628" }}>Mayo 2026</span>
+    <div style={{ background: "#FFFFFF", borderRadius: "14px", border: "1.5px solid #D7D9D2", overflow: "hidden", boxShadow: "0 1px 4px rgba(10,22,40,0.06)" }}>
+      <div style={{ padding: "18px 22px 12px", borderBottom: "1px solid #F1F2ED" }}>
+        <span style={{ fontSize: "14px", fontWeight: 600, color: "#1C2B39" }}>Mayo 2026</span>
       </div>
 
       {/* Day headers */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", padding: "12px 16px 4px" }}>
         {DAY_LABELS.map(d => (
-          <div key={d} style={{ textAlign: "center", fontSize: "10px", color: "#8BA3BF", fontWeight: 600, textTransform: "uppercase" }}>{d}</div>
+          <div key={d} style={{ textAlign: "center", fontSize: "10px", color: "#5A7896", fontWeight: 600, textTransform: "uppercase" }}>{d}</div>
         ))}
       </div>
 
@@ -48,8 +48,8 @@ export default function MiniCalendar() {
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: "12px", cursor: "pointer", position: "relative",
                 transition: "all .15s",
-                background: isToday ? "#00B4D8" : isVac ? "rgba(0,180,216,0.10)" : isHover ? "#F4F8FB" : "transparent",
-                color: isToday ? "#0A1628" : isVac ? "#00B4D8" : "#4A6080",
+                background: isToday ? "#C9A227" : isVac ? "rgba(0,180,216,0.10)" : isHover ? "#F1F2ED" : "transparent",
+                color: isToday ? "#1C2B39" : isVac ? "#C9A227" : "#3B4B5C",
                 fontWeight: isToday ? 700 : 400,
                 transform: isHover && !isToday ? "scale(1.15)" : "scale(1)",
               }}
@@ -59,7 +59,7 @@ export default function MiniCalendar() {
                 <div style={{
                   position: "absolute", bottom: "3px", left: "50%",
                   transform: "translateX(-50%)", width: "4px", height: "4px",
-                  borderRadius: "50%", background: "#D85A30",
+                  borderRadius: "50%", background: "#B23A2E",
                 }}/>
               )}
             </div>
@@ -70,12 +70,12 @@ export default function MiniCalendar() {
       {/* Legend */}
       <div style={{ display: "flex", gap: "16px", padding: "0 18px 14px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#00B4D8" }}/>
-          <span style={{ fontSize: "10px", color: "#8BA3BF" }}>Vacaciones</span>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#C9A227" }}/>
+          <span style={{ fontSize: "10px", color: "#5A7896" }}>Vacaciones</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#D85A30" }}/>
-          <span style={{ fontSize: "10px", color: "#8BA3BF" }}>Retardo</span>
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#B23A2E" }}/>
+          <span style={{ fontSize: "10px", color: "#5A7896" }}>Retardo</span>
         </div>
       </div>
     </div>

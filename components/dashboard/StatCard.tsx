@@ -17,7 +17,7 @@ export default function StatCard({ label, value, sub, color, progress }: Props) 
       onMouseLeave={() => setHover(false)}
       style={{
         background: "#FFFFFF",
-        border: `1.5px solid ${hover ? color : "#D8E6F0"}`,
+        border: `1.5px solid ${hover ? color : "#D7D9D2"}`,
         borderRadius: "14px", padding: "22px 20px",
         boxShadow: hover ? `0 8px 24px rgba(0,0,0,0.08)` : "0 1px 4px rgba(10,22,40,0.06)",
         transform: hover ? "translateY(-3px)" : "translateY(0)",
@@ -25,14 +25,14 @@ export default function StatCard({ label, value, sub, color, progress }: Props) 
         cursor: "default",
       }}
     >
-      <p style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "1px", color: "#8BA3BF", fontWeight: 600, marginBottom: "10px" }}>
+      <p style={{ fontSize: "10px", textTransform: "uppercase", letterSpacing: "1px", color: "#5A7896", fontWeight: 600, marginBottom: "10px" }}>
         {label}
       </p>
-      <p style={{ fontSize: "36px", fontWeight: 700, color, lineHeight: 1, margin: 0 }}>
+      <p style={{ fontSize: "36px", fontWeight: 600, color, lineHeight: 1, margin: 0, fontFamily: "'IBM Plex Mono', monospace" }}>
         {value}
       </p>
-      <p style={{ fontSize: "12px", color: "#8BA3BF", marginTop: "6px" }}>{sub}</p>
-      <div style={{ height: "3px", borderRadius: "2px", background: "#D8E6F0", marginTop: "16px", overflow: "hidden" }}>
+      <p style={{ fontSize: "12px", color: "#5A7896", marginTop: "6px" }}>{sub}</p>
+      <div style={{ height: "3px", borderRadius: "2px", background: "#D7D9D2", marginTop: "16px", overflow: "hidden" }}>
         <div style={{
           height: "100%", borderRadius: "2px",
           background: color, width: `${progress}%`,

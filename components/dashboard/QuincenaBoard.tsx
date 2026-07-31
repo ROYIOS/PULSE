@@ -48,9 +48,9 @@ export default function QuincenaBoard() {
       ref={containerRef}
       style={{
         background:"#FFFFFF", borderRadius:"12px",
-        border:"1.5px solid #D8E6F0", overflow:"hidden",
+        border:"1.5px solid #D7D9D2", overflow:"hidden",
         boxShadow:"0 1px 4px rgba(10,22,40,0.06)",
-        fontFamily:"'Plus Jakarta Sans', sans-serif",
+        fontFamily:"'Inter', sans-serif",
         position:"relative",
       }}
     >
@@ -74,17 +74,17 @@ export default function QuincenaBoard() {
       </div>
 
       {/* Header */}
-      <div style={{padding:"11px 18px 8px", borderBottom:"1px solid #F4F8FB"}}>
+      <div style={{padding:"11px 18px 8px", borderBottom:"1px solid #F1F2ED"}}>
         <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>
-          <span style={{fontSize:"12px", fontWeight:600, color:"#0A1628"}}>
+          <span style={{fontSize:"12px", fontWeight:600, color:"#1C2B39"}}>
             Quincena en progreso
           </span>
           <span style={{
             fontSize:"9px", padding:"2px 9px", borderRadius:"20px",
-            background:"rgba(0,180,216,0.10)", color:"#00B4D8", fontWeight:600,
+            background:"rgba(0,180,216,0.10)", color:"#C9A227", fontWeight:600,
           }}>1–15 Mayo</span>
         </div>
-        <p style={{fontSize:"10px", color:"#8BA3BF", marginTop:"2px"}}>
+        <p style={{fontSize:"10px", color:"#5A7896", marginTop:"2px"}}>
           {TRABAJADAS}h de {TOTAL_HORAS}h · {horasRestantes}h restantes ({diasRestantes} días)
         </p>
       </div>
@@ -92,15 +92,15 @@ export default function QuincenaBoard() {
       {/* Stats */}
       <div style={{display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"6px", padding:"8px 18px 0"}}>
         {[
-          {label:"Trabajadas",   value:`${TRABAJADAS}h`,    color:"#00B4D8"},
-          {label:"Restantes",    value:`${horasRestantes}h`, color:"#D85A30"},
-          {label:"Días hábiles", value:`${diasRestantes}`,   color:"#0F6E56"},
+          {label:"Trabajadas",   value:`${TRABAJADAS}h`,    color:"#C9A227"},
+          {label:"Restantes",    value:`${horasRestantes}h`, color:"#B23A2E"},
+          {label:"Días hábiles", value:`${diasRestantes}`,   color:"#2F6B4F"},
         ].map(s=>(
           <div key={s.label} style={{textAlign:"center"}}>
             <p style={{fontSize:"17px", fontWeight:700, color:s.color, margin:0, lineHeight:1}}>
               {s.value}
             </p>
-            <p style={{fontSize:"8px", color:"#8BA3BF", textTransform:"uppercase",
+            <p style={{fontSize:"8px", color:"#5A7896", textTransform:"uppercase",
               letterSpacing:".8px", marginTop:"2px"}}>{s.label}</p>
           </div>
         ))}
@@ -108,11 +108,11 @@ export default function QuincenaBoard() {
 
       {/* Barra */}
       <div style={{padding:"12px 18px 0"}}>
-        <div style={{height:"18px", borderRadius:"9px", background:"#D8E6F0",
+        <div style={{height:"18px", borderRadius:"9px", background:"#D7D9D2",
           overflow:"hidden", position:"relative"}}>
           <div style={{
             height:"100%", borderRadius:"9px",
-            background:"linear-gradient(90deg,#00B4D8,#0F6E56)",
+            background:"linear-gradient(90deg,#C9A227,#2F6B4F)",
             width:`${animated*100}%`,
             transition:"width 1.8s cubic-bezier(0.34,1.56,0.64,1)",
           }}/>
@@ -124,11 +124,11 @@ export default function QuincenaBoard() {
         </div>
         <div style={{display:"flex", justifyContent:"space-between",
           alignItems:"center", marginTop:"5px", marginBottom:"8px"}}>
-          <span style={{fontSize:"9px", color:"#8BA3BF"}}>0h</span>
-          <span style={{fontSize:"11px", fontWeight:700, color:"#0A1628",
-            background:"#F4F8FB", padding:"2px 10px", borderRadius:"20px",
-            border:"1px solid #D8E6F0"}}>{pct}% completado</span>
-          <span style={{fontSize:"9px", color:"#8BA3BF"}}>{TOTAL_HORAS}h</span>
+          <span style={{fontSize:"9px", color:"#5A7896"}}>0h</span>
+          <span style={{fontSize:"11px", fontWeight:700, color:"#1C2B39",
+            background:"#F1F2ED", padding:"2px 10px", borderRadius:"20px",
+            border:"1px solid #D7D9D2"}}>{pct}% completado</span>
+          <span style={{fontSize:"9px", color:"#5A7896"}}>{TOTAL_HORAS}h</span>
         </div>
       </div>
 
@@ -139,7 +139,7 @@ export default function QuincenaBoard() {
         <span style={{fontSize:"13px"}}>
           {mode==="wave"?"🫡":mode==="work"?"💪":mode==="otaku"?"✨":"⚡"}
         </span>
-        <span style={{fontSize:"10px", color:"#4A6080"}}>{msgMap[mode]}</span>
+        <span style={{fontSize:"10px", color:"#3B4B5C"}}>{msgMap[mode]}</span>
       </div>
 
       {/* Selector */}
@@ -148,9 +148,9 @@ export default function QuincenaBoard() {
           <button key={m.key} onClick={()=>setMode(m.key)} style={{
             padding:"3px 9px", borderRadius:"20px", fontSize:"9px",
             fontWeight:500, cursor:"pointer", fontFamily:"inherit",
-            border:mode===m.key?"1.5px solid #00B4D8":"1.5px solid #D8E6F0",
+            border:mode===m.key?"1.5px solid #C9A227":"1.5px solid #D7D9D2",
             background:mode===m.key?"rgba(0,180,216,0.10)":"transparent",
-            color:mode===m.key?"#00B4D8":"#8BA3BF", transition:"all .2s",
+            color:mode===m.key?"#C9A227":"#5A7896", transition:"all .2s",
           }}>{m.label}</button>
         ))}
       </div>
