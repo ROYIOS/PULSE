@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
+import TitoOverlay from "@/components/dashboard/TitoOverlay";
 import StatCard from "@/components/dashboard/StatCard";
 import ProgressRing from "@/components/dashboard/ProgressRing";
 import Checador from "@/components/dashboard/Checador";
@@ -99,8 +100,9 @@ export default function DashboardPage() {
  return (
    <div style={{
      display:"flex", minHeight:"100vh", background:"#FFFFFF",
-     fontFamily:"'Inter', sans-serif",
+     fontFamily:"'Inter', sans-serif", position:"relative",
    }}>
+     <TitoOverlay/>
      <Sidebar
        activePage={activePage}
        setActivePage={setActivePage}

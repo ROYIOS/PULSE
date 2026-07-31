@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { TitoSVG, useTito } from "./Tito";
 
 const TOTAL_HORAS = 96;
 const TRABAJADAS  = 67;
@@ -10,8 +9,6 @@ type Mode = "wave" | "push" | "work" | "otaku";
 export default function QuincenaBoard() {
   const [animated, setAnimated] = useState(0);
   const [mode, setMode]         = useState<Mode>("push");
-  const containerRef            = useRef<HTMLDivElement>(null);
-  const tito                    = useTito(containerRef);
 
   const progress       = TRABAJADAS / TOTAL_HORAS;
   const pct            = Math.round(progress * 100);
@@ -45,7 +42,6 @@ export default function QuincenaBoard() {
 
   return (
     <div
-      ref={containerRef}
       style={{
         background:"rgba(255,255,255,0.72)", backdropFilter:"blur(16px) saturate(160%)", WebkitBackdropFilter:"blur(16px) saturate(160%)", borderRadius:"12px",
         border:"1px solid rgba(255,255,255,0.9)", overflow:"hidden",
@@ -54,25 +50,6 @@ export default function QuincenaBoard() {
         position:"relative",
       }}
     >
-      {/* TITO */}
-      <div style={{
-        position:"absolute",
-        left: tito.x - 26,
-        top:  tito.y - 68,
-        zIndex:10,
-        pointerEvents:"none",
-        willChange:"transform",
-      }}>
-        <TitoSVG
-          size={52}
-          mood={tito.mood}
-          phase={tito.phase}
-          dir={tito.dir}
-          walkFrame={tito.walkFrame}
-          jetFlicker={tito.jetFlicker}
-        />
-      </div>
-
       {/* Header */}
       <div style={{padding:"11px 18px 8px", borderBottom:"1px solid #EAEDF2"}}>
         <div style={{display:"flex", alignItems:"center", justifyContent:"space-between"}}>

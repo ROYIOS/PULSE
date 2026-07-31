@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
 
-type Mood  = "happy"|"work"|"curious"|"wave"|"sitting";
-type Phase = "idle"|"takeoff"|"flying"|"landing"|"sitting"|"walking"|"looking";
+type Mood  = "happy"|"work"|"curious"|"wave"|"sitting"|"sleeping";
+type Phase = "idle"|"takeoff"|"flying"|"landing"|"sitting"|"walking"|"looking"|"sleeping";
 
 interface TitoState {
   x:number; y:number; vx:number; vy:number;
@@ -23,7 +23,7 @@ export function TitoSVG({
 }) {
   const id  = useRef(`t${Math.random().toString(36).slice(2,6)}`).current;
   const fly = phase==="flying"||phase==="takeoff"||phase==="landing";
-  const sit = phase==="sitting";
+  const sit = phase==="sitting"||phase==="sleeping";
   const wlk = phase==="walking";
   const lk  = phase==="looking";
   const jf  = jetFlicker;
@@ -34,7 +34,7 @@ export function TitoSVG({
   const legR = wlk ? legAngles[(walkFrame+4)%8]          : sit ? -38 : lk ? -5 : 0;
   const aL   = wlk ? -legAngles[(walkFrame+4)%8]*.8      : sit ? 28  : lk ? 15 : 10;
   const aR   = wlk ? -legAngles[walkFrame%8]*.8          : sit ? -28 : lk ? -8 : -10;
-  const bob  = wlk ? Math.sin(walkFrame/8*Math.PI*2)*2.5 : 0;
+  const bob  = wlk ? Math.sin(walkFrame/8*Math.PI*2)*2.5 : phase==="sleeping" ? Math.sin(Date.now()/650)*1.4 : 0;
   const bodyLean = wlk ? lean*18 : lk ? 12 : 0;
 
   const tLL = sit ? "rotate(38 27 76)"  : `rotate(${legL} 32 76)`;
@@ -62,7 +62,8 @@ export function TitoSVG({
           <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <style>{`@keyframes tAnt{0%,100%{r:3.5;opacity:.8}50%{r:5.5;opacity:1}}`}</style>
+      <style>{`@keyframes tAnt{0%,100%{r:3.5;opacity:.8}50%{r:5.5;opacity:1}}
+        @keyframes tZzz{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}`}</style>
 
       <g transform={`translate(0,${bob})`}>
 
@@ -174,7 +175,10 @@ export function TitoSVG({
         <ellipse cx={34} cy={14} rx={6}  ry={3.5} fill="white" opacity={.2}/>
 
         {/* EYES */}
-        {mood==="curious"||lk ? (<>
+        {mood==="sleeping" ? (<>
+          <path d="M28 22 Q33 25 38 22" fill="none" stroke="rgba(10,26,40,.55)" strokeWidth={1.6} strokeLinecap="round"/>
+          <path d="M42 22 Q47 25 52 22" fill="none" stroke="rgba(10,26,40,.55)" strokeWidth={1.6} strokeLinecap="round"/>
+        </>) : mood==="curious"||lk ? (<>
           <ellipse cx={33} cy={22} rx={5}   ry={6}   fill="rgba(10,26,40,.65)"/>
           <ellipse cx={33} cy={22} rx={3.5} ry={4.5} fill="#0F9DA6"/>
           <ellipse cx={33} cy={22} rx={2.2} ry={3}   fill="#D6F0F2"/>
@@ -203,10 +207,20 @@ export function TitoSVG({
 
         {/* MOUTH */}
         <path d={
+          mood==="sleeping" ? "M37 32 Q40 34 43 32" :
           mood==="work"    ? "M35 32 L45 32" :
           mood==="curious"||lk ? "M34 32 Q40 30 46 32" :
           "M34 31 Q40 37 46 31"
         } fill="none" stroke="rgba(10,58,90,.55)" strokeWidth={1.4} strokeLinecap="round"/>
+
+        {/* ZZZ — burbuja de siesta */}
+        {mood==="sleeping" && (
+          <g style={{animation:"tZzz 2.6s ease-in-out infinite"} as React.CSSProperties} opacity={.85}>
+            <text x={54} y={8}  fontSize={7}  fontWeight={700} fill="#0F9DA6">z</text>
+            <text x={60} y={0}  fontSize={9}  fontWeight={700} fill="#0F9DA6">Z</text>
+            <text x={67} y={-9} fontSize={11} fontWeight={700} fill="#0F9DA6">Z</text>
+          </g>
+        )}
 
         {/* ANTENNA */}
         <rect x={38} y={0} width={3} height={10} rx={1.5} fill="#2D4A7A"/>
@@ -417,8 +431,25 @@ export function useTito(containerRef: React.RefObject<HTMLDivElement|null>) {
         case "sitting":{
           s.timer--;
           if(s.timer<=0){
-            s.phase="idle"; s.timer=15; s.mood="happy";
-            waving.current=false;
+            // A veces, en vez de levantarse, le da sueño y se echa una siesta (estilo minion)
+            if(Math.random()<0.4){
+              s.phase="sleeping"; s.mood="sleeping";
+              waving.current=false;
+              s.timer=160+Math.floor(Math.random()*160);
+            } else {
+              s.phase="idle"; s.timer=15; s.mood="happy";
+              waving.current=false;
+            }
+          }
+          break;
+        }
+
+        case "sleeping":{
+          s.timer--;
+          if(s.timer<=0){
+            // se despierta de golpe, un poco desorientado
+            s.phase="looking"; s.mood="curious";
+            s.timer=35+Math.floor(Math.random()*30);
           }
           break;
         }
