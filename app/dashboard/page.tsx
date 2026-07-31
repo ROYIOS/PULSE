@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
 import StatCard from "@/components/dashboard/StatCard";
 import ProgressRing from "@/components/dashboard/ProgressRing";
+import Checador from "@/components/dashboard/Checador";
 import IncidenciasTable from "@/components/dashboard/IncidenciasTable";
 import QuickActions from "@/components/dashboard/QuickActions";
 import MiniCalendar from "@/components/dashboard/MiniCalendar";
@@ -214,6 +215,9 @@ export default function DashboardPage() {
            </div>
          </div>
        </div>
+
+       {/* CHECADOR */}
+       <Checador/>
 
        {/* PANORAMA */}
        <div className="glass-static" style={{
