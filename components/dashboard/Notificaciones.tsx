@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
-import { CheckCircle, XCircle, Bell } from "lucide-react";
+import { CheckCircle, XCircle, Info, Bell } from "lucide-react";
 
 interface Notif {
-  tipo: "success" | "error";
+  tipo: "success" | "error" | "info";
   texto: string;
   fecha: string;
 }
@@ -72,6 +72,8 @@ export default function Notificaciones({ onUpdate }: { onUpdate?: () => void }) 
           <div style={{flexShrink:0,marginTop:"1px"}}>
             {n.tipo==="success"
               ? <CheckCircle size={16} color="#2E7D5B"/>
+              : n.tipo==="info"
+              ? <Info size={16} color="#0F9DA6"/>
               : <XCircle    size={16} color="#C83232"/>
             }
           </div>
@@ -85,7 +87,7 @@ export default function Notificaciones({ onUpdate }: { onUpdate?: () => void }) 
           </div>
           <div style={{
             width:8,height:8,borderRadius:"50%",flexShrink:0,marginTop:"4px",
-            background:n.tipo==="success"?"#2E7D5B":"#C83232",
+            background:n.tipo==="success"?"#2E7D5B":n.tipo==="info"?"#0F9DA6":"#C83232",
           }}/>
         </div>
       ))}

@@ -5,7 +5,7 @@ import { GraduationCap, Plus, Check, Mail, CalendarPlus } from "lucide-react";
 
 interface Curso {
   id: number; nombre: string; horas: number; fecha: string;
-  completadoPor: number[]; notificado: boolean;
+  completadoPor: number[]; notificado: boolean; destinatarios: number[];
 }
 
 function loadCursos(): Curso[] {
@@ -37,16 +37,28 @@ export default function Cursos() {
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ nombre: "", horas: 4, fecha: new Date().toISOString().slice(0,10) });
+  const [destinatarios, setDestinatarios] = useState<number[]>([]);
   const [expandido, setExpandido] = useState<number | null>(null);
+  const AREAS = Array.from(new Set(EMPLEADOS.map(e => e.area)));
 
   useEffect(() => { setCursos(loadCursos()); }, []);
 
+  function toggleDestinatario(id: number) {
+    setDestinatarios(d => d.includes(id) ? d.filter(x=>x!==id) : [...d, id]);
+  }
+  function seleccionarArea(area: string) {
+    const idsArea = EMPLEADOS.filter(e => e.area === area).map(e => e.id);
+    const todosYa = idsArea.every(id => destinatarios.includes(id));
+    setDestinatarios(d => todosYa ? d.filter(id=>!idsArea.includes(id)) : Array.from(new Set([...d, ...idsArea])));
+  }
+
   function agregar() {
     if (!form.nombre.trim()) return;
-    const nuevo: Curso = { id: Date.now(), ...form, completadoPor: [], notificado: false };
+    const nuevo: Curso = { id: Date.now(), ...form, completadoPor: [], notificado: false, destinatarios };
     const updated = [nuevo, ...cursos];
     setCursos(updated); saveCursos(updated);
     setForm({ nombre: "", horas: 4, fecha: new Date().toISOString().slice(0,10) });
+    setDestinatarios([]);
     setShowForm(false);
   }
   function toggleCompletado(cursoId: number, empId: number) {
@@ -61,11 +73,14 @@ export default function Cursos() {
     const curso = cursos.find(c => c.id === cursoId);
     const updated = cursos.map(c => c.id===cursoId ? {...c, notificado:true} : c);
     setCursos(updated); saveCursos(updated);
-    addNotif({
-      tipo: "info",
-      texto: `🎓 Nueva capacitación: "${curso?.nombre}" el ${curso?.fecha}. Agrégala a tu calendario.`,
-      fecha: new Date().toISOString(),
-    });
+    const yoIncluido = curso?.destinatarios?.includes(7); // Jorge Ramírez
+    if (yoIncluido) {
+      addNotif({
+        tipo: "info",
+        texto: `🎓 Nueva capacitación: "${curso?.nombre}" el ${curso?.fecha}. Agrégala a tu calendario.`,
+        fecha: new Date().toISOString(),
+      });
+    }
   }
 
   const inp: React.CSSProperties = {
@@ -102,8 +117,32 @@ export default function Cursos() {
             <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Horas</label>
             <input type="number" style={{...inp,width:"70px"}} value={form.horas} onChange={e=>setForm(f=>({...f,horas:Number(e.target.value)}))}/>
           </div>
+        </div>
+      )}
+
+      {showForm && (
+        <div style={{padding:"0 22px 16px",borderBottom:"1px solid #EAEDF2"}}>
+          <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600,display:"block",marginBottom:"6px"}}>
+            ¿A quién aplica? ({destinatarios.length} seleccionados)
+          </label>
+          <div style={{display:"flex",gap:"5px",flexWrap:"wrap",marginBottom:"8px"}}>
+            {AREAS.map(area => (
+              <button key={area} onClick={()=>seleccionarArea(area)} style={{
+                padding:"4px 10px",borderRadius:"20px",fontSize:"10.5px",fontWeight:600,cursor:"pointer",fontFamily:"inherit",
+                border:"1px solid #2D4A7A",background:"rgba(45,74,122,0.08)",color:"#2D4A7A",
+              }}>Toda {area}</button>
+            ))}
+          </div>
+          <div style={{display:"flex",flexDirection:"column",gap:"4px",maxHeight:"140px",overflowY:"auto",marginBottom:"12px"}}>
+            {EMPLEADOS.map(e => (
+              <label key={e.id} style={{display:"flex",alignItems:"center",gap:"7px",fontSize:"12px",color:"#1E2A4A",cursor:"pointer"}}>
+                <input type="checkbox" checked={destinatarios.includes(e.id)} onChange={()=>toggleDestinatario(e.id)}/>
+                {e.nombre} <span style={{color:"#6B83A8",fontSize:"10.5px"}}>({e.area})</span>
+              </label>
+            ))}
+          </div>
           <button onClick={agregar} style={{
-            padding:"9px 16px",borderRadius:"9px",border:"none",height:"38px",
+            padding:"9px 16px",borderRadius:"9px",border:"none",
             background:"#0F9DA6",color:"#1E2A4A",fontSize:"12px",fontWeight:700,cursor:"pointer",fontFamily:"inherit",
           }}>Guardar</button>
         </div>

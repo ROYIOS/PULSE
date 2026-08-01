@@ -12,6 +12,7 @@ interface Dispensacion {
 interface Accidente {
   id: number; empleado: string; fecha: string; descripcion: string;
   tipoLesion: string; atencionBrindada: string;
+  medicamentos?: { nombre: string; cantidad: number }[];
 }
 
 function loadMeds(): Medicamento[] {
@@ -43,6 +44,7 @@ export default function Enfermeria() {
     empleado: EMPLEADOS[0].nombre, fecha: new Date().toISOString().slice(0,10),
     descripcion:"", tipoLesion:"Golpe/contusión", atencionBrindada:"",
   });
+  const [medsAccidente, setMedsAccidente] = useState<{ nombre: string; cantidad: number }[]>([]);
 
   useEffect(() => { setMeds(loadMeds()); setAccidentes(loadAccidentes()); setDispensaciones(loadDispensaciones()); }, []);
 
@@ -81,9 +83,27 @@ export default function Enfermeria() {
 
   function agregarAccidente() {
     if (!accForm.descripcion.trim()) return;
-    const updated = [{ id: Date.now(), ...accForm }, ...accidentes];
+    const nuevo: Accidente = { id: Date.now(), ...accForm, medicamentos: medsAccidente.filter(m=>m.cantidad>0) };
+    const updated = [nuevo, ...accidentes];
     setAccidentes(updated); saveAccidentes(updated);
+
+    // Descontar del inventario y registrar la dispensación, ligada al mismo accidente
+    if (medsAccidente.length > 0) {
+      let medsActuales = meds;
+      let dispActuales = dispensaciones;
+      medsAccidente.filter(m=>m.cantidad>0).forEach(sel => {
+        medsActuales = medsActuales.map(m => m.nombre === sel.nombre ? { ...m, cantidad: Math.max(0, m.cantidad - sel.cantidad) } : m);
+        dispActuales = [{
+          id: Date.now() + Math.random(), medicamentoNombre: sel.nombre, empleado: accForm.empleado,
+          cantidad: sel.cantidad, fecha: accForm.fecha, motivo: `Accidente: ${accForm.tipoLesion}`,
+        }, ...dispActuales];
+      });
+      setMeds(medsActuales); saveMeds(medsActuales);
+      setDispensaciones(dispActuales); saveDispensaciones(dispActuales);
+    }
+
     setAccForm({ empleado: EMPLEADOS[0].nombre, fecha: new Date().toISOString().slice(0,10), descripcion:"", tipoLesion:"Golpe/contusión", atencionBrindada:"" });
+    setMedsAccidente([]);
     setShowAccForm(false);
   }
 
@@ -263,6 +283,35 @@ export default function Enfermeria() {
               <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Atención brindada</label>
               <input style={inp} value={accForm.atencionBrindada} onChange={e=>setAccForm(f=>({...f,atencionBrindada:e.target.value}))} placeholder="Ej. Curación menor, se envió a clínica..."/>
             </div>
+
+            <div>
+              <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600,display:"block",marginBottom:"6px"}}>
+                Medicamentos administrados (opcional — se descuentan del inventario)
+              </label>
+              {meds.length === 0 ? (
+                <p style={{fontSize:"11px",color:"#6B83A8"}}>No hay medicamentos en inventario todavía.</p>
+              ) : meds.map(m => {
+                const sel = medsAccidente.find(x => x.nombre === m.nombre);
+                return (
+                  <div key={m.id} style={{display:"flex",alignItems:"center",gap:"8px",marginBottom:"6px"}}>
+                    <input
+                      type="checkbox"
+                      checked={!!sel}
+                      onChange={e=>{
+                        if (e.target.checked) setMedsAccidente(a=>[...a, { nombre: m.nombre, cantidad: 1 }]);
+                        else setMedsAccidente(a=>a.filter(x=>x.nombre!==m.nombre));
+                      }}
+                    />
+                    <span style={{fontSize:"12px",color:"#1E2A4A",flex:1}}>{m.nombre} <span style={{color:"#6B83A8"}}>({m.cantidad} disp.)</span></span>
+                    {sel && (
+                      <input type="number" min={1} max={m.cantidad} value={sel.cantidad} style={{...inp,width:"60px"}}
+                        onChange={e=>setMedsAccidente(a=>a.map(x=>x.nombre===m.nombre?{...x,cantidad:Number(e.target.value)}:x))}/>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
             <div style={{display:"flex",justifyContent:"flex-end"}}>
               <button onClick={agregarAccidente} style={{
                 padding:"9px 20px",borderRadius:"9px",border:"none",
@@ -284,6 +333,11 @@ export default function Enfermeria() {
             <div style={{fontSize:"10px",fontWeight:700,color:"#C0392B",marginBottom:"4px"}}>{a.tipoLesion}</div>
             <div style={{fontSize:"11.5px",color:"#5C6579",marginBottom:"3px"}}>{a.descripcion}</div>
             {a.atencionBrindada && <div style={{fontSize:"11px",color:"#6B83A8"}}>Atención: {a.atencionBrindada}</div>}
+            {a.medicamentos && a.medicamentos.length > 0 && (
+              <div style={{fontSize:"11px",color:"#0F9DA6",marginTop:"3px"}}>
+                💊 {a.medicamentos.map(m=>`${m.cantidad}x ${m.nombre}`).join(", ")}
+              </div>
+            )}
           </div>
         ))}
       </>)}

@@ -21,6 +21,40 @@ import {
 
 type Rol = "gerente" | "rrhh" | "nomina";
 
+const AREAS = Array.from(new Set(EMPLEADOS.map(e => e.area)));
+function areaDe(nombreEmpleado: string): string {
+  return EMPLEADOS.find(e => e.nombre === nombreEmpleado)?.area || "Sin área";
+}
+
+function FiltroAreas({ seleccion, onChange }: { seleccion: string[]; onChange: (a: string[]) => void }) {
+  function toggle(area: string) {
+    onChange(seleccion.includes(area) ? seleccion.filter(a => a !== area) : [...seleccion, area]);
+  }
+  return (
+    <div style={{display:"flex",gap:"6px",flexWrap:"wrap",marginBottom:"14px"}}>
+      {AREAS.map(area => {
+        const activo = seleccion.includes(area);
+        return (
+          <button key={area} onClick={()=>toggle(area)} style={{
+            padding:"5px 12px",borderRadius:"20px",fontSize:"11px",fontWeight:600,
+            cursor:"pointer",fontFamily:"inherit",
+            border: activo ? "1.5px solid #0F9DA6" : "1.5px solid #DDE1EA",
+            background: activo ? "rgba(15,157,166,0.10)" : "transparent",
+            color: activo ? "#0F9DA6" : "#6B83A8",
+          }}>{area}</button>
+        );
+      })}
+      {seleccion.length > 0 && (
+        <button onClick={()=>onChange([])} style={{
+          padding:"5px 12px",borderRadius:"20px",fontSize:"11px",fontWeight:600,
+          cursor:"pointer",fontFamily:"inherit",border:"none",background:"none",
+          color:"#C0392B",textDecoration:"underline",
+        }}>Limpiar filtro</button>
+      )}
+    </div>
+  );
+}
+
 function Badge({ s }: { s: string }) {
   const map: Record<string,{bg:string;color:string}> = {
     pendiente:{bg:"rgba(192,57,43,.10)",  color:"#C0392B"},
@@ -62,6 +96,7 @@ export default function GerenciaPage() {
   const [tab, setTab]               = useState<"incidencias"|"vacaciones"|"horas"|"nomina"|"expediente"|"evaluaciones"|"encuestas"|"enfermeria"|"onboarding"|"activos"|"reclutamiento"|"cursos"|"convenios"|"transporte">("incidencias");
   const [incidencias, setInc]       = useState<Incidencia[]>(INC_DEFAULT);
   const [vacaciones,  setVac]       = useState<Vacacion[]>(VAC_DEFAULT);
+  const [filtroAreas, setFiltroAreas] = useState<string[]>([]);
   const [showMontos, setShowMontos] = useState(false);
   const [toast, setToast]           = useState("");
 
@@ -242,13 +277,16 @@ export default function GerenciaPage() {
                 </span>
               )}
             </div>
+            <div style={{padding:"16px 22px 0"}}>
+              <FiltroAreas seleccion={filtroAreas} onChange={setFiltroAreas}/>
+            </div>
             <div style={{padding:"0 22px"}}>
-              {incidencias.map(inc=>(
+              {incidencias.filter(inc => filtroAreas.length===0 || filtroAreas.includes(areaDe(inc.empleado))).map(inc=>(
                 <div key={inc.id} style={row}>
                   <Sello status={inc.status}/>
                   <div style={{flex:1,minWidth:"160px"}}>
                     <p style={{fontSize:"13px",fontWeight:500,color:"#1E2A4A",margin:0}}>{inc.empleado}</p>
-                    <p style={{fontSize:"11px",color:"#6B83A8",marginTop:"2px"}}>{inc.tipo} · {inc.fecha}</p>
+                    <p style={{fontSize:"11px",color:"#6B83A8",marginTop:"2px"}}>{inc.tipo} · {inc.fecha} · {areaDe(inc.empleado)}</p>
                   </div>
                   <div style={{display:"flex",alignItems:"center",gap:"10px",flexWrap:"wrap"}}>
                     <Badge s={inc.status}/>
@@ -275,14 +313,17 @@ export default function GerenciaPage() {
                 </span>
               )}
             </div>
+            <div style={{padding:"16px 22px 0"}}>
+              <FiltroAreas seleccion={filtroAreas} onChange={setFiltroAreas}/>
+            </div>
             <div style={{padding:"0 22px"}}>
-              {vacaciones.map(vac=>(
+              {vacaciones.filter(vac => filtroAreas.length===0 || filtroAreas.includes(areaDe(vac.empleado))).map(vac=>(
                 <div key={vac.id} style={row}>
                   <Sello status={vac.status}/>
                   <div style={{flex:1,minWidth:"160px"}}>
                     <p style={{fontSize:"13px",fontWeight:500,color:"#1E2A4A",margin:0}}>{vac.empleado}</p>
                     <p style={{fontSize:"11px",color:"#6B83A8",marginTop:"2px"}}>
-                      {vac.inicio} → {vac.fin} · {vac.dias} días
+                      {vac.inicio} → {vac.fin} · {vac.dias} días · {areaDe(vac.empleado)}
                     </p>
                   </div>
                   <div style={{display:"flex",alignItems:"center",gap:"10px",flexWrap:"wrap"}}>
@@ -304,8 +345,32 @@ export default function GerenciaPage() {
             <div style={{padding:"16px 22px",borderBottom:"1px solid #EAEDF2"}}>
               <span style={{fontSize:"13px",fontWeight:600,color:"#1E2A4A"}}>Horas trabajadas — quincena actual</span>
             </div>
+            <div style={{padding:"16px 22px 0"}}>
+              <FiltroAreas seleccion={filtroAreas} onChange={setFiltroAreas}/>
+            </div>
+
+            {/* Estadísticas por equipo */}
+            <div style={{padding:"0 22px 16px",display:"grid",
+              gridTemplateColumns:`repeat(${AREAS.filter(a=>filtroAreas.length===0||filtroAreas.includes(a)).length || 1},1fr)`,
+              gap:"10px"}}>
+              {AREAS.filter(a=>filtroAreas.length===0||filtroAreas.includes(a)).map(area=>{
+                const empsArea = EMPLEADOS.filter(e=>e.area===area);
+                const retardosArea = empsArea.reduce((a,e)=>a+e.retardos,0);
+                const extraArea = empsArea.reduce((a,e)=>a+e.horasExtra,0);
+                const horasArea = empsArea.reduce((a,e)=>a+e.horasTrabajadas,0);
+                return (
+                  <div key={area} style={{padding:"10px 12px",borderRadius:"10px",background:"#FAFCFF",border:"1px solid #EAEDF2"}}>
+                    <div style={{fontSize:"10px",fontWeight:700,color:"#1E2A4A",marginBottom:"6px"}}>{area}</div>
+                    <div style={{fontSize:"10px",color:"#6B83A8"}}>Retardos: <b style={{color:"#C0392B"}}>{retardosArea}</b></div>
+                    <div style={{fontSize:"10px",color:"#6B83A8"}}>H.O.: <b style={{color:"#2E7D5B"}}>{extraArea}h</b></div>
+                    <div style={{fontSize:"10px",color:"#6B83A8"}}>Trabajadas: <b style={{color:"#0F9DA6"}}>{horasArea}h</b></div>
+                  </div>
+                );
+              })}
+            </div>
+
             <div style={{padding:"0 22px"}}>
-              {EMPLEADOS.map(e=>{
+              {EMPLEADOS.filter(e=>filtroAreas.length===0||filtroAreas.includes(e.area)).map(e=>{
                 const pct=Math.min(100,Math.round(e.horasTrabajadas/TOTAL_HORAS*100));
                 return (
                   <div key={e.id} style={{...row,flexDirection:"column",alignItems:"stretch",gap:"8px"}}>
@@ -345,13 +410,20 @@ export default function GerenciaPage() {
             <div style={{padding:"16px 22px",borderBottom:"1px solid #EAEDF2",
               display:"flex",alignItems:"center",justifyContent:"space-between"}}>
               <span style={{fontSize:"13px",fontWeight:600,color:"#1E2A4A"}}>Cálculo de nómina — quincena actual</span>
-              <button onClick={()=>setShowMontos(p=>!p)} style={{
-                display:"flex",alignItems:"center",gap:"6px",padding:"5px 12px",
-                borderRadius:"20px",border:"1.5px solid #DDE1EA",background:"transparent",
-                color:"#6B83A8",fontSize:"11px",cursor:"pointer",fontFamily:"inherit",
-              }}>
-                {showMontos?<><EyeOff size={12}/> Ocultar</>:<><Eye size={12}/> Mostrar montos</>}
-              </button>
+              <div style={{display:"flex",gap:"8px"}}>
+                <button onClick={()=>{ EMPLEADOS.forEach(e=>descargarReciboNomina(e)); showToast(`✅ ${EMPLEADOS.length} recibos emitidos`); }} style={{
+                  display:"flex",alignItems:"center",gap:"6px",padding:"7px 14px",
+                  borderRadius:"9px",border:"none",background:"#0F9DA6",
+                  color:"#1E2A4A",fontSize:"11.5px",fontWeight:700,cursor:"pointer",fontFamily:"inherit",
+                }}>Emitir todos los recibos</button>
+                <button onClick={()=>setShowMontos(p=>!p)} style={{
+                  display:"flex",alignItems:"center",gap:"6px",padding:"5px 12px",
+                  borderRadius:"20px",border:"1.5px solid #DDE1EA",background:"transparent",
+                  color:"#6B83A8",fontSize:"11px",cursor:"pointer",fontFamily:"inherit",
+                }}>
+                  {showMontos?<><EyeOff size={12}/> Ocultar</>:<><Eye size={12}/> Mostrar montos</>}
+                </button>
+              </div>
             </div>
             <div style={{padding:"10px 22px",background:"rgba(15,157,166,.04)",borderBottom:"1px solid #EAEDF2"}}>
               <p style={{fontSize:"11px",color:"#5C6579",margin:0}}>

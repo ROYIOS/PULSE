@@ -6,7 +6,7 @@ type Etapa = "Postulado" | "Entrevista" | "Oferta" | "Contratado" | "Rechazado";
 
 interface Candidato {
   id: number; nombre: string; puesto: string; etapa: Etapa; fecha: string;
-  contacto: string; plataformaOrigen: string; notasEntrevista: string;
+  telefono: string; correo: string; plataformaOrigen: string; notasEntrevista: string;
 }
 
 const ETAPAS: Etapa[] = ["Postulado", "Entrevista", "Oferta", "Contratado"];
@@ -25,19 +25,19 @@ export default function Reclutamiento() {
   const [candidatos, setCandidatos] = useState<Candidato[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [expandido, setExpandido] = useState<number | null>(null);
-  const [form, setForm] = useState({ nombre: "", puesto: "", contacto: "", plataformaOrigen: PLATAFORMAS[0] });
+  const [form, setForm] = useState({ nombre: "", puesto: "", telefono: "", correo: "", plataformaOrigen: PLATAFORMAS[0] });
 
   useEffect(() => { setCandidatos(loadCandidatos()); }, []);
 
   function agregar() {
-    if (!form.nombre.trim() || !form.puesto.trim()) return;
+    if (!form.nombre.trim() || !form.puesto.trim() || !form.telefono.trim()) return;
     const nuevo: Candidato = {
       id: Date.now(), ...form, etapa: "Postulado", notasEntrevista: "",
       fecha: new Date().toISOString().slice(0,10),
     };
     const updated = [nuevo, ...candidatos];
     setCandidatos(updated); saveCandidatos(updated);
-    setForm({ nombre: "", puesto: "", contacto: "", plataformaOrigen: PLATAFORMAS[0] });
+    setForm({ nombre: "", puesto: "", telefono: "", correo: "", plataformaOrigen: PLATAFORMAS[0] });
     setShowForm(false);
   }
   function cambiarEtapa(id: number, etapa: Etapa) {
@@ -77,18 +77,22 @@ export default function Reclutamiento() {
       {showForm && (
         <div style={{padding:"16px 22px",borderBottom:"1px solid #EAEDF2",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"10px"}}>
           <div>
-            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Nombre</label>
+            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Nombre *</label>
             <input style={inp} value={form.nombre} onChange={e=>setForm(f=>({...f,nombre:e.target.value}))}/>
           </div>
           <div>
-            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Puesto</label>
+            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Puesto *</label>
             <input style={inp} value={form.puesto} onChange={e=>setForm(f=>({...f,puesto:e.target.value}))} placeholder="Ej. Analista de RH"/>
           </div>
           <div>
-            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Contacto</label>
-            <input style={inp} value={form.contacto} onChange={e=>setForm(f=>({...f,contacto:e.target.value}))} placeholder="Correo o teléfono"/>
+            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Teléfono *</label>
+            <input style={inp} value={form.telefono} onChange={e=>setForm(f=>({...f,telefono:e.target.value}))} placeholder="10 dígitos"/>
           </div>
           <div>
+            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Correo (opcional)</label>
+            <input style={inp} value={form.correo} onChange={e=>setForm(f=>({...f,correo:e.target.value}))}/>
+          </div>
+          <div style={{gridColumn:"1 / -1"}}>
             <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Plataforma de origen</label>
             <select style={inp} value={form.plataformaOrigen} onChange={e=>setForm(f=>({...f,plataformaOrigen:e.target.value}))}>
               {PLATAFORMAS.map(p => <option key={p}>{p}</option>)}
@@ -118,7 +122,7 @@ export default function Reclutamiento() {
                   <span style={{fontSize:"13px",fontWeight:600,color:"#1E2A4A"}}>{c.nombre}</span>
                   {abierto ? <ChevronUp size={13} color="#6B83A8"/> : <ChevronDown size={13} color="#6B83A8"/>}
                 </div>
-                <div style={{fontSize:"10.5px",color:"#6B83A8"}}>{c.puesto} · vía {c.plataformaOrigen} · postulado {c.fecha}</div>
+                <div style={{fontSize:"10.5px",color:"#6B83A8"}}>{c.puesto} · {c.telefono} · vía {c.plataformaOrigen} · postulado {c.fecha}</div>
               </div>
               <div style={{display:"flex",gap:"6px",alignItems:"center"}}>
                 <select value={c.etapa} onChange={e=>cambiarEtapa(c.id, e.target.value as Etapa)} style={{
@@ -153,8 +157,12 @@ export default function Reclutamiento() {
             {abierto && (
               <div style={{display:"flex",flexDirection:"column",gap:"10px",paddingTop:"4px"}}>
                 <div>
-                  <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Contacto</label>
-                  <input style={inp} value={c.contacto} onChange={e=>actualizarCampo(c.id,"contacto",e.target.value)} placeholder="Correo o teléfono"/>
+                  <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Teléfono</label>
+                  <input style={inp} value={c.telefono} onChange={e=>actualizarCampo(c.id,"telefono",e.target.value)}/>
+                </div>
+                <div>
+                  <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Correo</label>
+                  <input style={inp} value={c.correo} onChange={e=>actualizarCampo(c.id,"correo",e.target.value)}/>
                 </div>
                 <div>
                   <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Notas de entrevista</label>

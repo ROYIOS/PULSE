@@ -52,8 +52,10 @@ export default function ExpedienteMedico({ soloEmpleadoId }: { soloEmpleadoId?: 
   const [editId, setEditId] = useState<number | null>(null);
   const [form, setForm] = useState<Partial<Expediente>>({});
   const [extrayendo, setExtrayendo] = useState(false);
+  const [busqueda, setBusqueda] = useState("");
 
-  const empleadosAMostrar = soloEmpleadoId ? EMPLEADOS.filter(e => e.id === soloEmpleadoId) : EMPLEADOS;
+  const empleadosAMostrar = (soloEmpleadoId ? EMPLEADOS.filter(e => e.id === soloEmpleadoId) : EMPLEADOS)
+    .filter(e => e.nombre.toLowerCase().includes(busqueda.toLowerCase()));
 
   useEffect(() => { setData(loadExpedientes()); }, []);
 
@@ -97,9 +99,20 @@ export default function ExpedienteMedico({ soloEmpleadoId }: { soloEmpleadoId?: 
     <div className="glass-static" style={{borderRadius:"14px",overflow:"hidden"}}>
       <div style={{padding:"18px 22px",borderBottom:"1px solid #DDE1EA"}}>
         <span style={{fontSize:"14px",fontWeight:700,fontFamily:"'Sora', sans-serif",color:"#1E2A4A"}}>Expediente médico</span>
-        <p style={{fontSize:"11.5px",color:"#6B83A8",margin:"4px 0 0"}}>
+        <p style={{fontSize:"11.5px",color:"#6B83A8",margin:"4px 0 10px"}}>
           {soloEmpleadoId ? "Tu información médica y de emergencia" : "Información sensible — solo visible para RH/Gerencia"}
         </p>
+        {!soloEmpleadoId && (
+          <input
+            value={busqueda} onChange={e=>setBusqueda(e.target.value)}
+            placeholder="Buscar empleado..."
+            style={{
+              width:"100%",maxWidth:"260px",padding:"8px 12px",borderRadius:"9px",
+              border:"1.5px solid #DDE1EA",background:"#FFFFFF",color:"#1E2A4A",
+              fontSize:"12px",outline:"none",boxSizing:"border-box",fontFamily:"inherit",
+            }}
+          />
+        )}
       </div>
 
       {empleadosAMostrar.map(e => {
@@ -113,8 +126,18 @@ export default function ExpedienteMedico({ soloEmpleadoId }: { soloEmpleadoId?: 
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
               <div>
                 <div style={{fontSize:"13px",fontWeight:600,color:"#1E2A4A"}}>{e.nombre}</div>
-                <div style={{fontSize:"11px",color:"#6B83A8"}}>
-                  {exp ? `${exp.tipoSangre || "—"} · ${exp.alergias || "sin alergias registradas"}` : "Sin expediente capturado"}
+                <div style={{fontSize:"11px",color:"#6B83A8",display:"flex",alignItems:"center",gap:"8px",flexWrap:"wrap"}}>
+                  <span>{exp ? `${exp.tipoSangre || "—"} · ${exp.alergias || "sin alergias registradas"}` : "Sin expediente capturado"}</span>
+                  {accidentes.length > 0 && (
+                    <span style={{fontSize:"9.5px",fontWeight:700,color:"#C0392B",background:"rgba(192,57,43,0.10)",padding:"2px 7px",borderRadius:"20px"}}>
+                      ⚠️ {accidentes.length} accidente{accidentes.length>1?"s":""}
+                    </span>
+                  )}
+                  {dispensaciones.length > 0 && (
+                    <span style={{fontSize:"9.5px",fontWeight:700,color:"#0F9DA6",background:"rgba(15,157,166,0.10)",padding:"2px 7px",borderRadius:"20px"}}>
+                      💊 {dispensaciones.length} medicamento{dispensaciones.length>1?"s":""}
+                    </span>
+                  )}
                 </div>
               </div>
               <button onClick={()=>abierto?setEditId(null):abrir(e.id)} style={{
