@@ -107,41 +107,33 @@ export default function CalendarioArea() {
         </div>
       </div>
 
-      {/* Mosaico compacto (mismo lenguaje visual que Gerencia) */}
-      <div style={{ padding: "12px 16px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: "4px", marginBottom: "3px" }}>
+      {/* Mosaico compacto (mismo lenguaje visual que MiniCalendar/Gerencia) */}
+      <div style={{ padding: "12px 16px", maxWidth: "300px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: "3px", marginBottom: "3px" }}>
           {DAYS.map(d => (
-            <div key={d} style={{ textAlign: "center", fontSize: "8.5px", color: "#6B83A8", fontWeight: 600 }}>{d}</div>
+            <div key={d} style={{ textAlign: "center", fontSize: "8px", color: "#6B83A8", fontWeight: 600 }}>{d}</div>
           ))}
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: "4px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(7,1fr)", gap: "3px" }}>
           {cells.map((day, i) => {
-            if (!day) return <div key={i} style={{ width: "100%", aspectRatio: "1" }}/>;
+            if (!day) return <div key={i} style={{ width: "18px", height: "18px" }}/>;
             const isToday   = day === 23;
             const dayEvents = eventMap[day] || [];
-            const isHover   = hoverDay === day;
             const color     = dayEvents[0]?.color;
             const titulo    = dayEvents.map(e => `${e.nombre} (${e.tipo})`).join(", ");
 
             return (
               <div key={i}
                 title={titulo || undefined}
-                onMouseEnter={() => setHoverDay(day)}
-                onMouseLeave={() => setHoverDay(null)}
                 style={{
-                  width: "100%", aspectRatio: "1", borderRadius: "5px",
-                  cursor: dayEvents.length > 0 ? "pointer" : "default",
+                  width: "18px", height: "18px", borderRadius: "5px",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   background: isToday
                     ? "linear-gradient(135deg, #17B3C2, #0F9DA6)"
-                    : color
-                    ? `${color}26`
-                    : isHover ? "#F1F4F8" : "#F8FAFC",
-                  border: color && !isToday ? `1.5px solid ${color}55` : "1px solid transparent",
-                  transform: isHover ? "scale(1.12)" : "scale(1)",
-                  transition: "transform .15s ease, background .15s ease",
-                  fontSize: "8.5px", fontWeight: isToday ? 700 : 500,
-                  color: isToday ? "#FFFFFF" : color || "#9AA7B8",
+                    : color || "#EAF1F4",
+                  fontSize: "8px", fontWeight: isToday ? 700 : 500,
+                  color: isToday || color ? "#FFFFFF" : "#9AA7B8",
+                  cursor: dayEvents.length > 0 ? "default" : "default",
                 }}
               >
                 {day}

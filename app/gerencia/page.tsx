@@ -7,6 +7,7 @@ import ProgressRing from "@/components/dashboard/ProgressRing";
 import ExpedienteMedico from "@/components/dashboard/ExpedienteMedico";
 import Evaluaciones from "@/components/dashboard/Evaluaciones";
 import Encuestas from "@/components/dashboard/Encuestas";
+import Enfermeria from "@/components/dashboard/Enfermeria";
 import {
   Status, Incidencia, Vacacion, Empleado,
   INC_DEFAULT, VAC_DEFAULT, EMPLEADOS, TOTAL_HORAS, calcNomina, descargarReciboNomina,
@@ -52,7 +53,7 @@ export default function GerenciaPage() {
   const rol: Rol    = "gerente";
   const puedeNomina = rol==="gerente"||rol==="nomina";
 
-  const [tab, setTab]               = useState<"incidencias"|"vacaciones"|"horas"|"nomina"|"expediente"|"evaluaciones"|"encuestas">("incidencias");
+  const [tab, setTab]               = useState<"incidencias"|"vacaciones"|"horas"|"nomina"|"expediente"|"evaluaciones"|"encuestas"|"enfermeria">("incidencias");
   const [incidencias, setInc]       = useState<Incidencia[]>(INC_DEFAULT);
   const [vacaciones,  setVac]       = useState<Vacacion[]>(VAC_DEFAULT);
   const [showMontos, setShowMontos] = useState(false);
@@ -125,6 +126,7 @@ export default function GerenciaPage() {
     {key:"expediente",  label:"Expediente médico"},
     {key:"evaluaciones",label:"Evaluaciones"},
     {key:"encuestas",   label:"Encuestas"},
+    {key:"enfermeria",  label:"Enfermería"},
   ] as const;
 
   const row: React.CSSProperties = {
@@ -409,6 +411,7 @@ export default function GerenciaPage() {
           {tab==="expediente" && <ExpedienteMedico/>}
           {tab==="evaluaciones" && <Evaluaciones/>}
           {tab==="encuestas" && <Encuestas onToast={showToast}/>}
+          {tab==="enfermeria" && <Enfermeria/>}
 
       {/* TOAST */}
       {toast && (

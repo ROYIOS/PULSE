@@ -9,6 +9,7 @@ interface Expediente {
   contactoEmergencia: string;
   telefonoEmergencia: string;
   incapacidades: string;
+  documentoNombre?: string;
 }
 
 function loadExpedientes(): Record<number, Expediente> {
@@ -19,10 +20,13 @@ function saveExpedientes(data: Record<number, Expediente>) {
   localStorage.setItem("pulse_expedientes", JSON.stringify(data));
 }
 
-export default function ExpedienteMedico() {
+export default function ExpedienteMedico({ soloEmpleadoId }: { soloEmpleadoId?: number } = {}) {
   const [data, setData] = useState<Record<number, Expediente>>({});
   const [editId, setEditId] = useState<number | null>(null);
   const [form, setForm] = useState<Partial<Expediente>>({});
+  const [extrayendo, setExtrayendo] = useState(false);
+
+  const empleadosAMostrar = soloEmpleadoId ? EMPLEADOS.filter(e => e.id === soloEmpleadoId) : EMPLEADOS;
 
   useEffect(() => { setData(loadExpedientes()); }, []);
 
@@ -39,6 +43,22 @@ export default function ExpedienteMedico() {
     setEditId(null);
   }
 
+  function subirDocumento(file: File) {
+    setForm(f => ({ ...f, documentoNombre: file.name }));
+    setExtrayendo(true);
+    // ⚠️ Extracción simulada. Para leer datos reales del documento hace falta
+    // conectar un servicio real de OCR/visión (ej. la API de Claude con el documento como imagen).
+    setTimeout(() => {
+      setForm(f => ({
+        ...f,
+        tipoSangre: f.tipoSangre || "O+",
+        alergias: f.alergias || "Ninguna reportada",
+        contactoEmergencia: f.contactoEmergencia || "Por confirmar",
+      }));
+      setExtrayendo(false);
+    }, 1400);
+  }
+
   const inp: React.CSSProperties = {
     width:"100%",padding:"9px 12px",borderRadius:"9px",
     border:"1.5px solid #DDE1EA",background:"#FFFFFF",
@@ -50,10 +70,12 @@ export default function ExpedienteMedico() {
     <div className="glass-static" style={{borderRadius:"14px",overflow:"hidden"}}>
       <div style={{padding:"18px 22px",borderBottom:"1px solid #DDE1EA"}}>
         <span style={{fontSize:"14px",fontWeight:700,fontFamily:"'Sora', sans-serif",color:"#1E2A4A"}}>Expediente médico</span>
-        <p style={{fontSize:"11.5px",color:"#6B83A8",margin:"4px 0 0"}}>Información sensible — solo visible para RH/Gerencia</p>
+        <p style={{fontSize:"11.5px",color:"#6B83A8",margin:"4px 0 0"}}>
+          {soloEmpleadoId ? "Tu información médica y de emergencia" : "Información sensible — solo visible para RH/Gerencia"}
+        </p>
       </div>
 
-      {EMPLEADOS.map(e => {
+      {empleadosAMostrar.map(e => {
         const exp = data[e.id];
         const abierto = editId === e.id;
         return (
@@ -74,6 +96,28 @@ export default function ExpedienteMedico() {
 
             {abierto && (
               <div style={{marginTop:"12px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"10px"}}>
+                <div style={{gridColumn:"1 / -1"}}>
+                  <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600,display:"block",marginBottom:"6px"}}>
+                    Documento físico (identificación, receta, historial...)
+                  </label>
+                  <label style={{
+                    display:"inline-flex",alignItems:"center",gap:"7px",
+                    padding:"9px 16px",borderRadius:"9px",border:"1.5px dashed #DDE1EA",
+                    color:"#0F9DA6",fontSize:"12px",cursor:"pointer",fontFamily:"inherit",fontWeight:600,
+                  }}>
+                    📎 {form.documentoNombre || "Subir documento"}
+                    <input type="file" accept="image/*,.pdf" style={{display:"none"}}
+                      onChange={e=>{ const f=e.target.files?.[0]; if(f) subirDocumento(f); }}/>
+                  </label>
+                  {extrayendo && (
+                    <span style={{marginLeft:"10px",fontSize:"11px",color:"#6B83A8"}}>Extrayendo datos del documento...</span>
+                  )}
+                  {form.documentoNombre && !extrayendo && (
+                    <p style={{fontSize:"10px",color:"#C08A2E",marginTop:"6px"}}>
+                      ⚠️ Extracción de demostración — para leer los datos reales del documento hace falta conectar un servicio de OCR/visión.
+                    </p>
+                  )}
+                </div>
                 <div>
                   <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Tipo de sangre</label>
                   <input style={inp} value={form.tipoSangre||""} onChange={e=>setForm(f=>({...f,tipoSangre:e.target.value}))}/>
