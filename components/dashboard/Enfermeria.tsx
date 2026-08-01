@@ -6,6 +6,9 @@ import { Pill, AlertTriangle, Plus, Trash2 } from "lucide-react";
 interface Medicamento {
   id: number; nombre: string; cantidad: number; caducidad: string;
 }
+interface Dispensacion {
+  id: number; medicamentoNombre: string; empleado: string; cantidad: number; fecha: string; motivo: string;
+}
 interface Accidente {
   id: number; empleado: string; fecha: string; descripcion: string;
   tipoLesion: string; atencionBrindada: string;
@@ -16,6 +19,11 @@ function loadMeds(): Medicamento[] {
 }
 function saveMeds(d: Medicamento[]) { localStorage.setItem("pulse_medicamentos", JSON.stringify(d)); }
 
+function loadDispensaciones(): Dispensacion[] {
+  try { return JSON.parse(localStorage.getItem("pulse_dispensaciones") || "[]"); } catch { return []; }
+}
+function saveDispensaciones(d: Dispensacion[]) { localStorage.setItem("pulse_dispensaciones", JSON.stringify(d)); }
+
 function loadAccidentes(): Accidente[] {
   try { return JSON.parse(localStorage.getItem("pulse_accidentes") || "[]"); } catch { return []; }
 }
@@ -24,16 +32,36 @@ function saveAccidentes(d: Accidente[]) { localStorage.setItem("pulse_accidentes
 export default function Enfermeria() {
   const [sub, setSub] = useState<"medicamentos"|"accidentes">("medicamentos");
   const [meds, setMeds] = useState<Medicamento[]>([]);
+  const [dispensaciones, setDispensaciones] = useState<Dispensacion[]>([]);
   const [accidentes, setAccidentes] = useState<Accidente[]>([]);
   const [showMedForm, setShowMedForm] = useState(false);
   const [showAccForm, setShowAccForm] = useState(false);
+  const [dispensarId, setDispensarId] = useState<number | null>(null);
+  const [dispForm, setDispForm] = useState({ empleado: EMPLEADOS[0].nombre, cantidad: 1, motivo: "" });
   const [medForm, setMedForm] = useState({ nombre:"", cantidad:10, caducidad:"2027-01-01" });
   const [accForm, setAccForm] = useState({
     empleado: EMPLEADOS[0].nombre, fecha: new Date().toISOString().slice(0,10),
     descripcion:"", tipoLesion:"Golpe/contusión", atencionBrindada:"",
   });
 
-  useEffect(() => { setMeds(loadMeds()); setAccidentes(loadAccidentes()); }, []);
+  useEffect(() => { setMeds(loadMeds()); setAccidentes(loadAccidentes()); setDispensaciones(loadDispensaciones()); }, []);
+
+  function dispensar(med: Medicamento) {
+    const cantidad = Math.min(dispForm.cantidad, med.cantidad);
+    if (cantidad <= 0) return;
+    const medsUpdated = meds.map(m => m.id === med.id ? { ...m, cantidad: m.cantidad - cantidad } : m);
+    setMeds(medsUpdated); saveMeds(medsUpdated);
+
+    const nuevaDisp: Dispensacion = {
+      id: Date.now(), medicamentoNombre: med.nombre, empleado: dispForm.empleado,
+      cantidad, fecha: new Date().toISOString().slice(0,10), motivo: dispForm.motivo,
+    };
+    const dispUpdated = [nuevaDisp, ...dispensaciones];
+    setDispensaciones(dispUpdated); saveDispensaciones(dispUpdated);
+
+    setDispensarId(null);
+    setDispForm({ empleado: EMPLEADOS[0].nombre, cantidad: 1, motivo: "" });
+  }
 
   function agregarMed() {
     if (!medForm.nombre.trim()) return;
@@ -127,28 +155,75 @@ export default function Enfermeria() {
         ) : meds.map(m => {
           const caduco = new Date(m.caducidad) < hoy;
           const bajo = m.cantidad <= 3;
+          const dispensando = dispensarId === m.id;
           return (
-            <div key={m.id} style={{padding:"12px 22px",borderBottom:"1px solid #EAEDF2",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-              <div>
-                <div style={{fontSize:"13px",fontWeight:600,color:"#1E2A4A"}}>{m.nombre}</div>
-                <div style={{fontSize:"10.5px",color: caduco ? "#C0392B" : "#6B83A8"}}>
-                  Caduca {m.caducidad}{caduco ? " · CADUCADO" : ""}
+            <div key={m.id} style={{padding:"12px 22px",borderBottom:"1px solid #EAEDF2"}}>
+              <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                <div>
+                  <div style={{fontSize:"13px",fontWeight:600,color:"#1E2A4A"}}>{m.nombre}</div>
+                  <div style={{fontSize:"10.5px",color: caduco ? "#C0392B" : "#6B83A8"}}>
+                    Caduca {m.caducidad}{caduco ? " · CADUCADO" : ""}
+                  </div>
+                </div>
+                <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
+                  <span style={{fontSize:"9px",padding:"3px 9px",borderRadius:"20px",fontWeight:700,
+                    background: bajo ? "rgba(192,57,43,0.10)" : "rgba(46,125,91,0.10)",
+                    color: bajo ? "#C0392B" : "#2E7D5B"}}>
+                    {bajo ? "Stock bajo" : "Stock ok"}
+                  </span>
+                  <button onClick={()=>ajustarCantidad(m.id,-1)} style={{width:24,height:24,borderRadius:"6px",border:"1px solid #DDE1EA",background:"#FFFFFF",cursor:"pointer",color:"#5C6579"}}>−</button>
+                  <span style={{fontSize:"13px",fontWeight:700,color:"#1E2A4A",minWidth:"18px",textAlign:"center"}}>{m.cantidad}</span>
+                  <button onClick={()=>ajustarCantidad(m.id,1)} style={{width:24,height:24,borderRadius:"6px",border:"1px solid #DDE1EA",background:"#FFFFFF",cursor:"pointer",color:"#5C6579"}}>+</button>
+                  <button onClick={()=>setDispensarId(dispensando ? null : m.id)} style={{
+                    padding:"6px 12px",borderRadius:"8px",border:"1px solid #0F9DA6",
+                    background: dispensando ? "rgba(15,157,166,0.10)" : "transparent",
+                    color:"#0F9DA6",fontSize:"10.5px",fontWeight:600,cursor:"pointer",fontFamily:"inherit",
+                  }}>Dispensar</button>
+                  <button onClick={()=>quitarMed(m.id)} style={{background:"none",border:"none",cursor:"pointer",color:"#C0392B"}}><Trash2 size={13}/></button>
                 </div>
               </div>
-              <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
-                <span style={{fontSize:"9px",padding:"3px 9px",borderRadius:"20px",fontWeight:700,
-                  background: bajo ? "rgba(192,57,43,0.10)" : "rgba(46,125,91,0.10)",
-                  color: bajo ? "#C0392B" : "#2E7D5B"}}>
-                  {bajo ? "Stock bajo" : "Stock ok"}
-                </span>
-                <button onClick={()=>ajustarCantidad(m.id,-1)} style={{width:24,height:24,borderRadius:"6px",border:"1px solid #DDE1EA",background:"#FFFFFF",cursor:"pointer",color:"#5C6579"}}>−</button>
-                <span style={{fontSize:"13px",fontWeight:700,color:"#1E2A4A",minWidth:"18px",textAlign:"center"}}>{m.cantidad}</span>
-                <button onClick={()=>ajustarCantidad(m.id,1)} style={{width:24,height:24,borderRadius:"6px",border:"1px solid #DDE1EA",background:"#FFFFFF",cursor:"pointer",color:"#5C6579"}}>+</button>
-                <button onClick={()=>quitarMed(m.id)} style={{background:"none",border:"none",cursor:"pointer",color:"#C0392B"}}><Trash2 size={13}/></button>
-              </div>
+
+              {dispensando && (
+                <div style={{marginTop:"10px",display:"flex",gap:"8px",alignItems:"end",flexWrap:"wrap",
+                  padding:"10px",background:"#FAFCFF",borderRadius:"9px",border:"1px solid #EAEDF2"}}>
+                  <div>
+                    <label style={{fontSize:"9px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>A quién</label>
+                    <select style={inp} value={dispForm.empleado} onChange={e=>setDispForm(f=>({...f,empleado:e.target.value}))}>
+                      {EMPLEADOS.map(e => <option key={e.id}>{e.nombre}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{fontSize:"9px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Cantidad</label>
+                    <input type="number" min={1} max={m.cantidad} style={{...inp,width:"70px"}}
+                      value={dispForm.cantidad} onChange={e=>setDispForm(f=>({...f,cantidad:Number(e.target.value)}))}/>
+                  </div>
+                  <div style={{flex:1,minWidth:"140px"}}>
+                    <label style={{fontSize:"9px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Motivo</label>
+                    <input style={{...inp,width:"100%",boxSizing:"border-box"}} value={dispForm.motivo}
+                      onChange={e=>setDispForm(f=>({...f,motivo:e.target.value}))} placeholder="Ej. Dolor de cabeza"/>
+                  </div>
+                  <button onClick={()=>dispensar(m)} style={{
+                    padding:"9px 16px",borderRadius:"9px",border:"none",height:"38px",
+                    background:"#0F9DA6",color:"#1E2A4A",fontSize:"12px",fontWeight:700,cursor:"pointer",fontFamily:"inherit",
+                  }}>Confirmar</button>
+                </div>
+              )}
             </div>
           );
         })}
+
+        {dispensaciones.length > 0 && (
+          <div style={{padding:"14px 22px"}}>
+            <div style={{fontSize:"10.5px",fontWeight:700,color:"#6B83A8",textTransform:"uppercase",marginBottom:"8px"}}>Historial de dispensación</div>
+            <div style={{display:"flex",flexDirection:"column",gap:"5px"}}>
+              {dispensaciones.slice(0,8).map(d => (
+                <div key={d.id} style={{fontSize:"11px",color:"#5C6579"}}>
+                  {d.fecha} · <b style={{color:"#1E2A4A"}}>{d.empleado}</b> recibió {d.cantidad}x {d.medicamentoNombre}{d.motivo && ` (${d.motivo})`}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </>)}
 
       {sub === "accidentes" && (<>

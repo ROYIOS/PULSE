@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { EMPLEADOS } from "@/lib/pulseData";
+import { EMPLEADOS, addNotif } from "@/lib/pulseData";
 import { Mail, Trash2, Plus, Image as ImageIcon, CheckSquare, Circle, AlignLeft } from "lucide-react";
 
 type TipoPregunta = "abierta" | "opcion_unica" | "opcion_multiple" | "imagen";
@@ -84,10 +84,16 @@ export default function Encuestas({ onToast }: { onToast: (msg:string) => void }
   }
 
   function notificar(id: number) {
+    const enc = encuestas.find(e => e.id === id);
     const updated = encuestas.map(e => e.id===id ? {...e, notificada:true} : e);
     setEncuestas(updated);
     saveEncuestas(updated);
-    onToast(`📧 Notificación simulada enviada a ${EMPLEADOS.length} correos (falta conectar servicio real de correo)`);
+    addNotif({
+      tipo: "info",
+      texto: `📋 Nueva encuesta disponible: "${enc?.titulo}". Tómate un momento para responderla.`,
+      fecha: new Date().toISOString(),
+    });
+    onToast(`📧 Notificación enviada por correo (simulado) y dentro de la app a ${EMPLEADOS.length} personas`);
   }
   function eliminarEncuesta(id: number) {
     const updated = encuestas.filter(e => e.id !== id);

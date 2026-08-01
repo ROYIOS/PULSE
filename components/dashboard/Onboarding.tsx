@@ -7,6 +7,14 @@ interface Checklist {
   empleadoId: number; tipo: "alta"|"baja";
   items: Record<string, boolean>;
 }
+interface Documento { nombre: string; fecha: string; tipo: string; }
+
+function loadDocumentos(): Record<number, Documento[]> {
+  try { return JSON.parse(localStorage.getItem("pulse_documentos") || "{}"); } catch { return {}; }
+}
+function saveDocumentos(d: Record<number, Documento[]>) {
+  localStorage.setItem("pulse_documentos", JSON.stringify(d));
+}
 
 const ITEMS_ALTA = [
   "Contrato firmado", "Alta en IMSS", "Correo corporativo creado",
@@ -26,10 +34,19 @@ function saveChecklists(d: Checklist[]) { localStorage.setItem("pulse_onboarding
 
 export default function Onboarding() {
   const [checklists, setChecklists] = useState<Checklist[]>([]);
+  const [documentos, setDocumentos] = useState<Record<number, Documento[]>>({});
   const [empleadoId, setEmpleadoId] = useState(EMPLEADOS[0].id);
   const [tipo, setTipo] = useState<"alta"|"baja">("alta");
 
-  useEffect(() => { setChecklists(loadChecklists()); }, []);
+  useEffect(() => { setChecklists(loadChecklists()); setDocumentos(loadDocumentos()); }, []);
+
+  function subirDocumento(file: File) {
+    const doc: Documento = { nombre: file.name, fecha: new Date().toISOString().slice(0,10), tipo };
+    const actuales = documentos[empleadoId] || [];
+    const updated = { ...documentos, [empleadoId]: [doc, ...actuales] };
+    setDocumentos(updated);
+    saveDocumentos(updated);
+  }
 
   function getOrCrear(): Checklist {
     const existente = checklists.find(c => c.empleadoId === empleadoId && c.tipo === tipo);
@@ -121,6 +138,32 @@ export default function Onboarding() {
               </div>
             );
           })}
+        </div>
+
+        <div style={{marginTop:"18px",paddingTop:"16px",borderTop:"1px solid #EAEDF2"}}>
+          <div style={{fontSize:"11px",fontWeight:700,color:"#1E2A4A",marginBottom:"8px"}}>
+            Documentos de {empleado?.nombre}
+          </div>
+          <label style={{
+            display:"inline-flex",alignItems:"center",gap:"7px",
+            padding:"9px 16px",borderRadius:"9px",border:"1.5px dashed #DDE1EA",
+            color:"#0F9DA6",fontSize:"12px",cursor:"pointer",fontFamily:"inherit",fontWeight:600,
+          }}>
+            📎 Subir documento (contrato, identificación, comprobante...)
+            <input type="file" style={{display:"none"}}
+              onChange={e=>{ const f=e.target.files?.[0]; if(f) subirDocumento(f); }}/>
+          </label>
+
+          {(documentos[empleadoId] || []).length > 0 && (
+            <div style={{marginTop:"10px",display:"flex",flexDirection:"column",gap:"6px"}}>
+              {(documentos[empleadoId] || []).map((d, i) => (
+                <div key={i} style={{fontSize:"11.5px",color:"#5C6579",display:"flex",gap:"6px",alignItems:"center"}}>
+                  📄 <b style={{color:"#1E2A4A"}}>{d.nombre}</b>
+                  <span style={{color:"#6B83A8"}}>· subido {d.fecha} · proceso de {d.tipo}</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

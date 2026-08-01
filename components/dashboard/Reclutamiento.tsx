@@ -1,18 +1,20 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Plus, Trash2 } from "lucide-react";
+import { Plus, Trash2, ChevronDown, ChevronUp } from "lucide-react";
 
 type Etapa = "Postulado" | "Entrevista" | "Oferta" | "Contratado" | "Rechazado";
 
 interface Candidato {
   id: number; nombre: string; puesto: string; etapa: Etapa; fecha: string;
+  contacto: string; plataformaOrigen: string; notasEntrevista: string;
 }
 
-const ETAPAS: Etapa[] = ["Postulado", "Entrevista", "Oferta", "Contratado", "Rechazado"];
+const ETAPAS: Etapa[] = ["Postulado", "Entrevista", "Oferta", "Contratado"];
 const COLOR_ETAPA: Record<Etapa, string> = {
   Postulado: "#6B83A8", Entrevista: "#C08A2E", Oferta: "#2D4A7A",
   Contratado: "#2E7D5B", Rechazado: "#C0392B",
 };
+const PLATAFORMAS = ["LinkedIn", "OCC Mundial", "Indeed", "Referido", "Bolsa de trabajo local", "Otro"];
 
 function loadCandidatos(): Candidato[] {
   try { return JSON.parse(localStorage.getItem("pulse_candidatos") || "[]"); } catch { return []; }
@@ -22,23 +24,28 @@ function saveCandidatos(d: Candidato[]) { localStorage.setItem("pulse_candidatos
 export default function Reclutamiento() {
   const [candidatos, setCandidatos] = useState<Candidato[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ nombre: "", puesto: "" });
+  const [expandido, setExpandido] = useState<number | null>(null);
+  const [form, setForm] = useState({ nombre: "", puesto: "", contacto: "", plataformaOrigen: PLATAFORMAS[0] });
 
   useEffect(() => { setCandidatos(loadCandidatos()); }, []);
 
   function agregar() {
     if (!form.nombre.trim() || !form.puesto.trim()) return;
     const nuevo: Candidato = {
-      id: Date.now(), ...form, etapa: "Postulado",
+      id: Date.now(), ...form, etapa: "Postulado", notasEntrevista: "",
       fecha: new Date().toISOString().slice(0,10),
     };
     const updated = [nuevo, ...candidatos];
     setCandidatos(updated); saveCandidatos(updated);
-    setForm({ nombre: "", puesto: "" });
+    setForm({ nombre: "", puesto: "", contacto: "", plataformaOrigen: PLATAFORMAS[0] });
     setShowForm(false);
   }
   function cambiarEtapa(id: number, etapa: Etapa) {
     const updated = candidatos.map(c => c.id === id ? { ...c, etapa } : c);
+    setCandidatos(updated); saveCandidatos(updated);
+  }
+  function actualizarCampo(id: number, campo: keyof Candidato, valor: string) {
+    const updated = candidatos.map(c => c.id === id ? { ...c, [campo]: valor } : c);
     setCandidatos(updated); saveCandidatos(updated);
   }
   function eliminar(id: number) {
@@ -68,7 +75,7 @@ export default function Reclutamiento() {
       </div>
 
       {showForm && (
-        <div style={{padding:"16px 22px",borderBottom:"1px solid #EAEDF2",display:"grid",gridTemplateColumns:"1fr 1fr auto",gap:"10px",alignItems:"end"}}>
+        <div style={{padding:"16px 22px",borderBottom:"1px solid #EAEDF2",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"10px"}}>
           <div>
             <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Nombre</label>
             <input style={inp} value={form.nombre} onChange={e=>setForm(f=>({...f,nombre:e.target.value}))}/>
@@ -77,34 +84,89 @@ export default function Reclutamiento() {
             <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Puesto</label>
             <input style={inp} value={form.puesto} onChange={e=>setForm(f=>({...f,puesto:e.target.value}))} placeholder="Ej. Analista de RH"/>
           </div>
-          <button onClick={agregar} style={{
-            padding:"9px 16px",borderRadius:"9px",border:"none",height:"38px",
-            background:"#0F9DA6",color:"#1E2A4A",fontSize:"12px",fontWeight:700,cursor:"pointer",fontFamily:"inherit",
-          }}>Guardar</button>
+          <div>
+            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Contacto</label>
+            <input style={inp} value={form.contacto} onChange={e=>setForm(f=>({...f,contacto:e.target.value}))} placeholder="Correo o teléfono"/>
+          </div>
+          <div>
+            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Plataforma de origen</label>
+            <select style={inp} value={form.plataformaOrigen} onChange={e=>setForm(f=>({...f,plataformaOrigen:e.target.value}))}>
+              {PLATAFORMAS.map(p => <option key={p}>{p}</option>)}
+            </select>
+          </div>
+          <div style={{gridColumn:"1 / -1",display:"flex",justifyContent:"flex-end"}}>
+            <button onClick={agregar} style={{
+              padding:"9px 20px",borderRadius:"9px",border:"none",
+              background:"#0F9DA6",color:"#1E2A4A",fontSize:"12.5px",fontWeight:700,
+              cursor:"pointer",fontFamily:"inherit",
+            }}>Guardar</button>
+          </div>
         </div>
       )}
 
       {candidatos.length === 0 ? (
         <div style={{padding:"30px",textAlign:"center",color:"#6B83A8",fontSize:"12.5px"}}>Sin candidatos registrados.</div>
-      ) : candidatos.map(c => (
-        <div key={c.id} style={{padding:"12px 22px",borderBottom:"1px solid #EAEDF2",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-          <div>
-            <div style={{fontSize:"13px",fontWeight:600,color:"#1E2A4A"}}>{c.nombre}</div>
-            <div style={{fontSize:"10.5px",color:"#6B83A8"}}>{c.puesto} · postulado {c.fecha}</div>
+      ) : candidatos.map(c => {
+        const rechazado = c.etapa === "Rechazado";
+        const idxActual = rechazado ? -1 : ETAPAS.indexOf(c.etapa);
+        const abierto = expandido === c.id;
+        return (
+          <div key={c.id} style={{padding:"14px 22px",borderBottom:"1px solid #EAEDF2"}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"10px"}}>
+              <div style={{cursor:"pointer",flex:1}} onClick={()=>setExpandido(abierto ? null : c.id)}>
+                <div style={{display:"flex",alignItems:"center",gap:"6px"}}>
+                  <span style={{fontSize:"13px",fontWeight:600,color:"#1E2A4A"}}>{c.nombre}</span>
+                  {abierto ? <ChevronUp size={13} color="#6B83A8"/> : <ChevronDown size={13} color="#6B83A8"/>}
+                </div>
+                <div style={{fontSize:"10.5px",color:"#6B83A8"}}>{c.puesto} · vía {c.plataformaOrigen} · postulado {c.fecha}</div>
+              </div>
+              <div style={{display:"flex",gap:"6px",alignItems:"center"}}>
+                <select value={c.etapa} onChange={e=>cambiarEtapa(c.id, e.target.value as Etapa)} style={{
+                  padding:"5px 10px",borderRadius:"8px",fontSize:"10.5px",fontWeight:700,
+                  border:`1.5px solid ${COLOR_ETAPA[c.etapa]}`,
+                  background:`${COLOR_ETAPA[c.etapa]}18`,color:COLOR_ETAPA[c.etapa],
+                  fontFamily:"inherit",cursor:"pointer",
+                }}>
+                  {[...ETAPAS, "Rechazado" as Etapa].map(e => <option key={e} value={e}>{e}</option>)}
+                </select>
+                <button onClick={()=>eliminar(c.id)} style={{background:"none",border:"none",cursor:"pointer",color:"#C0392B"}}><Trash2 size={13}/></button>
+              </div>
+            </div>
+
+            <div style={{display:"flex",gap:"4px",marginBottom: abierto ? "14px" : "0"}}>
+              {ETAPAS.map((etapa, i) => {
+                const activo = !rechazado && i <= idxActual;
+                return (
+                  <div key={etapa} style={{flex:1}}>
+                    <div style={{
+                      height:"7px",borderRadius:"4px",
+                      background: rechazado ? "#F5DEDC" : activo ? COLOR_ETAPA[etapa] : "#EAF1F4",
+                      transition:"background .3s ease",
+                    }}/>
+                    <div style={{fontSize:"8px",color: activo && !rechazado ? COLOR_ETAPA[etapa] : "#9AA7B8",
+                      fontWeight: activo ? 700 : 500, marginTop:"3px",textAlign:"center"}}>{etapa}</div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {abierto && (
+              <div style={{display:"flex",flexDirection:"column",gap:"10px",paddingTop:"4px"}}>
+                <div>
+                  <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Contacto</label>
+                  <input style={inp} value={c.contacto} onChange={e=>actualizarCampo(c.id,"contacto",e.target.value)} placeholder="Correo o teléfono"/>
+                </div>
+                <div>
+                  <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Notas de entrevista</label>
+                  <textarea rows={3} style={{...inp,resize:"vertical"}} value={c.notasEntrevista}
+                    onChange={e=>actualizarCampo(c.id,"notasEntrevista",e.target.value)}
+                    placeholder="Impresiones, fortalezas, dudas, siguiente paso..."/>
+                </div>
+              </div>
+            )}
           </div>
-          <div style={{display:"flex",gap:"6px",alignItems:"center"}}>
-            <select value={c.etapa} onChange={e=>cambiarEtapa(c.id, e.target.value as Etapa)} style={{
-              padding:"5px 10px",borderRadius:"8px",fontSize:"10.5px",fontWeight:700,
-              border:`1.5px solid ${COLOR_ETAPA[c.etapa]}`,
-              background:`${COLOR_ETAPA[c.etapa]}18`,color:COLOR_ETAPA[c.etapa],
-              fontFamily:"inherit",cursor:"pointer",
-            }}>
-              {ETAPAS.map(e => <option key={e} value={e}>{e}</option>)}
-            </select>
-            <button onClick={()=>eliminar(c.id)} style={{background:"none",border:"none",cursor:"pointer",color:"#C0392B"}}><Trash2 size={13}/></button>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import {
   LayoutDashboard, Clock, Calendar, FileText,
-  ListChecks, Bell, BarChart2, LogOut, CalendarDays, HeartPulse, Tag,
+  ListChecks, Bell, BarChart2, LogOut, CalendarDays, HeartPulse, Tag, Laptop,
 } from "lucide-react";
 
 const navItems = [
@@ -13,6 +13,7 @@ const navItems = [
   { id:"retardos",       href:"/dashboard",  label:"Formato Retardo",  icon:FileText },
   { id:"calendario",     href:"/dashboard",  label:"Calendario por área", icon:CalendarDays },
   { id:"expediente",     href:"/dashboard",  label:"Mi expediente médico", icon:HeartPulse },
+  { id:"activos",        href:"/dashboard",  label:"Mis activos",      icon:Laptop },
   { id:"convenios",      href:"/dashboard",  label:"Convenios y promociones", icon:Tag },
   { id:"solicitudes",    href:"/dashboard",  label:"Mis solicitudes",  icon:ListChecks },
   { id:"notificaciones", href:"/dashboard",  label:"Notificaciones",   icon:Bell },

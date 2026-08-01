@@ -146,9 +146,70 @@ export function saveIncidencias(data: Incidencia[]) {
   localStorage.setItem("pulse_incidencias", JSON.stringify(data));
 }
 
-/** M2: crea automáticamente una incidencia de tipo Retardo si no existe ya una para hoy. */
+/** Notificaciones in-app compartidas (bandeja de Notificaciones del empleado). */
+export function addNotif(n: { tipo: string; texto: string; fecha: string }) {
+  try {
+    const prev = JSON.parse(localStorage.getItem("pulse_notifs") || "[]");
+    localStorage.setItem("pulse_notifs", JSON.stringify([n, ...prev]));
+  } catch(_) {}
+}
 export function crearIncidenciaRetardo(empleado: string, fechaISO: string) {
   return crearIncidencia(empleado, "Retardo", fechaISO);
+}
+
+/** M11: genera y descarga el documento de aceptación firmado por el empleado. */
+export function descargarAceptacionActivo(activo: { empleado: string; tipo: string; descripcion: string; fechaAsignacion: string }) {
+  const folio = `PLS-ACT-${Math.floor(Math.random()*9000)+1000}`;
+  const fechaAceptacion = new Date().toLocaleDateString("es-MX", { day:"numeric", month:"long", year:"numeric" });
+  const html = `<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"/><title>Aceptación de activo - ${activo.empleado} - PULSE</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Arial,sans-serif;color:#1E2A4A;background:#fff;padding:40px}
+.header{background:#1E2A4A;color:#fff;padding:24px 32px;border-radius:12px;
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
+.logo{font-size:22px;font-weight:300;letter-spacing:8px}
+.logo span{color:#0F9DA6}
+.folio{text-align:right;font-size:12px;color:#6B83A8}
+.folio strong{color:#0F9DA6;font-size:16px;display:block}
+h1{font-size:20px;font-weight:700;padding-bottom:12px;border-bottom:3px solid #0F9DA6;margin-bottom:24px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
+.field label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#6B83A8;font-weight:600;display:block;margin-bottom:4px}
+.field p{font-size:14px;font-weight:500;border-bottom:1px solid #DDE1EA;padding-bottom:8px}
+.texto{font-size:13px;line-height:1.7;color:#3B4B5C;margin-bottom:36px}
+.firma{margin-top:60px;border-top:1.5px solid #1E2A4A;padding-top:10px;width:280px;text-align:center;font-size:11px;color:#6B83A8}
+.firma b{display:block;font-size:14px;color:#1E2A4A;margin-bottom:2px}
+@media print{body{padding:20px}}
+</style></head>
+<body>
+  <div class="header">
+    <div class="logo">PULSE<span>·</span></div>
+    <div class="folio">Folio<strong>${folio}</strong></div>
+  </div>
+  <h1>Carta responsiva de activo asignado</h1>
+  <div class="grid">
+    <div class="field"><label>Empleado</label><p>${activo.empleado}</p></div>
+    <div class="field"><label>Fecha de asignación</label><p>${activo.fechaAsignacion}</p></div>
+    <div class="field"><label>Tipo de activo</label><p>${activo.tipo}</p></div>
+    <div class="field"><label>Descripción</label><p>${activo.descripcion}</p></div>
+  </div>
+  <p class="texto">
+    Por medio del presente, el empleado arriba mencionado confirma haber recibido el activo descrito,
+    en buen estado y funcionando correctamente, comprometiéndose a darle buen uso y a devolverlo
+    en las mismas condiciones al término de su relación laboral o cuando la empresa lo requiera.
+  </p>
+  <div class="firma">
+    <b>${activo.empleado}</b>
+    Aceptado electrónicamente el ${fechaAceptacion}
+  </div>
+</body></html>`;
+
+  const blob = new Blob([html], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+  const win = window.open(url, "_blank");
+  if (win) {
+    win.onload = () => { win.print(); URL.revokeObjectURL(url); };
+  }
 }
 
 /** M5: crea una incidencia de cualquier tipo (permiso, falta, retardo...) evitando duplicados el mismo día. */

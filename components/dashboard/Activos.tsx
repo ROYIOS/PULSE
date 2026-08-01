@@ -5,7 +5,7 @@ import { Laptop, Plus, Trash2, RotateCcw } from "lucide-react";
 
 interface Activo {
   id: number; empleado: string; tipo: string; descripcion: string;
-  fechaAsignacion: string; devuelto: boolean;
+  fechaAsignacion: string; devuelto: boolean; aceptado: boolean;
 }
 
 function loadActivos(): Activo[] {
@@ -27,7 +27,7 @@ export default function Activos() {
 
   function agregar() {
     if (!form.descripcion.trim()) return;
-    const nuevo: Activo = { id: Date.now(), ...form, devuelto: false };
+    const nuevo: Activo = { id: Date.now(), ...form, devuelto: false, aceptado: false };
     const updated = [nuevo, ...activos];
     setActivos(updated); saveActivos(updated);
     setForm(f => ({ ...f, descripcion: "" }));
@@ -102,7 +102,11 @@ export default function Activos() {
             <div>
               <div style={{fontSize:"12.5px",fontWeight:600,color: a.devuelto ? "#9AA7B8" : "#1E2A4A",
                 textDecoration: a.devuelto ? "line-through" : "none"}}>{a.tipo} — {a.descripcion}</div>
-              <div style={{fontSize:"10.5px",color:"#6B83A8"}}>{a.empleado} · asignado {a.fechaAsignacion}</div>
+              <div style={{fontSize:"10.5px",color:"#6B83A8"}}>
+                {a.empleado} · asignado {a.fechaAsignacion}
+                {!a.aceptado && !a.devuelto && <span style={{color:"#C08A2E",fontWeight:600}}> · pendiente de aceptación</span>}
+                {a.aceptado && <span style={{color:"#2E7D5B",fontWeight:600}}> · aceptado por el empleado</span>}
+              </div>
             </div>
           </div>
           <div style={{display:"flex",alignItems:"center",gap:"8px"}}>

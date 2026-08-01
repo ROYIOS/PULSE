@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Tag, Plus, Trash2, ExternalLink } from "lucide-react";
 
 interface Convenio {
-  id: number; empresa: string; categoria: string; descuento: string; nota: string;
+  id: number; empresa: string; categoria: string; descuento: string; nota: string; link?: string;
 }
 
 const CATEGORIAS = ["Gimnasio", "Restaurantes", "Salud", "Educación", "Retail", "Entretenimiento", "Otro"];
@@ -16,7 +16,7 @@ function saveConvenios(d: Convenio[]) { localStorage.setItem("pulse_convenios", 
 export default function Convenios({ soloLectura = false }: { soloLectura?: boolean }) {
   const [convenios, setConvenios] = useState<Convenio[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ empresa: "", categoria: CATEGORIAS[0], descuento: "", nota: "" });
+  const [form, setForm] = useState({ empresa: "", categoria: CATEGORIAS[0], descuento: "", nota: "", link: "" });
 
   useEffect(() => { setConvenios(loadConvenios()); }, []);
 
@@ -25,7 +25,7 @@ export default function Convenios({ soloLectura = false }: { soloLectura?: boole
     const nuevo: Convenio = { id: Date.now(), ...form };
     const updated = [nuevo, ...convenios];
     setConvenios(updated); saveConvenios(updated);
-    setForm({ empresa: "", categoria: CATEGORIAS[0], descuento: "", nota: "" });
+    setForm({ empresa: "", categoria: CATEGORIAS[0], descuento: "", nota: "", link: "" });
     setShowForm(false);
   }
   function eliminar(id: number) {
@@ -76,6 +76,10 @@ export default function Convenios({ soloLectura = false }: { soloLectura?: boole
             <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Nota / cómo aplicarlo</label>
             <input style={inp} value={form.nota} onChange={e=>setForm(f=>({...f,nota:e.target.value}))} placeholder="Ej. Presentar credencial Zyrox"/>
           </div>
+          <div>
+            <label style={{fontSize:"9.5px",color:"#6B83A8",textTransform:"uppercase",fontWeight:600}}>Link del convenio/plataforma</label>
+            <input style={inp} value={form.link} onChange={e=>setForm(f=>({...f,link:e.target.value}))} placeholder="https://..."/>
+          </div>
           <div style={{gridColumn:"1 / -1",display:"flex",justifyContent:"flex-end"}}>
             <button onClick={agregar} style={{
               padding:"9px 20px",borderRadius:"9px",border:"none",
@@ -100,6 +104,12 @@ export default function Convenios({ soloLectura = false }: { soloLectura?: boole
                 <div style={{fontSize:"13px",fontWeight:600,color:"#1E2A4A"}}>{c.empresa}</div>
                 <div style={{fontSize:"12px",color:"#0F9DA6",fontWeight:700,marginTop:"2px"}}>{c.descuento}</div>
                 {c.nota && <div style={{fontSize:"10.5px",color:"#6B83A8",marginTop:"3px"}}>{c.nota}</div>}
+                {c.link && (
+                  <a href={c.link} target="_blank" rel="noopener noreferrer" style={{
+                    display:"inline-flex",alignItems:"center",gap:"4px",marginTop:"6px",
+                    fontSize:"10.5px",color:"#0F9DA6",fontWeight:600,textDecoration:"none",
+                  }}>🔗 Ver convenio</a>
+                )}
               </div>
               {!soloLectura && (
                 <button onClick={()=>eliminar(c.id)} style={{background:"none",border:"none",cursor:"pointer",color:"#C0392B"}}><Trash2 size={13}/></button>

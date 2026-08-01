@@ -20,6 +20,33 @@ function saveExpedientes(data: Record<number, Expediente>) {
   localStorage.setItem("pulse_expedientes", JSON.stringify(data));
 }
 
+interface Accidente {
+  id: number; empleado: string; fecha: string; descripcion: string;
+  tipoLesion: string; atencionBrindada: string;
+}
+interface Dispensacion {
+  id: number; medicamentoNombre: string; empleado: string; cantidad: number; fecha: string; motivo: string;
+}
+function loadAccidentesDe(nombre: string): Accidente[] {
+  try {
+    const all: Accidente[] = JSON.parse(localStorage.getItem("pulse_accidentes") || "[]");
+    return all.filter(a => a.empleado === nombre);
+  } catch { return []; }
+}
+function loadDispensacionesDe(nombre: string): Dispensacion[] {
+  try {
+    const all: Dispensacion[] = JSON.parse(localStorage.getItem("pulse_dispensaciones") || "[]");
+    return all.filter(d => d.empleado === nombre);
+  } catch { return []; }
+}
+interface DocumentoOnboarding { nombre: string; fecha: string; tipo: string; }
+function loadDocumentosDe(empleadoId: number): DocumentoOnboarding[] {
+  try {
+    const all: Record<number, DocumentoOnboarding[]> = JSON.parse(localStorage.getItem("pulse_documentos") || "{}");
+    return all[empleadoId] || [];
+  } catch { return []; }
+}
+
 export default function ExpedienteMedico({ soloEmpleadoId }: { soloEmpleadoId?: number } = {}) {
   const [data, setData] = useState<Record<number, Expediente>>({});
   const [editId, setEditId] = useState<number | null>(null);
@@ -78,6 +105,9 @@ export default function ExpedienteMedico({ soloEmpleadoId }: { soloEmpleadoId?: 
       {empleadosAMostrar.map(e => {
         const exp = data[e.id];
         const abierto = editId === e.id;
+        const accidentes = loadAccidentesDe(e.nombre);
+        const dispensaciones = loadDispensacionesDe(e.nombre);
+        const documentos = loadDocumentosDe(e.id);
         return (
           <div key={e.id} style={{padding:"14px 22px",borderBottom:"1px solid #EAEDF2"}}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
@@ -145,6 +175,47 @@ export default function ExpedienteMedico({ soloEmpleadoId }: { soloEmpleadoId?: 
                     cursor:"pointer",fontFamily:"inherit",
                   }}>Guardar</button>
                 </div>
+
+                {(accidentes.length > 0 || dispensaciones.length > 0 || documentos.length > 0) && (
+                  <div style={{gridColumn:"1 / -1",marginTop:"6px",paddingTop:"12px",borderTop:"1px solid #EAEDF2"}}>
+                    {documentos.length > 0 && (
+                      <div style={{marginBottom:"10px"}}>
+                        <div style={{fontSize:"9.5px",color:"#2D4A7A",textTransform:"uppercase",fontWeight:700,marginBottom:"6px"}}>
+                          Documentos (de Onboarding)
+                        </div>
+                        {documentos.map((d, i) => (
+                          <div key={i} style={{fontSize:"11px",color:"#5C6579",marginBottom:"3px"}}>
+                            📄 {d.fecha} · {d.nombre}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {accidentes.length > 0 && (
+                      <div style={{marginBottom:"10px"}}>
+                        <div style={{fontSize:"9.5px",color:"#C0392B",textTransform:"uppercase",fontWeight:700,marginBottom:"6px"}}>
+                          Accidentes registrados (de Enfermería)
+                        </div>
+                        {accidentes.map(a => (
+                          <div key={a.id} style={{fontSize:"11px",color:"#5C6579",marginBottom:"3px"}}>
+                            {a.fecha} · <b>{a.tipoLesion}</b> — {a.descripcion}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {dispensaciones.length > 0 && (
+                      <div>
+                        <div style={{fontSize:"9.5px",color:"#0F9DA6",textTransform:"uppercase",fontWeight:700,marginBottom:"6px"}}>
+                          Medicamentos recibidos (de Enfermería)
+                        </div>
+                        {dispensaciones.map(d => (
+                          <div key={d.id} style={{fontSize:"11px",color:"#5C6579",marginBottom:"3px"}}>
+                            {d.fecha} · {d.cantidad}x {d.medicamentoNombre}{d.motivo && ` (${d.motivo})`}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
           </div>
