@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import Sidebar from "@/components/dashboard/Sidebar";
-import { BarChart2, Users, Clock, Calendar, Eye, EyeOff, Download } from "lucide-react";
+import { BarChart2, Users, Clock, Calendar, Eye, EyeOff, Download, Check } from "lucide-react";
 import AsistenciaGrid from "@/components/dashboard/AsistenciaGrid";
 import ProgressRing from "@/components/dashboard/ProgressRing";
 import ExpedienteMedico from "@/components/dashboard/ExpedienteMedico";
@@ -97,6 +97,41 @@ export default function GerenciaPage() {
   const [incidencias, setInc]       = useState<Incidencia[]>(INC_DEFAULT);
   const [vacaciones,  setVac]       = useState<Vacacion[]>(VAC_DEFAULT);
   const [filtroAreas, setFiltroAreas] = useState<string[]>([]);
+  const [kpiExtra, setKpiExtra] = useState<any>(null);
+
+  useEffect(() => {
+    try {
+      if (tab === "expediente" || tab === "enfermeria") {
+        setKpiExtra({
+          expedientes: JSON.parse(localStorage.getItem("pulse_expedientes")||"{}"),
+          accidentes: JSON.parse(localStorage.getItem("pulse_accidentes")||"[]"),
+          dispensaciones: JSON.parse(localStorage.getItem("pulse_dispensaciones")||"[]"),
+          medicamentos: JSON.parse(localStorage.getItem("pulse_medicamentos")||"[]"),
+        });
+      } else if (tab === "evaluaciones") {
+        setKpiExtra({ evaluaciones: JSON.parse(localStorage.getItem("pulse_evaluaciones")||"[]") });
+      } else if (tab === "encuestas") {
+        setKpiExtra({ encuestas: JSON.parse(localStorage.getItem("pulse_encuestas")||"[]") });
+      } else if (tab === "onboarding") {
+        setKpiExtra({
+          checklists: JSON.parse(localStorage.getItem("pulse_onboarding")||"[]"),
+          documentos: JSON.parse(localStorage.getItem("pulse_documentos")||"{}"),
+        });
+      } else if (tab === "activos") {
+        setKpiExtra({ activos: JSON.parse(localStorage.getItem("pulse_activos")||"[]") });
+      } else if (tab === "reclutamiento") {
+        setKpiExtra({ candidatos: JSON.parse(localStorage.getItem("pulse_candidatos")||"[]") });
+      } else if (tab === "cursos") {
+        setKpiExtra({ cursos: JSON.parse(localStorage.getItem("pulse_cursos")||"[]") });
+      } else if (tab === "convenios") {
+        setKpiExtra({ convenios: JSON.parse(localStorage.getItem("pulse_convenios")||"[]") });
+      } else if (tab === "transporte") {
+        setKpiExtra({ viajes: JSON.parse(localStorage.getItem("pulse_transporte")||"[]") });
+      } else {
+        setKpiExtra(null);
+      }
+    } catch(_) { setKpiExtra(null); }
+  }, [tab]);
   const [showMontos, setShowMontos] = useState(false);
   const [toast, setToast]           = useState("");
 
@@ -227,27 +262,185 @@ export default function GerenciaPage() {
 
         {/* KPIs */}
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"14px",marginBottom:"24px"}}>
-          {(tab==="horas" ? (() => {
+          {(() => {
             const empsFiltrados = EMPLEADOS.filter(e=>filtroAreas.length===0||filtroAreas.includes(e.area));
-            const totalRetardos = empsFiltrados.reduce((a,e)=>a+e.retardos,0);
-            const totalExtra = empsFiltrados.reduce((a,e)=>a+e.horasExtra,0);
-            const totalTrabajadas = empsFiltrados.reduce((a,e)=>a+e.horasTrabajadas,0);
-            const conRetardo = empsFiltrados.filter(e=>e.retardos>0).length;
-            const maxRetardos = Math.max(...EMPLEADOS.map(e=>e.retardos), 1) * empsFiltrados.length;
-            const maxExtra = Math.max(...EMPLEADOS.map(e=>e.horasExtra), 1) * empsFiltrados.length;
-            const maxTrabajadas = TOTAL_HORAS * (empsFiltrados.length || 1);
+            const fmtMoney = (v:number) => `$${Math.round(v).toLocaleString("es-MX")}`;
+
+            if (tab === "horas") {
+              const totalRetardos = empsFiltrados.reduce((a,e)=>a+e.retardos,0);
+              const totalExtra = empsFiltrados.reduce((a,e)=>a+e.horasExtra,0);
+              const totalTrabajadas = empsFiltrados.reduce((a,e)=>a+e.horasTrabajadas,0);
+              const conRetardo = empsFiltrados.filter(e=>e.retardos>0).length;
+              const maxRetardos = Math.max(...EMPLEADOS.map(e=>e.retardos), 1) * empsFiltrados.length;
+              const maxExtra = Math.max(...EMPLEADOS.map(e=>e.horasExtra), 1) * empsFiltrados.length;
+              const maxTrabajadas = TOTAL_HORAS * (empsFiltrados.length || 1);
+              return [
+                {label:"Retardos (filtro)",  value:`${totalRetardos}`,    color:"#C0392B",icon:Clock,     pct:Math.min(100,Math.round(totalRetardos/maxRetardos*100))},
+                {label:"Horas extra (H.O.)", value:`${totalExtra}h`,      color:"#2E7D5B",icon:BarChart2, pct:Math.min(100,Math.round(totalExtra/maxExtra*100))},
+                {label:"Horas trabajadas",   value:`${totalTrabajadas}h`, color:"#0F9DA6",icon:Users,     pct:Math.min(100,Math.round(totalTrabajadas/maxTrabajadas*100))},
+                {label:"Con algún retardo",  value:`${conRetardo}/${empsFiltrados.length}`, color:"#C08A2E",icon:Calendar, pct:Math.round((conRetardo/(empsFiltrados.length||1))*100)},
+              ];
+            }
+
+            if (tab === "incidencias") {
+              const filtradas = incidencias.filter(i=>filtroAreas.length===0||filtroAreas.includes(areaDe(i.empleado)));
+              const pend = filtradas.filter(i=>i.status==="pendiente").length;
+              const apro = filtradas.filter(i=>i.status==="aprobada").length;
+              const rech = filtradas.filter(i=>i.status==="rechazada").length;
+              return [
+                {label:"Total (filtro)",  value:`${filtradas.length}`, color:"#1E2A4A",icon:Clock,    pct:null},
+                {label:"Pendientes",      value:`${pend}`,             color:"#C08A2E",icon:Clock,    pct:Math.round((pend/(filtradas.length||1))*100)},
+                {label:"Aprobadas",       value:`${apro}`,             color:"#2E7D5B",icon:Check,    pct:Math.round((apro/(filtradas.length||1))*100)},
+                {label:"Rechazadas",      value:`${rech}`,             color:"#C0392B",icon:Clock,    pct:Math.round((rech/(filtradas.length||1))*100)},
+              ];
+            }
+
+            if (tab === "vacaciones") {
+              const filtradas = vacaciones.filter(v=>filtroAreas.length===0||filtroAreas.includes(areaDe(v.empleado)));
+              const pend = filtradas.filter(v=>v.status==="pendiente").length;
+              const apro = filtradas.filter(v=>v.status==="aprobada");
+              const diasTotales = apro.reduce((a,v)=>a+v.dias,0);
+              return [
+                {label:"Solicitudes (filtro)", value:`${filtradas.length}`, color:"#1E2A4A",icon:Calendar, pct:null},
+                {label:"Pendientes",           value:`${pend}`,             color:"#C08A2E",icon:Calendar, pct:Math.round((pend/(filtradas.length||1))*100)},
+                {label:"Aprobadas",            value:`${apro.length}`,      color:"#2E7D5B",icon:Check,    pct:Math.round((apro.length/(filtradas.length||1))*100)},
+                {label:"Días aprobados",       value:`${diasTotales}`,      color:"#0F9DA6",icon:Calendar, pct:null},
+              ];
+            }
+
+            if (tab === "nomina" && puedeNomina) {
+              const totalNeto = empsFiltrados.reduce((a,e)=>a+calcNomina(e).neto,0);
+              const totalDesc = empsFiltrados.reduce((a,e)=>a+calcNomina(e).descRetardo,0);
+              const totalExtraPago = empsFiltrados.reduce((a,e)=>a+calcNomina(e).pagoExtra,0);
+              return [
+                {label:"Nómina total (filtro)", value: showMontos?fmtMoney(totalNeto):"•••••", color:"#0F9DA6",icon:BarChart2, pct:null},
+                {label:"Descuento retardos",     value: showMontos?fmtMoney(totalDesc):"•••••", color:"#C0392B",icon:Clock,     pct:null},
+                {label:"Pagado en H.O.",         value: showMontos?fmtMoney(totalExtraPago):"•••••", color:"#2E7D5B",icon:BarChart2, pct:null},
+                {label:"Empleados en nómina",    value:`${empsFiltrados.length}`,               color:"#1E2A4A",icon:Users,     pct:null},
+              ];
+            }
+
+            if ((tab === "expediente" || tab === "enfermeria") && kpiExtra) {
+              const conExp = EMPLEADOS.filter(e=>kpiExtra.expedientes[e.id]).length;
+              const bajoStock = (kpiExtra.medicamentos||[]).filter((m:any)=>m.cantidad<=3).length;
+              const caducados = (kpiExtra.medicamentos||[]).filter((m:any)=>new Date(m.caducidad) < new Date()).length;
+              return [
+                {label:"Expedientes capturados", value:`${conExp}/${EMPLEADOS.length}`, color:"#0F9DA6",icon:Users,     pct:Math.round((conExp/EMPLEADOS.length)*100)},
+                {label:"Accidentes registrados",  value:`${(kpiExtra.accidentes||[]).length}`, color:"#C0392B",icon:Clock, pct:null},
+                {label:"Medicamentos stock bajo", value:`${bajoStock}`,                 color:"#C08A2E",icon:Clock,     pct:null},
+                {label:"Medicamentos caducados",  value:`${caducados}`,                 color:"#C0392B",icon:Clock,     pct:null},
+              ];
+            }
+
+            if (tab === "evaluaciones" && kpiExtra) {
+              const evals = kpiExtra.evaluaciones||[];
+              const promedio = evals.length ? evals.reduce((a:number,e:any)=>a+(e.desempeno+e.actitud+e.puntualidad)/3,0)/evals.length : 0;
+              const evaluados = new Set(evals.map((e:any)=>e.empleado)).size;
+              return [
+                {label:"Evaluaciones totales", value:`${evals.length}`,               color:"#1E2A4A",icon:Users, pct:null},
+                {label:"Empleados evaluados",  value:`${evaluados}/${EMPLEADOS.length}`, color:"#0F9DA6",icon:Users, pct:Math.round((evaluados/EMPLEADOS.length)*100)},
+                {label:"Promedio general",     value:`${promedio.toFixed(1)}★`,        color:"#C08A2E",icon:Check, pct:Math.round((promedio/5)*100)},
+                {label:"Sin evaluar",          value:`${EMPLEADOS.length-evaluados}`,  color:"#C0392B",icon:Clock, pct:null},
+              ];
+            }
+
+            if (tab === "encuestas" && kpiExtra) {
+              const encs = kpiExtra.encuestas||[];
+              const notificadas = encs.filter((e:any)=>e.notificada).length;
+              const preguntas = encs.reduce((a:number,e:any)=>a+e.preguntas.length,0);
+              return [
+                {label:"Encuestas creadas", value:`${encs.length}`,   color:"#1E2A4A",icon:Users,     pct:null},
+                {label:"Notificadas",       value:`${notificadas}`,   color:"#0F9DA6",icon:Check,     pct:Math.round((notificadas/(encs.length||1))*100)},
+                {label:"Sin notificar",     value:`${encs.length-notificadas}`, color:"#C08A2E",icon:Clock, pct:null},
+                {label:"Preguntas totales", value:`${preguntas}`,     color:"#2E7D5B",icon:BarChart2, pct:null},
+              ];
+            }
+
+            if (tab === "onboarding" && kpiExtra) {
+              const checklists = kpiExtra.checklists||[];
+              const altas = checklists.filter((c:any)=>c.tipo==="alta").length;
+              const bajas = checklists.filter((c:any)=>c.tipo==="baja").length;
+              const docsTotal = Object.values(kpiExtra.documentos||{}).reduce((a:number,arr:any)=>a+arr.length,0);
+              return [
+                {label:"Procesos de alta",  value:`${altas}`,   color:"#2E7D5B",icon:Users,     pct:null},
+                {label:"Procesos de baja",  value:`${bajas}`,   color:"#C0392B",icon:Users,     pct:null},
+                {label:"Documentos subidos",value:`${docsTotal}`, color:"#0F9DA6",icon:Check,   pct:null},
+                {label:"Procesos activos",  value:`${checklists.length}`, color:"#1E2A4A",icon:Clock, pct:null},
+              ];
+            }
+
+            if (tab === "activos" && kpiExtra) {
+              const activos = kpiExtra.activos||[];
+              const pendAceptar = activos.filter((a:any)=>!a.aceptado && !a.devuelto).length;
+              const enUso = activos.filter((a:any)=>a.aceptado && !a.devuelto).length;
+              const devueltos = activos.filter((a:any)=>a.devuelto).length;
+              return [
+                {label:"Activos totales",       value:`${activos.length}`, color:"#1E2A4A",icon:Users, pct:null},
+                {label:"Pendientes de aceptar",  value:`${pendAceptar}`,    color:"#C08A2E",icon:Clock, pct:null},
+                {label:"En uso (aceptados)",     value:`${enUso}`,          color:"#0F9DA6",icon:Check, pct:null},
+                {label:"Devueltos",              value:`${devueltos}`,      color:"#2E7D5B",icon:Check, pct:null},
+              ];
+            }
+
+            if (tab === "reclutamiento" && kpiExtra) {
+              const cand = kpiExtra.candidatos||[];
+              const enProceso = cand.filter((c:any)=>c.etapa!=="Contratado"&&c.etapa!=="Rechazado").length;
+              const contratados = cand.filter((c:any)=>c.etapa==="Contratado").length;
+              const rechazados = cand.filter((c:any)=>c.etapa==="Rechazado").length;
+              return [
+                {label:"Candidatos totales", value:`${cand.length}`,  color:"#1E2A4A",icon:Users, pct:null},
+                {label:"En proceso",         value:`${enProceso}`,    color:"#C08A2E",icon:Clock, pct:null},
+                {label:"Contratados",        value:`${contratados}`,  color:"#2E7D5B",icon:Check, pct:null},
+                {label:"Rechazados",         value:`${rechazados}`,   color:"#C0392B",icon:Clock, pct:null},
+              ];
+            }
+
+            if (tab === "cursos" && kpiExtra) {
+              const cursos = kpiExtra.cursos||[];
+              const horasTotal = cursos.reduce((a:number,c:any)=>a+c.horas,0);
+              const sinNotificar = cursos.filter((c:any)=>!c.notificado).length;
+              const totalCompletados = cursos.reduce((a:number,c:any)=>a+c.completadoPor.length,0);
+              const totalPosible = cursos.reduce((a:number,c:any)=>a+(c.destinatarios?.length||EMPLEADOS.length),0);
+              return [
+                {label:"Cursos activos",      value:`${cursos.length}`,   color:"#1E2A4A",icon:Users,     pct:null},
+                {label:"Horas de capacitación",value:`${horasTotal}h`,    color:"#0F9DA6",icon:BarChart2, pct:null},
+                {label:"Sin notificar",        value:`${sinNotificar}`,   color:"#C08A2E",icon:Clock,     pct:null},
+                {label:"Completado promedio",  value:`${Math.round((totalCompletados/(totalPosible||1))*100)}%`, color:"#2E7D5B",icon:Check, pct:Math.round((totalCompletados/(totalPosible||1))*100)},
+              ];
+            }
+
+            if (tab === "convenios" && kpiExtra) {
+              const conv = kpiExtra.convenios||[];
+              const conLink = conv.filter((c:any)=>c.link).length;
+              const categorias = new Set(conv.map((c:any)=>c.categoria)).size;
+              return [
+                {label:"Convenios activos", value:`${conv.length}`, color:"#1E2A4A",icon:Users, pct:null},
+                {label:"Con link directo",  value:`${conLink}`,     color:"#0F9DA6",icon:Check, pct:null},
+                {label:"Categorías cubiertas",value:`${categorias}`,color:"#2E7D5B",icon:BarChart2, pct:null},
+                {label:"Sin link",          value:`${conv.length-conLink}`, color:"#C08A2E",icon:Clock, pct:null},
+              ];
+            }
+
+            if (tab === "transporte" && kpiExtra) {
+              const viajes = kpiExtra.viajes||[];
+              const enRuta = viajes.filter((v:any)=>v.estado==="En ruta").length;
+              const finalizados = viajes.filter((v:any)=>v.estado==="Finalizado").length;
+              return [
+                {label:"Viajes registrados", value:`${viajes.length}`, color:"#1E2A4A",icon:Users,     pct:null},
+                {label:"En ruta ahora",       value:`${enRuta}`,        color:"#0F9DA6",icon:Clock,     pct:null},
+                {label:"Finalizados",         value:`${finalizados}`,   color:"#2E7D5B",icon:Check,     pct:null},
+                {label:"Unidades distintas",  value:`${new Set(viajes.map((v:any)=>v.unidad)).size}`, color:"#C08A2E",icon:BarChart2, pct:null},
+              ];
+            }
+
+            // Default (fuera de tab con datos propios)
             return [
-              {label:"Retardos (filtro)",   value:`${totalRetardos}`,        color:"#C0392B",icon:Clock,     pct:Math.min(100,Math.round(totalRetardos/maxRetardos*100))},
-              {label:"Horas extra (H.O.)",  value:`${totalExtra}h`,          color:"#2E7D5B",icon:BarChart2, pct:Math.min(100,Math.round(totalExtra/maxExtra*100))},
-              {label:"Horas trabajadas",    value:`${totalTrabajadas}h`,     color:"#0F9DA6",icon:Users,     pct:Math.min(100,Math.round(totalTrabajadas/maxTrabajadas*100))},
-              {label:"Con algún retardo",   value:`${conRetardo}/${empsFiltrados.length}`, color:"#C08A2E",icon:Calendar, pct:Math.round((conRetardo/(empsFiltrados.length||1))*100)},
+              {label:"Empleados activos",value:"6",          color:"#0F9DA6",icon:Users,     pct:null},
+              {label:"Incidencias pend.", value:`${pendInc}`,color:"#C0392B",icon:Clock,     pct:null},
+              {label:"Vacaciones pend.",  value:`${pendVac}`,color:"#F5A623",icon:Calendar,  pct:null},
+              {label:"H.O. quincena",     value:"24h",       color:"#2E7D5B",icon:BarChart2, pct:null},
             ];
-          })() : [
-            {label:"Empleados activos",value:"6",          color:"#0F9DA6",icon:Users,     pct:null},
-            {label:"Incidencias pend.", value:`${pendInc}`,color:"#C0392B",icon:Clock,     pct:null},
-            {label:"Vacaciones pend.",  value:`${pendVac}`,color:"#F5A623",icon:Calendar,  pct:null},
-            {label:"H.O. quincena",     value:"24h",       color:"#2E7D5B",icon:BarChart2, pct:null},
-          ]).map(k=>(
+          })().map(k=>(
             <div key={k.label} className="glass" style={{
               borderRadius:"12px",padding:"16px",
               display:"flex",flexDirection:"column",gap:"10px",
@@ -272,11 +465,9 @@ export default function GerenciaPage() {
           ))}
         </div>
 
-        {tab==="horas" && (
-          <p style={{fontSize:"10.5px",color:"#6B83A8",marginTop:"-16px",marginBottom:"18px"}}>
-            ↑ Estos números se ajustan según el filtro de área que uses abajo.
-          </p>
-        )}
+        <p style={{fontSize:"10.5px",color:"#6B83A8",marginTop:"-16px",marginBottom:"18px"}}>
+          ↑ Estos indicadores cambian según el módulo en el que estés.
+        </p>
 
         {/* TABS */}
         <div style={{display:"flex",gap:"6px",marginBottom:"16px",flexWrap:"wrap"}}>
