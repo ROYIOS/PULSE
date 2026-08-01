@@ -227,28 +227,56 @@ export default function GerenciaPage() {
 
         {/* KPIs */}
         <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:"14px",marginBottom:"24px"}}>
-          {[
-            {label:"Empleados activos",value:"6",          color:"#0F9DA6",icon:Users},
-            {label:"Incidencias pend.", value:`${pendInc}`,color:"#C0392B",icon:Clock},
-            {label:"Vacaciones pend.",  value:`${pendVac}`,color:"#F5A623",icon:Calendar},
-            {label:"H.O. quincena",     value:"24h",       color:"#2E7D5B",icon:BarChart2},
-          ].map(k=>(
+          {(tab==="horas" ? (() => {
+            const empsFiltrados = EMPLEADOS.filter(e=>filtroAreas.length===0||filtroAreas.includes(e.area));
+            const totalRetardos = empsFiltrados.reduce((a,e)=>a+e.retardos,0);
+            const totalExtra = empsFiltrados.reduce((a,e)=>a+e.horasExtra,0);
+            const totalTrabajadas = empsFiltrados.reduce((a,e)=>a+e.horasTrabajadas,0);
+            const conRetardo = empsFiltrados.filter(e=>e.retardos>0).length;
+            const maxRetardos = Math.max(...EMPLEADOS.map(e=>e.retardos), 1) * empsFiltrados.length;
+            const maxExtra = Math.max(...EMPLEADOS.map(e=>e.horasExtra), 1) * empsFiltrados.length;
+            const maxTrabajadas = TOTAL_HORAS * (empsFiltrados.length || 1);
+            return [
+              {label:"Retardos (filtro)",   value:`${totalRetardos}`,        color:"#C0392B",icon:Clock,     pct:Math.min(100,Math.round(totalRetardos/maxRetardos*100))},
+              {label:"Horas extra (H.O.)",  value:`${totalExtra}h`,          color:"#2E7D5B",icon:BarChart2, pct:Math.min(100,Math.round(totalExtra/maxExtra*100))},
+              {label:"Horas trabajadas",    value:`${totalTrabajadas}h`,     color:"#0F9DA6",icon:Users,     pct:Math.min(100,Math.round(totalTrabajadas/maxTrabajadas*100))},
+              {label:"Con algún retardo",   value:`${conRetardo}/${empsFiltrados.length}`, color:"#C08A2E",icon:Calendar, pct:Math.round((conRetardo/(empsFiltrados.length||1))*100)},
+            ];
+          })() : [
+            {label:"Empleados activos",value:"6",          color:"#0F9DA6",icon:Users,     pct:null},
+            {label:"Incidencias pend.", value:`${pendInc}`,color:"#C0392B",icon:Clock,     pct:null},
+            {label:"Vacaciones pend.",  value:`${pendVac}`,color:"#F5A623",icon:Calendar,  pct:null},
+            {label:"H.O. quincena",     value:"24h",       color:"#2E7D5B",icon:BarChart2, pct:null},
+          ]).map(k=>(
             <div key={k.label} className="glass" style={{
               borderRadius:"12px",padding:"16px",
-              display:"flex",alignItems:"center",gap:"12px",
+              display:"flex",flexDirection:"column",gap:"10px",
             }}>
-              <div style={{width:38,height:38,borderRadius:"10px",background:`${k.color}18`,
-                display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                <k.icon size={17} color={k.color}/>
+              <div style={{display:"flex",alignItems:"center",gap:"12px"}}>
+                <div style={{width:38,height:38,borderRadius:"10px",background:`${k.color}18`,
+                  display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+                  <k.icon size={17} color={k.color}/>
+                </div>
+                <div>
+                  <p style={{fontSize:"20px",fontWeight:700,color:k.color,margin:0,lineHeight:1}}>{k.value}</p>
+                  <p style={{fontSize:"9px",color:"#6B83A8",textTransform:"uppercase",
+                    letterSpacing:".7px",marginTop:"3px"}}>{k.label}</p>
+                </div>
               </div>
-              <div>
-                <p style={{fontSize:"20px",fontWeight:700,color:k.color,margin:0,lineHeight:1}}>{k.value}</p>
-                <p style={{fontSize:"9px",color:"#6B83A8",textTransform:"uppercase",
-                  letterSpacing:".7px",marginTop:"3px"}}>{k.label}</p>
-              </div>
+              {k.pct !== null && (
+                <div style={{height:"5px",borderRadius:"3px",background:"#EAF1F4",overflow:"hidden"}}>
+                  <div style={{height:"100%",borderRadius:"3px",background:k.color,width:`${k.pct}%`,transition:"width .5s ease"}}/>
+                </div>
+              )}
             </div>
           ))}
         </div>
+
+        {tab==="horas" && (
+          <p style={{fontSize:"10.5px",color:"#6B83A8",marginTop:"-16px",marginBottom:"18px"}}>
+            ↑ Estos números se ajustan según el filtro de área que uses abajo.
+          </p>
+        )}
 
         {/* TABS */}
         <div style={{display:"flex",gap:"6px",marginBottom:"16px",flexWrap:"wrap"}}>
