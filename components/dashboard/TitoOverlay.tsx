@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import { TitoSVG, useTito } from "./Tito";
 
-/** Tito pasea, se sienta y hasta se echa una siesta por todo el dashboard. */
+/** Tito camina, hace gracias y hasta se echa una siesta por todo el dashboard. */
 export default function TitoOverlay() {
   const containerRef = useRef<HTMLDivElement>(null);
   const tito = useTito(containerRef);
@@ -18,18 +18,11 @@ export default function TitoOverlay() {
     >
       <div style={{
         position: "absolute",
-        left: tito.x - 34,
-        top: tito.y - 88,
+        left: tito.x - 40,
+        top: tito.y - 95,
         willChange: "transform",
       }}>
-        <TitoSVG
-          size={68}
-          mood={tito.mood}
-          phase={tito.phase}
-          dir={tito.dir}
-          walkFrame={tito.walkFrame}
-          jetFlicker={tito.jetFlicker}
-        />
+        <TitoSVG state={tito} size={72}/>
       </div>
     </div>
   );
