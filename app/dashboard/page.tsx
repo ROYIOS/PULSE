@@ -7,6 +7,7 @@ import StatCard from "@/components/dashboard/StatCard";
 import ProgressRing from "@/components/dashboard/ProgressRing";
 import Checador from "@/components/dashboard/Checador";
 import ExpedienteMedico from "@/components/dashboard/ExpedienteMedico";
+import Convenios from "@/components/dashboard/Convenios";
 import IncidenciasTable from "@/components/dashboard/IncidenciasTable";
 import QuickActions from "@/components/dashboard/QuickActions";
 import MiniCalendar from "@/components/dashboard/MiniCalendar";
@@ -230,6 +231,8 @@ export default function DashboardPage() {
          <CalendarioArea/>
        ) : activePage === "expediente" ? (
          <ExpedienteMedico soloEmpleadoId={7}/>
+       ) : activePage === "convenios" ? (
+         <Convenios soloLectura={true}/>
        ) : (<>
          {/* CHECADOR */}
          <Checador/>

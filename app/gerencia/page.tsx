@@ -8,6 +8,12 @@ import ExpedienteMedico from "@/components/dashboard/ExpedienteMedico";
 import Evaluaciones from "@/components/dashboard/Evaluaciones";
 import Encuestas from "@/components/dashboard/Encuestas";
 import Enfermeria from "@/components/dashboard/Enfermeria";
+import Onboarding from "@/components/dashboard/Onboarding";
+import Activos from "@/components/dashboard/Activos";
+import Reclutamiento from "@/components/dashboard/Reclutamiento";
+import Cursos from "@/components/dashboard/Cursos";
+import Convenios from "@/components/dashboard/Convenios";
+import Transporte from "@/components/dashboard/Transporte";
 import {
   Status, Incidencia, Vacacion, Empleado,
   INC_DEFAULT, VAC_DEFAULT, EMPLEADOS, TOTAL_HORAS, calcNomina, descargarReciboNomina,
@@ -53,7 +59,7 @@ export default function GerenciaPage() {
   const rol: Rol    = "gerente";
   const puedeNomina = rol==="gerente"||rol==="nomina";
 
-  const [tab, setTab]               = useState<"incidencias"|"vacaciones"|"horas"|"nomina"|"expediente"|"evaluaciones"|"encuestas"|"enfermeria">("incidencias");
+  const [tab, setTab]               = useState<"incidencias"|"vacaciones"|"horas"|"nomina"|"expediente"|"evaluaciones"|"encuestas"|"enfermeria"|"onboarding"|"activos"|"reclutamiento"|"cursos"|"convenios"|"transporte">("incidencias");
   const [incidencias, setInc]       = useState<Incidencia[]>(INC_DEFAULT);
   const [vacaciones,  setVac]       = useState<Vacacion[]>(VAC_DEFAULT);
   const [showMontos, setShowMontos] = useState(false);
@@ -127,6 +133,12 @@ export default function GerenciaPage() {
     {key:"evaluaciones",label:"Evaluaciones"},
     {key:"encuestas",   label:"Encuestas"},
     {key:"enfermeria",  label:"Enfermería"},
+    {key:"onboarding",  label:"Onboarding/Offboarding"},
+    {key:"activos",     label:"Activos"},
+    {key:"reclutamiento",label:"Reclutamiento"},
+    {key:"cursos",      label:"Cursos"},
+    {key:"convenios",   label:"Convenios"},
+    {key:"transporte",  label:"Transporte"},
   ] as const;
 
   const row: React.CSSProperties = {
@@ -412,6 +424,12 @@ export default function GerenciaPage() {
           {tab==="evaluaciones" && <Evaluaciones/>}
           {tab==="encuestas" && <Encuestas onToast={showToast}/>}
           {tab==="enfermeria" && <Enfermeria/>}
+          {tab==="onboarding" && <Onboarding/>}
+          {tab==="activos" && <Activos/>}
+          {tab==="reclutamiento" && <Reclutamiento/>}
+          {tab==="cursos" && <Cursos/>}
+          {tab==="convenios" && <Convenios/>}
+          {tab==="transporte" && <Transporte/>}
 
       {/* TOAST */}
       {toast && (
